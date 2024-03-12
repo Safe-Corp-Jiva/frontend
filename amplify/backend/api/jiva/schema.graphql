@@ -1,0 +1,34 @@
+type Caller @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  phone: AWSPhone!
+  sentiments: [Sentiment]
+}
+
+type S3Object {
+  key: String
+  bucketId: String
+}
+
+type Call @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  transcript: S3Object
+  audio: S3Object
+  metrics: Metric! @hasOne
+  agentId: AWSPhone!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  caller: Caller @hasOne
+}
+
+enum Sentiment {
+  POSITIVE
+  NEUTRAL
+  NEGATIVE
+}
+
+type Metric @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  sentiment: [Sentiment]
+  length: Float
+  waittime: Float
+}
