@@ -4,6 +4,7 @@ import { TextGenerateEffect } from "@/ui/text-generate-effect";
 import { WavyBackground } from "@/ui/wavy-background";
 
 import {
+  useAuthenticator,
   withAuthenticator,
   WithAuthenticatorProps,
 } from "@aws-amplify/ui-react";
@@ -15,10 +16,12 @@ interface Props extends WithAuthenticatorProps {
   isPassedToWithAuthenticator: boolean;
 }
 
-function Home({ isPassedToWithAuthenticator = true, signOut, user }: Props) {
+function Home({ isPassedToWithAuthenticator = true, signOut }: Props) {
   if (!isPassedToWithAuthenticator) {
     throw new Error("isPassedToWithAuthenticator is not passed to Home");
   }
+  const { user } = useAuthenticator((context) => [context.user]);
+  console.log("User: ", user);
 
   return (
     <WavyBackground className="max-w-4xl mx-auto pb-40">
