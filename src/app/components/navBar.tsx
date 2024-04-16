@@ -1,8 +1,15 @@
+"use client";
 import React from 'react';
 import Image from 'next/image'; 
 import logo from '../logo.svg'
+import {useRouter} from 'next/navigation';
 
 const NavBar = () => {
+    const router = useRouter();
+
+    const handleProfile = () => {
+        router.push('/profile');
+    }
 
     return (
     <div className = "flex-none w-20 bg-white h-screen flex flex-col items-center rounded-r-xl">
@@ -19,7 +26,7 @@ const NavBar = () => {
             <button className = "flex items-center justify-center w-16 h-16 m-1">
                 <img src = "/icons/Chat.svg" alt = "chat" className = "w-8 h-8"/>
             </button>
-            <button className = "flex items-center justify-center w-16 h-16 m-1">
+            <button onClick={handleProfile} className = "flex items-center justify-center w-16 h-16 m-1">
                 <img src = "/icons/User.svg" alt = "user" className = "w-8 h-8"/>
             </button>
         </div>
