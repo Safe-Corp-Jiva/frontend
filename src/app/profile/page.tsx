@@ -1,7 +1,12 @@
+"use client";
 import NavBar from "../components/navBar";
-import Image from 'next/image'; 
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+    const router = useRouter();
+    const handleSignOut = () => {
+        router.push('/login');
+    }
     return (
         <div className = "flex bg-gray-200">
             <NavBar/>
@@ -21,6 +26,7 @@ export default function Home() {
                             <p className = "text-black font-bold text-sm mr-20">Date of birth</p>
                             <p className = "text-gray-500 text-sm">01/08/2000</p>
                         </div>
+                        <button onClick={handleSignOut} className = "bg-gradient-to-r from-blue-900 to-teal-300 text-white flex items-center justify-center w-16 h-16 m-1"> Sign Out </button>
                     </div> 
                 </div>
             </div>
