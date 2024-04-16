@@ -12,7 +12,7 @@ export default function Login() {
     const [error, setError] = useState('');
 
     const handleLogin = () => {
-        if(username === 'hola' && password === 'hola'){
+        if(username === 'johndoe' && password === 'johndoe'){
 
             router.push('/dashboard');
         }
@@ -23,8 +23,9 @@ export default function Login() {
     }
 
     return (
-    <div className="bg-white grid grid-cols-2 divide-x-2 divide-teal-300 border-2 border-teal-300 flex flex-row justify-center items-center mx-auto mt-20 w-3/4 h-full rounded-md font-sans">
-        <div className="w-full h-auto flex justify-center items-center flex-1">
+        <div className='h-screen     flex items-center justify-center'>
+    <div className="bg-white border-2 border-teal-300 flex flex-row justify-center items-center w-3/4 h-3/4 rounded-xl font-sans">
+        <div className="w-full h-[90%] border-r-teal-300 border-r-2 flex justify-center items-center flex-1">
             <Image src={logoAA} alt="logo" width={300} height={300}/>
         </div>
         <div className="w-full h-auto p-3 flex flex-col justify-center items-center flex-1">
@@ -41,6 +42,7 @@ export default function Login() {
            <button onClick={handleLogin} className="bg-gradient-to-r from-blue-900 to-teal-400 px-3 py-2 h-250 w-60 rounded-md text-white">Login</button>
            <button className="text-gray-500 text-sm p-2 mb-10"> Forgot password? </button>
         </div>
+    </div>
     </div>
   );
 }
