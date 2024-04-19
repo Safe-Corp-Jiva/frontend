@@ -1,23 +1,16 @@
 'use client'
 import React from 'react'
 import Image from 'next/image'
-import logo from '../logo.svg'
 import { useRouter } from 'next/navigation'
 
-const NavBar = () => {
+const NavBarDoc = () => {
   const router = useRouter()
 
-  const handleProfile = () => {
-    router.push('/profile')
-  }
   const handleDash = () => {
     router.push('/dashboard')
   }
-  const handleChat = () => {
-    router.push('/chat')
-  }
-  const handleDocuments = () => {
-    router.push('/documents')
+  const handleBack = () => {
+    router.back()
   }
 
   return (
@@ -30,20 +23,23 @@ const NavBar = () => {
           <Image src="icons/House.svg" alt="home" width={32} height={32} />
         </button>
         <button className="flex items-center justify-center">
-          <Image src="icons/Notif.svg" alt="notifications" width={32} height={32} />
+          <Image src="icons/BookDocNav.svg" alt="Documentation Icon 1" width={32} height={32} />
         </button>
-        <button onClick={handleChat} className="flex items-center justify-center">
-          <Image src="icons/Chat.svg" alt="chat" width={32} height={32} />
+        <button className="flex items-center justify-center">
+          <Image src="icons/WarningNav.svg" alt="Documentation Icon 2" width={32} height={32} />
         </button>
-        <button onClick={handleProfile} className="flex items-center justify-center">
-          <Image src="icons/User.svg" alt="user" width={32} height={32} />
+        <button className="flex items-center justify-center">
+          <Image src="icons/RoundTrip.svg" alt="user" width={32} height={32} />
+        </button>
+        <button className="flex items-center justify-center">
+          <Image src="icons/FlightBook.svg" alt="user" width={32} height={32} />
         </button>
       </div>
-      <button onClick={handleDocuments} className="flex items-center justify-center">
-        <Image src="/icons/Manual.svg" alt="user" width={32} height={32} />
+      <button onClick={handleBack} className="flex items-center justify-center">
+        <Image src="/icons/ArrowBack.svg" alt="user" width={32} height={32} />
       </button>
     </div>
   )
 }
 
-export default NavBar
+export default NavBarDoc
