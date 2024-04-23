@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^6.1.5",
+    "@headlessui/react": "^1.7.19",
     "@magidoc/cli": "^4.1.4",
     "@nextui-org/react": "^2.2.10",
     "aws-amplify": "^6.0.20",
