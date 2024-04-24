@@ -1,0 +1,5 @@
+.custom-space-between {
+  justify-content: space-between; /* Add space between child elements */
+  gap: 20px; /* Increase the gap between child elements */
+}
+
