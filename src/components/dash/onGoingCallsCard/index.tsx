@@ -63,7 +63,7 @@ export default function OnGoingCallsCard() {
         <h1 className='flex-1'>Help</h1>
       </div>
       {OnGoingCalls.map((call, index) => (
-        <div className={`flex flex-row justify-between space-x-8 p-2 text-center items-center h-full ${call.help === 1 ? 'bg-red-200 rounded-3xl'  : ''}`} key={index}> 
+        <div className={`flex flex-row justify-between space-x-8 p-2 text-center items-center h-full border-b-2 border-gray-200 ${call.help === 1 ? 'bg-red-200 rounded-3xl'  : ''}`} key={index}> 
           <h1 className='flex-1'>{call.agent}</h1>
           <h1 className='flex-1 font-bold'>{call.topic}</h1>
           <div className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center ${getResultStatus(call.status)}`}>
