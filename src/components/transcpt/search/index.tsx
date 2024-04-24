@@ -4,12 +4,15 @@ import { Tab } from '@headlessui/react'
 import { dataSearch } from '../mockdata'
 import SearchButtons from '../searchbuttons'
 import FlagIcon from '../icons/flagicon'
+import { useRouter } from 'next/navigation'
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function SearchPlusTabs() {
+  const router = useRouter()
+
   const [transcripts, setTranscripts] = useState(dataSearch)
   const [searchTerm, setSearchTerm] = useState('')
   const [activeFilter, setActiveFilter] = useState('name')
@@ -94,6 +97,10 @@ export default function SearchPlusTabs() {
     return flagged ? 'text-red-400 stroke-red-200 ' : 'stroke-black/25 text-transparent'
   }
 
+  const ClickToTranscript = (id: number) => {
+    router.push(`/transcripts/${id}`)
+  }
+
   return (
     <div className="w-full h-5/6 bg-white rounded-xl p-5 flex justify-evenly items-start gap-4">
       <Tab.Group vertical>
@@ -122,7 +129,7 @@ export default function SearchPlusTabs() {
                     key={transcript.id}
                     as="tr"
                     className={({ selected }) =>
-                      classNames('cursor-pointer', selected ? 'bg-gray-100' : 'hover:bg-gray-50')
+                      classNames('cursor-pointer focus:outline-none', selected ? 'bg-gray-100' : 'hover:bg-gray-50')
                     }
                   >
                     <td className="px-2 py-4 flex flex-col justify-center">
@@ -162,7 +169,7 @@ export default function SearchPlusTabs() {
                   </div>
                   <div className="rounded-b-xl size-full px-10 py-5 overflow-auto">{transcript.transcript}</div>
                   <div className="w-full flex justify-center items-center my-3">
-                    <div className="rounded-xl bg-SCJ-primary text-white px-5 py-3 cursor-not-allowed">See more...</div>
+                    <div className="rounded-xl bg-SCJ-primary text-white px-5 py-3 cursor-pointer" onClick={() => ClickToTranscript(transcript.id)}>See more...</div>
                   </div>
                 </div>
               </Tab.Panel>

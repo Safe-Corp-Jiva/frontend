@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { Metric } from "../API.ts";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
@@ -23,19 +23,16 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type MetricUpdateFormInputValues = {
-    sentiment?: string[];
     length?: number;
     waittime?: number;
 };
 export declare type MetricUpdateFormValidationValues = {
-    sentiment?: ValidationFunction<string>;
     length?: ValidationFunction<number>;
     waittime?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MetricUpdateFormOverridesProps = {
     MetricUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    sentiment?: PrimitiveOverrideProps<SelectFieldProps>;
     length?: PrimitiveOverrideProps<TextFieldProps>;
     waittime?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;

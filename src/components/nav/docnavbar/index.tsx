@@ -15,7 +15,11 @@ const NavBarDoc = () => {
   }
 
   const pathname = usePathname()
-  const isActive = (path: string) => pathname === path
+  // Updated isActive function to check for /transcripts and any number following /transcripts/
+  const isActive = (path: string) => {
+    const regex = new RegExp(`^${path}(\/[0-9]+)?$`)
+    return regex.test(pathname)
+  }
 
   return (
     <div className="w-20 bg-white h-full flex flex-col rounded-r-xl justify-between py-5 drop-shadow-[1px_0px_5px_rgba(0,0,0,0.25)]">
