@@ -1,0 +1,23 @@
+# GH action that builds the code and runs the tests on every PR to main or dev branch
+# This is a basic example, you can add more steps to run linters, security checks, etc.
+# Rodrigo Nunez, Apr 2024
+name: Build code and run tests
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  run-build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Build code
+        run: |
+          npm install
+          npm run build
+      - name: Run tests
+        run: npm test
