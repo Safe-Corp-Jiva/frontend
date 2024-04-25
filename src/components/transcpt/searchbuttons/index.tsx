@@ -1,9 +1,9 @@
 'use client'
 import React from 'react'
-import FlagIconSearch from '../icons/FlagIconSearch'
-import CalendarIcon from '../icons/CalendarIcon'
-import IdIcon from '../icons/IdIcon'
-import FingerPrintIcon from '../icons/FingerPrintIcon'
+import FlagIconSearch from '../iconscomponents/FlagIconSearch'
+import CalendarIcon from '../iconscomponents/CalendarIcon'
+import IdIcon from '../iconscomponents/IdIcon'
+import FingerPrintIcon from '../iconscomponents/FingerPrintIcon'
 
 export default function SearchButtons({
   text,

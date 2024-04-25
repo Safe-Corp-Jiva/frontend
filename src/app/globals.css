@@ -32,6 +32,10 @@
     rgb(var(--background-start-rgb)); 
       background: #F5F7FA;} */
 
+.rhap_container {
+  background-color: #921823;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

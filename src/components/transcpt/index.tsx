@@ -1,3 +1,5 @@
 import SearchPlusTabs from "./search";
+import { dataSearch } from "./mockdata";
+import SlugPage from "./slugpage";
 
-export { SearchPlusTabs }
+export { SearchPlusTabs, dataSearch, SlugPage }

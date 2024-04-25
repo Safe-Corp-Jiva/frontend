@@ -3,7 +3,7 @@ import { SetStateAction, useState } from 'react'
 import { Tab } from '@headlessui/react'
 import { dataSearch } from '../mockdata'
 import SearchButtons from '../searchbuttons'
-import FlagIcon from '../icons/flagicon'
+import FlagIcon from '../iconscomponents/flagicon'
 import { useRouter } from 'next/navigation'
 
 function classNames(...classes: any[]) {
@@ -144,7 +144,7 @@ export default function SearchPlusTabs() {
                       ></div>
                     </td>
                     <td className="px-2 py-4">
-                      <FlagIcon className={flagColor(transcript.flagged)} />
+                      <FlagIcon className={`w-6 h-6 ${flagColor(transcript.flagged)}`} />
                     </td>
                   </Tab>
                 ))}
