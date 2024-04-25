@@ -32,6 +32,7 @@ module.exports = {
         'SCJ-gray': '#F5F7FA',
         'SCJ-primary': '#869AE9',
         'SCJ-secondary': '#27E2D3',
+        'SCJ-dark-primary': '#434D75',
       },
     },
   },

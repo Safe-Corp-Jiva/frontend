@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 import Image from 'next/image'
-import logo from '../logo.svg'
 import { useRouter } from 'next/navigation'
 
 const NavBar = () => {
@@ -15,6 +14,9 @@ const NavBar = () => {
   }
   const handleChat = () => {
     router.push('/chat')
+  }
+  const handleDocuments = () => {
+    router.push('/documents')
   }
 
   return (
@@ -36,8 +38,8 @@ const NavBar = () => {
           <Image src="icons/User.svg" alt="user" width={32} height={32} />
         </button>
       </div>
-      <button className="flex items-center justify-center">
-        <Image src="/icons/Manual.svg" alt="user" width={32} height={32} />
+      <button onClick={handleDocuments} className="flex items-center justify-center">
+        <Image src="icons/Manual.svg" alt="user" width={32} height={32} />
       </button>
     </div>
   )

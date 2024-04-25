@@ -1,5 +1,7 @@
 import NavBar from "./navbar";
+import NavBarDoc from "./docnavbar";
 
 export {
-  NavBar
+  NavBar,
+  NavBarDoc
 }
