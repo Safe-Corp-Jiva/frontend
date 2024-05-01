@@ -1,0 +1,32 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 1,
+  "numPassedTests": 1,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "startTime": 1714529052346,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["", "app test"],
+          "fullName": " app test works",
+          "status": "passed",
+          "title": "works",
+          "duration": 19063,
+          "failureMessages": []
+        }
+      ],
+      "startTime": 1714529124384,
+      "endTime": 1714529143447,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/Acer/Desktop/semestre6/frontend/src/spec.safetest.tsx"
+    }
+  ]
+}
