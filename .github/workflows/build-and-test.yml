@@ -3,11 +3,7 @@
 # Rodrigo Nunez, Apr 2024
 name: Build code and run tests
 
-on:
-  pull_request:
-    branches:
-      - main
-      - dev
+on: push
 
 jobs:
   run-build-and-test:
