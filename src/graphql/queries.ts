@@ -8,11 +8,78 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const getChunk = /* GraphQL */ `query GetChunk($id: ID!) {
+  getChunk(id: $id) {
+    id
+    sentiment
+    content {
+      role
+      text
+      __typename
+    }
+    callId
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetChunkQueryVariables, APITypes.GetChunkQuery>;
+export const listChunks = /* GraphQL */ `query ListChunks(
+  $filter: ModelChunkFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listChunks(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      sentiment
+      callId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListChunksQueryVariables,
+  APITypes.ListChunksQuery
+>;
+export const chunksByCallId = /* GraphQL */ `query ChunksByCallId(
+  $callId: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelChunkFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  chunksByCallId(
+    callId: $callId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      sentiment
+      callId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ChunksByCallIdQueryVariables,
+  APITypes.ChunksByCallIdQuery
+>;
 export const getCaller = /* GraphQL */ `query GetCaller($id: ID!) {
   getCaller(id: $id) {
     id
     phone
-    sentiments
     createdAt
     updatedAt
     __typename
@@ -28,7 +95,6 @@ export const listCallers = /* GraphQL */ `query ListCallers(
     items {
       id
       phone
-      sentiments
       createdAt
       updatedAt
       __typename
@@ -56,24 +122,26 @@ export const getCall = /* GraphQL */ `query GetCall($id: ID!) {
     }
     metrics {
       id
-      sentiment
       length
       waittime
       createdAt
       updatedAt
       __typename
     }
-    agentId
     createdAt
-    updatedAt
     caller {
       id
       phone
-      sentiments
       createdAt
       updatedAt
       __typename
     }
+    status
+    chunks {
+      nextToken
+      __typename
+    }
+    updatedAt
     callMetricsId
     callCallerId
     __typename
@@ -88,8 +156,8 @@ export const listCalls = /* GraphQL */ `query ListCalls(
   listCalls(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      agentId
       createdAt
+      status
       updatedAt
       callMetricsId
       callCallerId
@@ -103,7 +171,6 @@ export const listCalls = /* GraphQL */ `query ListCalls(
 export const getMetric = /* GraphQL */ `query GetMetric($id: ID!) {
   getMetric(id: $id) {
     id
-    sentiment
     length
     waittime
     createdAt
@@ -120,7 +187,6 @@ export const listMetrics = /* GraphQL */ `query ListMetrics(
   listMetrics(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      sentiment
       length
       waittime
       createdAt

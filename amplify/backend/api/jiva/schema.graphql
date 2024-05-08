@@ -1,3 +1,20 @@
+enum Sentiment {
+  NEGATIVE
+  NEUTRAL
+  POSITIVE
+  UNDEFINED
+}
+
+type ChunkContent {
+  role: TranscriptRole
+  text: String
+}
+
+enum TranscriptRole {
+  AGENT
+  CUSTOMER
+}
+
 enum CallStatus {
   STARTED
   FINALIZED
@@ -5,8 +22,8 @@ enum CallStatus {
 
 type Chunk @model @auth(rules: [{allow: public}]) {
   id: ID!
-  sentiment: Float
-  text: String
+  sentiment: Sentiment
+  content: ChunkContent
   callId: ID! @index(name: "byCall")
 }
 
@@ -36,4 +53,8 @@ type Metric @model @auth(rules: [{allow: public}]) {
   length: Float
   waittime: Float
 }
- 
+
+type Subscription {
+  onChunkByCallId(callId: ID!): Chunk
+    @aws_subscribe(mutations: ["createChunk"])
+}

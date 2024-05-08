@@ -2,28 +2,48 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateCallerInput = {
+export type CreateChunkInput = {
   id?: string | null,
-  phone: string,
-  sentiments?: Array< Sentiment | null > | null,
+  sentiment?: Sentiment | null,
+  content?: ChunkContentInput | null,
+  callId: string,
 };
 
 export enum Sentiment {
-  POSITIVE = "POSITIVE",
-  NEUTRAL = "NEUTRAL",
   NEGATIVE = "NEGATIVE",
+  NEUTRAL = "NEUTRAL",
+  POSITIVE = "POSITIVE",
+  UNDEFINED = "UNDEFINED",
 }
 
 
-export type ModelCallerConditionInput = {
-  phone?: ModelStringInput | null,
-  sentiments?: ModelSentimentListInput | null,
-  and?: Array< ModelCallerConditionInput | null > | null,
-  or?: Array< ModelCallerConditionInput | null > | null,
-  not?: ModelCallerConditionInput | null,
+export type ChunkContentInput = {
+  role?: TranscriptRole | null,
+  text?: string | null,
 };
 
-export type ModelStringInput = {
+export enum TranscriptRole {
+  AGENT = "AGENT",
+  CUSTOMER = "CUSTOMER",
+}
+
+
+export type ModelChunkConditionInput = {
+  sentiment?: ModelSentimentInput | null,
+  callId?: ModelIDInput | null,
+  and?: Array< ModelChunkConditionInput | null > | null,
+  or?: Array< ModelChunkConditionInput | null > | null,
+  not?: ModelChunkConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ModelSentimentInput = {
+  eq?: Sentiment | null,
+  ne?: Sentiment | null,
+};
+
+export type ModelIDInput = {
   ne?: string | null,
   eq?: string | null,
   le?: string | null,
@@ -63,60 +83,7 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type ModelSentimentListInput = {
-  eq?: Array< Sentiment | null > | null,
-  ne?: Array< Sentiment | null > | null,
-  contains?: Sentiment | null,
-  notContains?: Sentiment | null,
-};
-
-export type Caller = {
-  __typename: "Caller",
-  id: string,
-  phone: string,
-  sentiments?: Array< Sentiment | null > | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type UpdateCallerInput = {
-  id: string,
-  phone?: string | null,
-  sentiments?: Array< Sentiment | null > | null,
-};
-
-export type DeleteCallerInput = {
-  id: string,
-};
-
-export type CreateCallInput = {
-  id?: string | null,
-  transcript?: S3ObjectInput | null,
-  audio?: S3ObjectInput | null,
-  agentId: string,
-  createdAt?: string | null,
-  updatedAt?: string | null,
-  callMetricsId: string,
-  callCallerId?: string | null,
-};
-
-export type S3ObjectInput = {
-  key?: string | null,
-  bucketId?: string | null,
-};
-
-export type ModelCallConditionInput = {
-  agentId?: ModelStringInput | null,
-  createdAt?: ModelStringInput | null,
-  updatedAt?: ModelStringInput | null,
-  and?: Array< ModelCallConditionInput | null > | null,
-  or?: Array< ModelCallConditionInput | null > | null,
-  not?: ModelCallConditionInput | null,
-  callMetricsId?: ModelIDInput | null,
-  callCallerId?: ModelIDInput | null,
-};
-
-export type ModelIDInput = {
+export type ModelStringInput = {
   ne?: string | null,
   eq?: string | null,
   le?: string | null,
@@ -132,16 +99,112 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
+export type Chunk = {
+  __typename: "Chunk",
+  id: string,
+  sentiment?: Sentiment | null,
+  content?: ChunkContent | null,
+  callId: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ChunkContent = {
+  __typename: "ChunkContent",
+  role?: TranscriptRole | null,
+  text?: string | null,
+};
+
+export type UpdateChunkInput = {
+  id: string,
+  sentiment?: Sentiment | null,
+  content?: ChunkContentInput | null,
+  callId?: string | null,
+};
+
+export type DeleteChunkInput = {
+  id: string,
+};
+
+export type CreateCallerInput = {
+  id?: string | null,
+  phone: string,
+};
+
+export type ModelCallerConditionInput = {
+  phone?: ModelStringInput | null,
+  and?: Array< ModelCallerConditionInput | null > | null,
+  or?: Array< ModelCallerConditionInput | null > | null,
+  not?: ModelCallerConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type Caller = {
+  __typename: "Caller",
+  id: string,
+  phone: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateCallerInput = {
+  id: string,
+  phone?: string | null,
+};
+
+export type DeleteCallerInput = {
+  id: string,
+};
+
+export type CreateCallInput = {
+  id?: string | null,
+  transcript?: S3ObjectInput | null,
+  audio?: S3ObjectInput | null,
+  createdAt?: string | null,
+  status: CallStatus,
+  callMetricsId: string,
+  callCallerId?: string | null,
+};
+
+export type S3ObjectInput = {
+  key?: string | null,
+  bucketId?: string | null,
+};
+
+export enum CallStatus {
+  STARTED = "STARTED",
+  FINALIZED = "FINALIZED",
+}
+
+
+export type ModelCallConditionInput = {
+  createdAt?: ModelStringInput | null,
+  status?: ModelCallStatusInput | null,
+  and?: Array< ModelCallConditionInput | null > | null,
+  or?: Array< ModelCallConditionInput | null > | null,
+  not?: ModelCallConditionInput | null,
+  updatedAt?: ModelStringInput | null,
+  callMetricsId?: ModelIDInput | null,
+  callCallerId?: ModelIDInput | null,
+};
+
+export type ModelCallStatusInput = {
+  eq?: CallStatus | null,
+  ne?: CallStatus | null,
+};
+
 export type Call = {
   __typename: "Call",
   id: string,
   transcript?: S3Object | null,
   audio?: S3Object | null,
   metrics: Metric,
-  agentId: string,
   createdAt: string,
-  updatedAt: string,
   caller?: Caller | null,
+  status: CallStatus,
+  chunks?: ModelChunkConnection | null,
+  updatedAt: string,
   callMetricsId: string,
   callCallerId?: string | null,
 };
@@ -155,20 +218,24 @@ export type S3Object = {
 export type Metric = {
   __typename: "Metric",
   id: string,
-  sentiment?: Array< Sentiment | null > | null,
   length?: number | null,
   waittime?: number | null,
   createdAt: string,
   updatedAt: string,
 };
 
+export type ModelChunkConnection = {
+  __typename: "ModelChunkConnection",
+  items:  Array<Chunk | null >,
+  nextToken?: string | null,
+};
+
 export type UpdateCallInput = {
   id: string,
   transcript?: S3ObjectInput | null,
   audio?: S3ObjectInput | null,
-  agentId?: string | null,
   createdAt?: string | null,
-  updatedAt?: string | null,
+  status?: CallStatus | null,
   callMetricsId?: string | null,
   callCallerId?: string | null,
 };
@@ -179,18 +246,18 @@ export type DeleteCallInput = {
 
 export type CreateMetricInput = {
   id?: string | null,
-  sentiment?: Array< Sentiment | null > | null,
   length?: number | null,
   waittime?: number | null,
 };
 
 export type ModelMetricConditionInput = {
-  sentiment?: ModelSentimentListInput | null,
   length?: ModelFloatInput | null,
   waittime?: ModelFloatInput | null,
   and?: Array< ModelMetricConditionInput | null > | null,
   or?: Array< ModelMetricConditionInput | null > | null,
   not?: ModelMetricConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type ModelFloatInput = {
@@ -207,7 +274,6 @@ export type ModelFloatInput = {
 
 export type UpdateMetricInput = {
   id: string,
-  sentiment?: Array< Sentiment | null > | null,
   length?: number | null,
   waittime?: number | null,
 };
@@ -216,10 +282,28 @@ export type DeleteMetricInput = {
   id: string,
 };
 
+export type ModelChunkFilterInput = {
+  id?: ModelIDInput | null,
+  sentiment?: ModelSentimentInput | null,
+  callId?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelChunkFilterInput | null > | null,
+  or?: Array< ModelChunkFilterInput | null > | null,
+  not?: ModelChunkFilterInput | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
 export type ModelCallerFilterInput = {
   id?: ModelIDInput | null,
   phone?: ModelStringInput | null,
-  sentiments?: ModelSentimentListInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelCallerFilterInput | null > | null,
   or?: Array< ModelCallerFilterInput | null > | null,
   not?: ModelCallerFilterInput | null,
@@ -233,8 +317,8 @@ export type ModelCallerConnection = {
 
 export type ModelCallFilterInput = {
   id?: ModelIDInput | null,
-  agentId?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
+  status?: ModelCallStatusInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelCallFilterInput | null > | null,
   or?: Array< ModelCallFilterInput | null > | null,
@@ -251,9 +335,10 @@ export type ModelCallConnection = {
 
 export type ModelMetricFilterInput = {
   id?: ModelIDInput | null,
-  sentiment?: ModelSentimentListInput | null,
   length?: ModelFloatInput | null,
   waittime?: ModelFloatInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelMetricFilterInput | null > | null,
   or?: Array< ModelMetricFilterInput | null > | null,
   not?: ModelMetricFilterInput | null,
@@ -265,12 +350,14 @@ export type ModelMetricConnection = {
   nextToken?: string | null,
 };
 
-export type ModelSubscriptionCallerFilterInput = {
+export type ModelSubscriptionChunkFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  phone?: ModelSubscriptionStringInput | null,
-  sentiments?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionCallerFilterInput | null > | null,
-  or?: Array< ModelSubscriptionCallerFilterInput | null > | null,
+  sentiment?: ModelSubscriptionStringInput | null,
+  callId?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionChunkFilterInput | null > | null,
+  or?: Array< ModelSubscriptionChunkFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -303,20 +390,32 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
+export type ModelSubscriptionCallerFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  phone?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionCallerFilterInput | null > | null,
+  or?: Array< ModelSubscriptionCallerFilterInput | null > | null,
+};
+
 export type ModelSubscriptionCallFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  agentId?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
+  status?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionCallFilterInput | null > | null,
   or?: Array< ModelSubscriptionCallFilterInput | null > | null,
+  callMetricsId?: ModelSubscriptionIDInput | null,
+  callCallerId?: ModelSubscriptionIDInput | null,
 };
 
 export type ModelSubscriptionMetricFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  sentiment?: ModelSubscriptionStringInput | null,
   length?: ModelSubscriptionFloatInput | null,
   waittime?: ModelSubscriptionFloatInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionMetricFilterInput | null > | null,
   or?: Array< ModelSubscriptionMetricFilterInput | null > | null,
 };
@@ -333,6 +432,69 @@ export type ModelSubscriptionFloatInput = {
   notIn?: Array< number | null > | null,
 };
 
+export type CreateChunkMutationVariables = {
+  input: CreateChunkInput,
+  condition?: ModelChunkConditionInput | null,
+};
+
+export type CreateChunkMutation = {
+  createChunk?:  {
+    __typename: "Chunk",
+    id: string,
+    sentiment?: Sentiment | null,
+    content?:  {
+      __typename: "ChunkContent",
+      role?: TranscriptRole | null,
+      text?: string | null,
+    } | null,
+    callId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateChunkMutationVariables = {
+  input: UpdateChunkInput,
+  condition?: ModelChunkConditionInput | null,
+};
+
+export type UpdateChunkMutation = {
+  updateChunk?:  {
+    __typename: "Chunk",
+    id: string,
+    sentiment?: Sentiment | null,
+    content?:  {
+      __typename: "ChunkContent",
+      role?: TranscriptRole | null,
+      text?: string | null,
+    } | null,
+    callId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteChunkMutationVariables = {
+  input: DeleteChunkInput,
+  condition?: ModelChunkConditionInput | null,
+};
+
+export type DeleteChunkMutation = {
+  deleteChunk?:  {
+    __typename: "Chunk",
+    id: string,
+    sentiment?: Sentiment | null,
+    content?:  {
+      __typename: "ChunkContent",
+      role?: TranscriptRole | null,
+      text?: string | null,
+    } | null,
+    callId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type CreateCallerMutationVariables = {
   input: CreateCallerInput,
   condition?: ModelCallerConditionInput | null,
@@ -343,7 +505,6 @@ export type CreateCallerMutation = {
     __typename: "Caller",
     id: string,
     phone: string,
-    sentiments?: Array< Sentiment | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -359,7 +520,6 @@ export type UpdateCallerMutation = {
     __typename: "Caller",
     id: string,
     phone: string,
-    sentiments?: Array< Sentiment | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -375,7 +535,6 @@ export type DeleteCallerMutation = {
     __typename: "Caller",
     id: string,
     phone: string,
-    sentiments?: Array< Sentiment | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -403,23 +562,25 @@ export type CreateCallMutation = {
     metrics:  {
       __typename: "Metric",
       id: string,
-      sentiment?: Array< Sentiment | null > | null,
       length?: number | null,
       waittime?: number | null,
       createdAt: string,
       updatedAt: string,
     },
-    agentId: string,
     createdAt: string,
-    updatedAt: string,
     caller?:  {
       __typename: "Caller",
       id: string,
       phone: string,
-      sentiments?: Array< Sentiment | null > | null,
       createdAt: string,
       updatedAt: string,
     } | null,
+    status: CallStatus,
+    chunks?:  {
+      __typename: "ModelChunkConnection",
+      nextToken?: string | null,
+    } | null,
+    updatedAt: string,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,
@@ -447,23 +608,25 @@ export type UpdateCallMutation = {
     metrics:  {
       __typename: "Metric",
       id: string,
-      sentiment?: Array< Sentiment | null > | null,
       length?: number | null,
       waittime?: number | null,
       createdAt: string,
       updatedAt: string,
     },
-    agentId: string,
     createdAt: string,
-    updatedAt: string,
     caller?:  {
       __typename: "Caller",
       id: string,
       phone: string,
-      sentiments?: Array< Sentiment | null > | null,
       createdAt: string,
       updatedAt: string,
     } | null,
+    status: CallStatus,
+    chunks?:  {
+      __typename: "ModelChunkConnection",
+      nextToken?: string | null,
+    } | null,
+    updatedAt: string,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,
@@ -491,23 +654,25 @@ export type DeleteCallMutation = {
     metrics:  {
       __typename: "Metric",
       id: string,
-      sentiment?: Array< Sentiment | null > | null,
       length?: number | null,
       waittime?: number | null,
       createdAt: string,
       updatedAt: string,
     },
-    agentId: string,
     createdAt: string,
-    updatedAt: string,
     caller?:  {
       __typename: "Caller",
       id: string,
       phone: string,
-      sentiments?: Array< Sentiment | null > | null,
       createdAt: string,
       updatedAt: string,
     } | null,
+    status: CallStatus,
+    chunks?:  {
+      __typename: "ModelChunkConnection",
+      nextToken?: string | null,
+    } | null,
+    updatedAt: string,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,
@@ -522,7 +687,6 @@ export type CreateMetricMutation = {
   createMetric?:  {
     __typename: "Metric",
     id: string,
-    sentiment?: Array< Sentiment | null > | null,
     length?: number | null,
     waittime?: number | null,
     createdAt: string,
@@ -539,7 +703,6 @@ export type UpdateMetricMutation = {
   updateMetric?:  {
     __typename: "Metric",
     id: string,
-    sentiment?: Array< Sentiment | null > | null,
     length?: number | null,
     waittime?: number | null,
     createdAt: string,
@@ -556,11 +719,74 @@ export type DeleteMetricMutation = {
   deleteMetric?:  {
     __typename: "Metric",
     id: string,
-    sentiment?: Array< Sentiment | null > | null,
     length?: number | null,
     waittime?: number | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type GetChunkQueryVariables = {
+  id: string,
+};
+
+export type GetChunkQuery = {
+  getChunk?:  {
+    __typename: "Chunk",
+    id: string,
+    sentiment?: Sentiment | null,
+    content?:  {
+      __typename: "ChunkContent",
+      role?: TranscriptRole | null,
+      text?: string | null,
+    } | null,
+    callId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListChunksQueryVariables = {
+  filter?: ModelChunkFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListChunksQuery = {
+  listChunks?:  {
+    __typename: "ModelChunkConnection",
+    items:  Array< {
+      __typename: "Chunk",
+      id: string,
+      sentiment?: Sentiment | null,
+      callId: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ChunksByCallIdQueryVariables = {
+  callId: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelChunkFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ChunksByCallIdQuery = {
+  chunksByCallId?:  {
+    __typename: "ModelChunkConnection",
+    items:  Array< {
+      __typename: "Chunk",
+      id: string,
+      sentiment?: Sentiment | null,
+      callId: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -573,7 +799,6 @@ export type GetCallerQuery = {
     __typename: "Caller",
     id: string,
     phone: string,
-    sentiments?: Array< Sentiment | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -592,7 +817,6 @@ export type ListCallersQuery = {
       __typename: "Caller",
       id: string,
       phone: string,
-      sentiments?: Array< Sentiment | null > | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -621,23 +845,25 @@ export type GetCallQuery = {
     metrics:  {
       __typename: "Metric",
       id: string,
-      sentiment?: Array< Sentiment | null > | null,
       length?: number | null,
       waittime?: number | null,
       createdAt: string,
       updatedAt: string,
     },
-    agentId: string,
     createdAt: string,
-    updatedAt: string,
     caller?:  {
       __typename: "Caller",
       id: string,
       phone: string,
-      sentiments?: Array< Sentiment | null > | null,
       createdAt: string,
       updatedAt: string,
     } | null,
+    status: CallStatus,
+    chunks?:  {
+      __typename: "ModelChunkConnection",
+      nextToken?: string | null,
+    } | null,
+    updatedAt: string,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,
@@ -655,8 +881,8 @@ export type ListCallsQuery = {
     items:  Array< {
       __typename: "Call",
       id: string,
-      agentId: string,
       createdAt: string,
+      status: CallStatus,
       updatedAt: string,
       callMetricsId: string,
       callCallerId?: string | null,
@@ -673,7 +899,6 @@ export type GetMetricQuery = {
   getMetric?:  {
     __typename: "Metric",
     id: string,
-    sentiment?: Array< Sentiment | null > | null,
     length?: number | null,
     waittime?: number | null,
     createdAt: string,
@@ -693,13 +918,92 @@ export type ListMetricsQuery = {
     items:  Array< {
       __typename: "Metric",
       id: string,
-      sentiment?: Array< Sentiment | null > | null,
       length?: number | null,
       waittime?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type OnChunkByCallIdSubscriptionVariables = {
+  callId: string,
+};
+
+export type OnChunkByCallIdSubscription = {
+  onChunkByCallId?:  {
+    __typename: "Chunk",
+    id: string,
+    sentiment?: Sentiment | null,
+    content?:  {
+      __typename: "ChunkContent",
+      role?: TranscriptRole | null,
+      text?: string | null,
+    } | null,
+    callId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateChunkSubscriptionVariables = {
+  filter?: ModelSubscriptionChunkFilterInput | null,
+};
+
+export type OnCreateChunkSubscription = {
+  onCreateChunk?:  {
+    __typename: "Chunk",
+    id: string,
+    sentiment?: Sentiment | null,
+    content?:  {
+      __typename: "ChunkContent",
+      role?: TranscriptRole | null,
+      text?: string | null,
+    } | null,
+    callId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateChunkSubscriptionVariables = {
+  filter?: ModelSubscriptionChunkFilterInput | null,
+};
+
+export type OnUpdateChunkSubscription = {
+  onUpdateChunk?:  {
+    __typename: "Chunk",
+    id: string,
+    sentiment?: Sentiment | null,
+    content?:  {
+      __typename: "ChunkContent",
+      role?: TranscriptRole | null,
+      text?: string | null,
+    } | null,
+    callId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteChunkSubscriptionVariables = {
+  filter?: ModelSubscriptionChunkFilterInput | null,
+};
+
+export type OnDeleteChunkSubscription = {
+  onDeleteChunk?:  {
+    __typename: "Chunk",
+    id: string,
+    sentiment?: Sentiment | null,
+    content?:  {
+      __typename: "ChunkContent",
+      role?: TranscriptRole | null,
+      text?: string | null,
+    } | null,
+    callId: string,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -712,7 +1016,6 @@ export type OnCreateCallerSubscription = {
     __typename: "Caller",
     id: string,
     phone: string,
-    sentiments?: Array< Sentiment | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -727,7 +1030,6 @@ export type OnUpdateCallerSubscription = {
     __typename: "Caller",
     id: string,
     phone: string,
-    sentiments?: Array< Sentiment | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -742,7 +1044,6 @@ export type OnDeleteCallerSubscription = {
     __typename: "Caller",
     id: string,
     phone: string,
-    sentiments?: Array< Sentiment | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -769,23 +1070,25 @@ export type OnCreateCallSubscription = {
     metrics:  {
       __typename: "Metric",
       id: string,
-      sentiment?: Array< Sentiment | null > | null,
       length?: number | null,
       waittime?: number | null,
       createdAt: string,
       updatedAt: string,
     },
-    agentId: string,
     createdAt: string,
-    updatedAt: string,
     caller?:  {
       __typename: "Caller",
       id: string,
       phone: string,
-      sentiments?: Array< Sentiment | null > | null,
       createdAt: string,
       updatedAt: string,
     } | null,
+    status: CallStatus,
+    chunks?:  {
+      __typename: "ModelChunkConnection",
+      nextToken?: string | null,
+    } | null,
+    updatedAt: string,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,
@@ -812,23 +1115,25 @@ export type OnUpdateCallSubscription = {
     metrics:  {
       __typename: "Metric",
       id: string,
-      sentiment?: Array< Sentiment | null > | null,
       length?: number | null,
       waittime?: number | null,
       createdAt: string,
       updatedAt: string,
     },
-    agentId: string,
     createdAt: string,
-    updatedAt: string,
     caller?:  {
       __typename: "Caller",
       id: string,
       phone: string,
-      sentiments?: Array< Sentiment | null > | null,
       createdAt: string,
       updatedAt: string,
     } | null,
+    status: CallStatus,
+    chunks?:  {
+      __typename: "ModelChunkConnection",
+      nextToken?: string | null,
+    } | null,
+    updatedAt: string,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,
@@ -855,23 +1160,25 @@ export type OnDeleteCallSubscription = {
     metrics:  {
       __typename: "Metric",
       id: string,
-      sentiment?: Array< Sentiment | null > | null,
       length?: number | null,
       waittime?: number | null,
       createdAt: string,
       updatedAt: string,
     },
-    agentId: string,
     createdAt: string,
-    updatedAt: string,
     caller?:  {
       __typename: "Caller",
       id: string,
       phone: string,
-      sentiments?: Array< Sentiment | null > | null,
       createdAt: string,
       updatedAt: string,
     } | null,
+    status: CallStatus,
+    chunks?:  {
+      __typename: "ModelChunkConnection",
+      nextToken?: string | null,
+    } | null,
+    updatedAt: string,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,
@@ -885,7 +1192,6 @@ export type OnCreateMetricSubscription = {
   onCreateMetric?:  {
     __typename: "Metric",
     id: string,
-    sentiment?: Array< Sentiment | null > | null,
     length?: number | null,
     waittime?: number | null,
     createdAt: string,
@@ -901,7 +1207,6 @@ export type OnUpdateMetricSubscription = {
   onUpdateMetric?:  {
     __typename: "Metric",
     id: string,
-    sentiment?: Array< Sentiment | null > | null,
     length?: number | null,
     waittime?: number | null,
     createdAt: string,
@@ -917,7 +1222,6 @@ export type OnDeleteMetricSubscription = {
   onDeleteMetric?:  {
     __typename: "Metric",
     id: string,
-    sentiment?: Array< Sentiment | null > | null,
     length?: number | null,
     waittime?: number | null,
     createdAt: string,

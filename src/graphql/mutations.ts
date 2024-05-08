@@ -8,6 +8,72 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createChunk = /* GraphQL */ `mutation CreateChunk(
+  $input: CreateChunkInput!
+  $condition: ModelChunkConditionInput
+) {
+  createChunk(input: $input, condition: $condition) {
+    id
+    sentiment
+    content {
+      role
+      text
+      __typename
+    }
+    callId
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateChunkMutationVariables,
+  APITypes.CreateChunkMutation
+>;
+export const updateChunk = /* GraphQL */ `mutation UpdateChunk(
+  $input: UpdateChunkInput!
+  $condition: ModelChunkConditionInput
+) {
+  updateChunk(input: $input, condition: $condition) {
+    id
+    sentiment
+    content {
+      role
+      text
+      __typename
+    }
+    callId
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateChunkMutationVariables,
+  APITypes.UpdateChunkMutation
+>;
+export const deleteChunk = /* GraphQL */ `mutation DeleteChunk(
+  $input: DeleteChunkInput!
+  $condition: ModelChunkConditionInput
+) {
+  deleteChunk(input: $input, condition: $condition) {
+    id
+    sentiment
+    content {
+      role
+      text
+      __typename
+    }
+    callId
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteChunkMutationVariables,
+  APITypes.DeleteChunkMutation
+>;
 export const createCaller = /* GraphQL */ `mutation CreateCaller(
   $input: CreateCallerInput!
   $condition: ModelCallerConditionInput
@@ -15,7 +81,6 @@ export const createCaller = /* GraphQL */ `mutation CreateCaller(
   createCaller(input: $input, condition: $condition) {
     id
     phone
-    sentiments
     createdAt
     updatedAt
     __typename
@@ -32,7 +97,6 @@ export const updateCaller = /* GraphQL */ `mutation UpdateCaller(
   updateCaller(input: $input, condition: $condition) {
     id
     phone
-    sentiments
     createdAt
     updatedAt
     __typename
@@ -49,7 +113,6 @@ export const deleteCaller = /* GraphQL */ `mutation DeleteCaller(
   deleteCaller(input: $input, condition: $condition) {
     id
     phone
-    sentiments
     createdAt
     updatedAt
     __typename
@@ -77,24 +140,26 @@ export const createCall = /* GraphQL */ `mutation CreateCall(
     }
     metrics {
       id
-      sentiment
       length
       waittime
       createdAt
       updatedAt
       __typename
     }
-    agentId
     createdAt
-    updatedAt
     caller {
       id
       phone
-      sentiments
       createdAt
       updatedAt
       __typename
     }
+    status
+    chunks {
+      nextToken
+      __typename
+    }
+    updatedAt
     callMetricsId
     callCallerId
     __typename
@@ -122,24 +187,26 @@ export const updateCall = /* GraphQL */ `mutation UpdateCall(
     }
     metrics {
       id
-      sentiment
       length
       waittime
       createdAt
       updatedAt
       __typename
     }
-    agentId
     createdAt
-    updatedAt
     caller {
       id
       phone
-      sentiments
       createdAt
       updatedAt
       __typename
     }
+    status
+    chunks {
+      nextToken
+      __typename
+    }
+    updatedAt
     callMetricsId
     callCallerId
     __typename
@@ -167,24 +234,26 @@ export const deleteCall = /* GraphQL */ `mutation DeleteCall(
     }
     metrics {
       id
-      sentiment
       length
       waittime
       createdAt
       updatedAt
       __typename
     }
-    agentId
     createdAt
-    updatedAt
     caller {
       id
       phone
-      sentiments
       createdAt
       updatedAt
       __typename
     }
+    status
+    chunks {
+      nextToken
+      __typename
+    }
+    updatedAt
     callMetricsId
     callCallerId
     __typename
@@ -200,7 +269,6 @@ export const createMetric = /* GraphQL */ `mutation CreateMetric(
 ) {
   createMetric(input: $input, condition: $condition) {
     id
-    sentiment
     length
     waittime
     createdAt
@@ -218,7 +286,6 @@ export const updateMetric = /* GraphQL */ `mutation UpdateMetric(
 ) {
   updateMetric(input: $input, condition: $condition) {
     id
-    sentiment
     length
     waittime
     createdAt
@@ -236,7 +303,6 @@ export const deleteMetric = /* GraphQL */ `mutation DeleteMetric(
 ) {
   deleteMetric(input: $input, condition: $condition) {
     id
-    sentiment
     length
     waittime
     createdAt
