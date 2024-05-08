@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box; /* Firefox, other Gecko */
+  box-sizing: border-box; /* Opera/IE 8+ */
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -25,6 +31,10 @@
     )
     rgb(var(--background-start-rgb)); 
       background: #F5F7FA;} */
+
+.rhap_container {
+  background-color: #921823;
+}
 
 @layer utilities {
   .text-balance {

@@ -3,7 +3,7 @@
   "cognitoConfig": {
     "identityPoolName": "testAuthIdentityPool",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "jiva31f2fff8",
+    "resourceNameTruncated": "jiva8eaa9b61",
     "userPoolName": "jiva",
     "autoVerifiedAttributes": [
       "email"
@@ -18,26 +18,19 @@
     "emailVerificationMessage": "Verification code: {####}",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
-    "passwordPolicyCharacters": [
-      "Requires Lowercase",
-      "Requires Numbers",
-      "Requires Symbols",
-      "Requires Uppercase"
-    ],
+    "passwordPolicyCharacters": [],
     "requiredAttributes": [
       "email",
-      "name",
-      "phone_number",
-      "family_name"
+      "name"
     ],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [],
     "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "jiva31f2fff8_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "jiva8eaa9b61_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "31f2fff8",
+    "sharedId": "8eaa9b61",
     "resourceName": "jiva",
     "authSelections": "identityPoolAndUserPool",
     "serviceName": "Cognito",

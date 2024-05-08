@@ -1,15 +1,15 @@
 {
-  "staging": {
+  "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-amplify441f9f69113a4-staging-00617-authRole",
-      "UnauthRoleArn": "arn:aws:iam::110399251234:role/amplify-amplify441f9f69113a4-staging-00617-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::110399251234:role/amplify-amplify441f9f69113a4-staging-00617-authRole",
-      "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-amplify441f9f69113a4-staging-00617-deployment",
-      "UnauthRoleName": "amplify-amplify441f9f69113a4-staging-00617-unauthRole",
-      "StackName": "amplify-amplify441f9f69113a4-staging-00617",
-      "StackId": "arn:aws:cloudformation:us-east-2:110399251234:stack/amplify-amplify441f9f69113a4-staging-00617/b12b9920-d828-11ee-948e-06633d03bd57",
-      "AmplifyAppId": "d1g6kmzzo094jf"
+      "AuthRoleName": "amplify-jiva-dev-68e67-authRole",
+      "UnauthRoleArn": "arn:aws:iam::767398119914:role/amplify-jiva-dev-68e67-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::767398119914:role/amplify-jiva-dev-68e67-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-jiva-dev-68e67-deployment",
+      "UnauthRoleName": "amplify-jiva-dev-68e67-unauthRole",
+      "StackName": "amplify-jiva-dev-68e67",
+      "StackId": "arn:aws:cloudformation:us-east-1:767398119914:stack/amplify-jiva-dev-68e67/832eb4f0-feeb-11ee-8454-0ee50bcfdbad",
+      "AmplifyAppId": "d23o3c6dlhehlz"
     },
     "categories": {
       "auth": {
