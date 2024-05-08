@@ -16,4 +16,6 @@ jobs:
           npm install
           npm run build
       - name: Run tests
-        run: npm run safetest
+        run: |
+          npx playwright install
+          npm run safetest
