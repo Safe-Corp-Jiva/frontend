@@ -7,7 +7,7 @@ describe('app test', () => {
     const { page } = await render((app) => (
       <MainPageFileOverride.Override with={(old) => old?.split('').reverse().join('')} children={app} />
     ))
-    await expect(page.locator('text=Safe Corp Jiva')).toBeVisible()
+    await expect(page.locator('text=Welcome Back!')).toBeVisible()
     expect(await page.screenshot()).toMatchImageSnapshot()
   })
 })
