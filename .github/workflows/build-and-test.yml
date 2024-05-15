@@ -1,5 +1,4 @@
-# GH action that builds the code and runs the tests on every PR to main or dev branch
-# This is a basic example, you can add more steps to run linters, security checks, etc.
+# GH action that builds the code and runs the tests on every push to any branch
 # Rodrigo Nunez, Apr 2024
 name: Build code and run tests
 
@@ -11,14 +10,31 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Configura build cache
+        uses: actions/cache@v4
+        with:
+          # See here for caching with `yarn` https://github.com/actions/cache/blob/main/examples.md#node---yarn or you can leverage caching with actions/setup-node https://github.com/actions/setup-node
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/.next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
       - name: Build code
         run: |
           npm install
           npm run build
+
       - name: Start app
         run: npm run start &
+
       - name: Wait for app to start
         run: sleep 10
+
       - name: Run tests against running app
         run: |
           npx playwright install
