@@ -15,7 +15,11 @@ jobs:
         run: |
           npm install
           npm run build
-      - name: Run tests
+      - name: Start app
+        run: npm run start
+      - name: Wait for app to start
+        run: sleep 30
+      - name: Run tests against running app
         run: |
           npx playwright install
           npm run safetest
