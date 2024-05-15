@@ -36,7 +36,8 @@ jobs:
       - name: Wait for app to start
         run: sleep 10
 
-      - name: Run tests against running app
-        run: |
-          npx playwright install
-          npm run safetest
+      - name: Install playwright
+        run: npx playwright install
+
+      - name: Run tests
+        run: npm run safetest
