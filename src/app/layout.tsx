@@ -4,6 +4,7 @@ import './globals.css'
 import '@aws-amplify/ui-react/styles.css'
 import { Bootstrap } from './Bootstrap'
 
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
