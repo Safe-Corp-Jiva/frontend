@@ -37,6 +37,7 @@ export function useOngoingCalls() {
 
     const fetchCalls = async () => {
       const calls = await getter();
+      console.log(calls);
       createCallback(calls);
     };
 
