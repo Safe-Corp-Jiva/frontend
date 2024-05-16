@@ -14,8 +14,8 @@ export default function RealTimeTranscript({
   const [chunks, setChunks] = useState<Chunk[]>([]);
 
   // TODO: If this is ugly you can move stuff to `./hooks.tsx` I guess?
-  const callback = (chunks: Chunk[]) => {
-    setChunks((prev) => [...prev, ...chunks]);
+  const callback = (chunker: Chunk[]) => {
+    setChunks((prev) => [...prev, ...chunker]);
   };
 
   const fallback = (error: Error) => {
@@ -38,7 +38,8 @@ export default function RealTimeTranscript({
       next: (value) => callback(formatter(value?.data?.onChunkByCallId)),
       error: (error) => fallback(error)
     });
-  
+    
+    
     return () => { subscriber.unsubscribe() };
   }, []);
 

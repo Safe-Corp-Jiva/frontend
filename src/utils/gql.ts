@@ -10,11 +10,11 @@ export const chunkSubFactory = (callId: string) => ({
     client.graphql({
       query: chunksByCallId, 
         variables: {
-          callId
+          callId: callId
         }
-    }).then(({ data }) => (
-      data?.chunksByCallId?.items ?? null
-    ))
+    }).then(({ data }) => {
+      return data?.chunksByCallId?.items ?? null
+    })
   ),
   sub: client.graphql({
     query: onChunkByCallId, 

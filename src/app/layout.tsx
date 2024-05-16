@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import '@aws-amplify/ui-react/styles.css'
+import { Bootstrap } from './Bootstrap'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,7 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Bootstrap>{children}</Bootstrap>
+      </body>
     </html>
   )
 }

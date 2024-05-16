@@ -66,6 +66,10 @@ export const chunksByCallId = /* GraphQL */ `query ChunksByCallId(
       callId
       createdAt
       updatedAt
+      content {
+        text
+        role
+      }
       __typename
     }
     nextToken
