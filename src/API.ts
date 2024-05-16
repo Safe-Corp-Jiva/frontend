@@ -272,7 +272,7 @@ export type Call = {
   audio?: S3Object | null,
   agent?: Agent | null,
   queue?: Queue | null,
-  metrics: Metric,
+  metrics?: Metric,
   createdAt: string,
   caller?: Caller | null,
   status: CallStatus,
