@@ -2,6 +2,108 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
+export type CreateAgentInput = {
+  id?: string | null,
+  username?: string | null,
+};
+
+export type ModelAgentConditionInput = {
+  username?: ModelStringInput | null,
+  and?: Array< ModelAgentConditionInput | null > | null,
+  or?: Array< ModelAgentConditionInput | null > | null,
+  not?: ModelAgentConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ModelStringInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
+export enum ModelAttributeTypes {
+  binary = "binary",
+  binarySet = "binarySet",
+  bool = "bool",
+  list = "list",
+  map = "map",
+  number = "number",
+  numberSet = "numberSet",
+  string = "string",
+  stringSet = "stringSet",
+  _null = "_null",
+}
+
+
+export type ModelSizeInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+};
+
+export type Agent = {
+  __typename: "Agent",
+  id: string,
+  username?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateAgentInput = {
+  id: string,
+  username?: string | null,
+};
+
+export type DeleteAgentInput = {
+  id: string,
+};
+
+export type CreateQueueInput = {
+  id?: string | null,
+  name?: string | null,
+};
+
+export type ModelQueueConditionInput = {
+  name?: ModelStringInput | null,
+  and?: Array< ModelQueueConditionInput | null > | null,
+  or?: Array< ModelQueueConditionInput | null > | null,
+  not?: ModelQueueConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type Queue = {
+  __typename: "Queue",
+  id: string,
+  name?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateQueueInput = {
+  id: string,
+  name?: string | null,
+};
+
+export type DeleteQueueInput = {
+  id: string,
+};
+
 export type CreateChunkInput = {
   id?: string | null,
   sentiment?: Sentiment | null,
@@ -59,46 +161,6 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export enum ModelAttributeTypes {
-  binary = "binary",
-  binarySet = "binarySet",
-  bool = "bool",
-  list = "list",
-  map = "map",
-  number = "number",
-  numberSet = "numberSet",
-  string = "string",
-  stringSet = "stringSet",
-  _null = "_null",
-}
-
-
-export type ModelSizeInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-};
-
-export type ModelStringInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
-};
-
 export type Chunk = {
   __typename: "Chunk",
   id: string,
@@ -127,12 +189,15 @@ export type DeleteChunkInput = {
 };
 
 export type CreateCallerInput = {
-  id?: string | null,
-  phone: string,
+  id: string,
+  name?: string | null,
+  email?: string | null,
 };
 
 export type ModelCallerConditionInput = {
-  phone?: ModelStringInput | null,
+  id?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  email?: ModelStringInput | null,
   and?: Array< ModelCallerConditionInput | null > | null,
   or?: Array< ModelCallerConditionInput | null > | null,
   not?: ModelCallerConditionInput | null,
@@ -143,14 +208,16 @@ export type ModelCallerConditionInput = {
 export type Caller = {
   __typename: "Caller",
   id: string,
-  phone: string,
+  name?: string | null,
+  email?: string | null,
   createdAt: string,
   updatedAt: string,
 };
 
 export type UpdateCallerInput = {
   id: string,
-  phone?: string | null,
+  name?: string | null,
+  email?: string | null,
 };
 
 export type DeleteCallerInput = {
@@ -163,6 +230,8 @@ export type CreateCallInput = {
   audio?: S3ObjectInput | null,
   createdAt?: string | null,
   status: CallStatus,
+  callAgentId?: string | null,
+  callQueueId?: string | null,
   callMetricsId: string,
   callCallerId?: string | null,
 };
@@ -185,6 +254,8 @@ export type ModelCallConditionInput = {
   or?: Array< ModelCallConditionInput | null > | null,
   not?: ModelCallConditionInput | null,
   updatedAt?: ModelStringInput | null,
+  callAgentId?: ModelIDInput | null,
+  callQueueId?: ModelIDInput | null,
   callMetricsId?: ModelIDInput | null,
   callCallerId?: ModelIDInput | null,
 };
@@ -199,12 +270,16 @@ export type Call = {
   id: string,
   transcript?: S3Object | null,
   audio?: S3Object | null,
-  metrics: Metric,
+  agent?: Agent | null,
+  queue?: Queue | null,
+  metrics?: Metric,
   createdAt: string,
   caller?: Caller | null,
   status: CallStatus,
   chunks?: ModelChunkConnection | null,
   updatedAt: string,
+  callAgentId?: string | null,
+  callQueueId?: string | null,
   callMetricsId: string,
   callCallerId?: string | null,
 };
@@ -236,6 +311,8 @@ export type UpdateCallInput = {
   audio?: S3ObjectInput | null,
   createdAt?: string | null,
   status?: CallStatus | null,
+  callAgentId?: string | null,
+  callQueueId?: string | null,
   callMetricsId?: string | null,
   callCallerId?: string | null,
 };
@@ -282,6 +359,38 @@ export type DeleteMetricInput = {
   id: string,
 };
 
+export type ModelAgentFilterInput = {
+  id?: ModelIDInput | null,
+  username?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelAgentFilterInput | null > | null,
+  or?: Array< ModelAgentFilterInput | null > | null,
+  not?: ModelAgentFilterInput | null,
+};
+
+export type ModelAgentConnection = {
+  __typename: "ModelAgentConnection",
+  items:  Array<Agent | null >,
+  nextToken?: string | null,
+};
+
+export type ModelQueueFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelQueueFilterInput | null > | null,
+  or?: Array< ModelQueueFilterInput | null > | null,
+  not?: ModelQueueFilterInput | null,
+};
+
+export type ModelQueueConnection = {
+  __typename: "ModelQueueConnection",
+  items:  Array<Queue | null >,
+  nextToken?: string | null,
+};
+
 export type ModelChunkFilterInput = {
   id?: ModelIDInput | null,
   sentiment?: ModelSentimentInput | null,
@@ -300,8 +409,9 @@ export enum ModelSortDirection {
 
 
 export type ModelCallerFilterInput = {
-  id?: ModelIDInput | null,
-  phone?: ModelStringInput | null,
+  id?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  email?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelCallerFilterInput | null > | null,
@@ -323,6 +433,8 @@ export type ModelCallFilterInput = {
   and?: Array< ModelCallFilterInput | null > | null,
   or?: Array< ModelCallFilterInput | null > | null,
   not?: ModelCallFilterInput | null,
+  callAgentId?: ModelIDInput | null,
+  callQueueId?: ModelIDInput | null,
   callMetricsId?: ModelIDInput | null,
   callCallerId?: ModelIDInput | null,
 };
@@ -350,14 +462,13 @@ export type ModelMetricConnection = {
   nextToken?: string | null,
 };
 
-export type ModelSubscriptionChunkFilterInput = {
+export type ModelSubscriptionAgentFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  sentiment?: ModelSubscriptionStringInput | null,
-  callId?: ModelSubscriptionIDInput | null,
+  username?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionChunkFilterInput | null > | null,
-  or?: Array< ModelSubscriptionChunkFilterInput | null > | null,
+  and?: Array< ModelSubscriptionAgentFilterInput | null > | null,
+  or?: Array< ModelSubscriptionAgentFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -390,9 +501,29 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
-export type ModelSubscriptionCallerFilterInput = {
+export type ModelSubscriptionQueueFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  phone?: ModelSubscriptionStringInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionQueueFilterInput | null > | null,
+  or?: Array< ModelSubscriptionQueueFilterInput | null > | null,
+};
+
+export type ModelSubscriptionChunkFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  sentiment?: ModelSubscriptionStringInput | null,
+  callId?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionChunkFilterInput | null > | null,
+  or?: Array< ModelSubscriptionChunkFilterInput | null > | null,
+};
+
+export type ModelSubscriptionCallerFilterInput = {
+  id?: ModelSubscriptionStringInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  email?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionCallerFilterInput | null > | null,
@@ -406,6 +537,8 @@ export type ModelSubscriptionCallFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionCallFilterInput | null > | null,
   or?: Array< ModelSubscriptionCallFilterInput | null > | null,
+  callAgentId?: ModelSubscriptionIDInput | null,
+  callQueueId?: ModelSubscriptionIDInput | null,
   callMetricsId?: ModelSubscriptionIDInput | null,
   callCallerId?: ModelSubscriptionIDInput | null,
 };
@@ -430,6 +563,96 @@ export type ModelSubscriptionFloatInput = {
   between?: Array< number | null > | null,
   in?: Array< number | null > | null,
   notIn?: Array< number | null > | null,
+};
+
+export type CreateAgentMutationVariables = {
+  input: CreateAgentInput,
+  condition?: ModelAgentConditionInput | null,
+};
+
+export type CreateAgentMutation = {
+  createAgent?:  {
+    __typename: "Agent",
+    id: string,
+    username?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateAgentMutationVariables = {
+  input: UpdateAgentInput,
+  condition?: ModelAgentConditionInput | null,
+};
+
+export type UpdateAgentMutation = {
+  updateAgent?:  {
+    __typename: "Agent",
+    id: string,
+    username?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteAgentMutationVariables = {
+  input: DeleteAgentInput,
+  condition?: ModelAgentConditionInput | null,
+};
+
+export type DeleteAgentMutation = {
+  deleteAgent?:  {
+    __typename: "Agent",
+    id: string,
+    username?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateQueueMutationVariables = {
+  input: CreateQueueInput,
+  condition?: ModelQueueConditionInput | null,
+};
+
+export type CreateQueueMutation = {
+  createQueue?:  {
+    __typename: "Queue",
+    id: string,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateQueueMutationVariables = {
+  input: UpdateQueueInput,
+  condition?: ModelQueueConditionInput | null,
+};
+
+export type UpdateQueueMutation = {
+  updateQueue?:  {
+    __typename: "Queue",
+    id: string,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteQueueMutationVariables = {
+  input: DeleteQueueInput,
+  condition?: ModelQueueConditionInput | null,
+};
+
+export type DeleteQueueMutation = {
+  deleteQueue?:  {
+    __typename: "Queue",
+    id: string,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
 };
 
 export type CreateChunkMutationVariables = {
@@ -504,7 +727,8 @@ export type CreateCallerMutation = {
   createCaller?:  {
     __typename: "Caller",
     id: string,
-    phone: string,
+    name?: string | null,
+    email?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -519,7 +743,8 @@ export type UpdateCallerMutation = {
   updateCaller?:  {
     __typename: "Caller",
     id: string,
-    phone: string,
+    name?: string | null,
+    email?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -534,7 +759,8 @@ export type DeleteCallerMutation = {
   deleteCaller?:  {
     __typename: "Caller",
     id: string,
-    phone: string,
+    name?: string | null,
+    email?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -559,6 +785,20 @@ export type CreateCallMutation = {
       key?: string | null,
       bucketId?: string | null,
     } | null,
+    agent?:  {
+      __typename: "Agent",
+      id: string,
+      username?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    queue?:  {
+      __typename: "Queue",
+      id: string,
+      name?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     metrics:  {
       __typename: "Metric",
       id: string,
@@ -571,7 +811,8 @@ export type CreateCallMutation = {
     caller?:  {
       __typename: "Caller",
       id: string,
-      phone: string,
+      name?: string | null,
+      email?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -581,6 +822,8 @@ export type CreateCallMutation = {
       nextToken?: string | null,
     } | null,
     updatedAt: string,
+    callAgentId?: string | null,
+    callQueueId?: string | null,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,
@@ -605,6 +848,20 @@ export type UpdateCallMutation = {
       key?: string | null,
       bucketId?: string | null,
     } | null,
+    agent?:  {
+      __typename: "Agent",
+      id: string,
+      username?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    queue?:  {
+      __typename: "Queue",
+      id: string,
+      name?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     metrics:  {
       __typename: "Metric",
       id: string,
@@ -617,7 +874,8 @@ export type UpdateCallMutation = {
     caller?:  {
       __typename: "Caller",
       id: string,
-      phone: string,
+      name?: string | null,
+      email?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -627,6 +885,8 @@ export type UpdateCallMutation = {
       nextToken?: string | null,
     } | null,
     updatedAt: string,
+    callAgentId?: string | null,
+    callQueueId?: string | null,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,
@@ -651,6 +911,20 @@ export type DeleteCallMutation = {
       key?: string | null,
       bucketId?: string | null,
     } | null,
+    agent?:  {
+      __typename: "Agent",
+      id: string,
+      username?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    queue?:  {
+      __typename: "Queue",
+      id: string,
+      name?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     metrics:  {
       __typename: "Metric",
       id: string,
@@ -663,7 +937,8 @@ export type DeleteCallMutation = {
     caller?:  {
       __typename: "Caller",
       id: string,
-      phone: string,
+      name?: string | null,
+      email?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -673,6 +948,8 @@ export type DeleteCallMutation = {
       nextToken?: string | null,
     } | null,
     updatedAt: string,
+    callAgentId?: string | null,
+    callQueueId?: string | null,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,
@@ -723,6 +1000,74 @@ export type DeleteMetricMutation = {
     waittime?: number | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type GetAgentQueryVariables = {
+  id: string,
+};
+
+export type GetAgentQuery = {
+  getAgent?:  {
+    __typename: "Agent",
+    id: string,
+    username?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListAgentsQueryVariables = {
+  filter?: ModelAgentFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListAgentsQuery = {
+  listAgents?:  {
+    __typename: "ModelAgentConnection",
+    items:  Array< {
+      __typename: "Agent",
+      id: string,
+      username?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetQueueQueryVariables = {
+  id: string,
+};
+
+export type GetQueueQuery = {
+  getQueue?:  {
+    __typename: "Queue",
+    id: string,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListQueuesQueryVariables = {
+  filter?: ModelQueueFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListQueuesQuery = {
+  listQueues?:  {
+    __typename: "ModelQueueConnection",
+    items:  Array< {
+      __typename: "Queue",
+      id: string,
+      name?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -798,7 +1143,8 @@ export type GetCallerQuery = {
   getCaller?:  {
     __typename: "Caller",
     id: string,
-    phone: string,
+    name?: string | null,
+    email?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -816,7 +1162,8 @@ export type ListCallersQuery = {
     items:  Array< {
       __typename: "Caller",
       id: string,
-      phone: string,
+      name?: string | null,
+      email?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -842,6 +1189,20 @@ export type GetCallQuery = {
       key?: string | null,
       bucketId?: string | null,
     } | null,
+    agent?:  {
+      __typename: "Agent",
+      id: string,
+      username?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    queue?:  {
+      __typename: "Queue",
+      id: string,
+      name?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     metrics:  {
       __typename: "Metric",
       id: string,
@@ -854,7 +1215,8 @@ export type GetCallQuery = {
     caller?:  {
       __typename: "Caller",
       id: string,
-      phone: string,
+      name?: string | null,
+      email?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -864,6 +1226,8 @@ export type GetCallQuery = {
       nextToken?: string | null,
     } | null,
     updatedAt: string,
+    callAgentId?: string | null,
+    callQueueId?: string | null,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,
@@ -884,6 +1248,8 @@ export type ListCallsQuery = {
       createdAt: string,
       status: CallStatus,
       updatedAt: string,
+      callAgentId?: string | null,
+      callQueueId?: string | null,
       callMetricsId: string,
       callCallerId?: string | null,
     } | null >,
@@ -942,6 +1308,90 @@ export type OnChunkByCallIdSubscription = {
       text?: string | null,
     } | null,
     callId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateAgentSubscriptionVariables = {
+  filter?: ModelSubscriptionAgentFilterInput | null,
+};
+
+export type OnCreateAgentSubscription = {
+  onCreateAgent?:  {
+    __typename: "Agent",
+    id: string,
+    username?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateAgentSubscriptionVariables = {
+  filter?: ModelSubscriptionAgentFilterInput | null,
+};
+
+export type OnUpdateAgentSubscription = {
+  onUpdateAgent?:  {
+    __typename: "Agent",
+    id: string,
+    username?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteAgentSubscriptionVariables = {
+  filter?: ModelSubscriptionAgentFilterInput | null,
+};
+
+export type OnDeleteAgentSubscription = {
+  onDeleteAgent?:  {
+    __typename: "Agent",
+    id: string,
+    username?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateQueueSubscriptionVariables = {
+  filter?: ModelSubscriptionQueueFilterInput | null,
+};
+
+export type OnCreateQueueSubscription = {
+  onCreateQueue?:  {
+    __typename: "Queue",
+    id: string,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateQueueSubscriptionVariables = {
+  filter?: ModelSubscriptionQueueFilterInput | null,
+};
+
+export type OnUpdateQueueSubscription = {
+  onUpdateQueue?:  {
+    __typename: "Queue",
+    id: string,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteQueueSubscriptionVariables = {
+  filter?: ModelSubscriptionQueueFilterInput | null,
+};
+
+export type OnDeleteQueueSubscription = {
+  onDeleteQueue?:  {
+    __typename: "Queue",
+    id: string,
+    name?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1015,7 +1465,8 @@ export type OnCreateCallerSubscription = {
   onCreateCaller?:  {
     __typename: "Caller",
     id: string,
-    phone: string,
+    name?: string | null,
+    email?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1029,7 +1480,8 @@ export type OnUpdateCallerSubscription = {
   onUpdateCaller?:  {
     __typename: "Caller",
     id: string,
-    phone: string,
+    name?: string | null,
+    email?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1043,7 +1495,8 @@ export type OnDeleteCallerSubscription = {
   onDeleteCaller?:  {
     __typename: "Caller",
     id: string,
-    phone: string,
+    name?: string | null,
+    email?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1067,6 +1520,20 @@ export type OnCreateCallSubscription = {
       key?: string | null,
       bucketId?: string | null,
     } | null,
+    agent?:  {
+      __typename: "Agent",
+      id: string,
+      username?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    queue?:  {
+      __typename: "Queue",
+      id: string,
+      name?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     metrics:  {
       __typename: "Metric",
       id: string,
@@ -1079,7 +1546,8 @@ export type OnCreateCallSubscription = {
     caller?:  {
       __typename: "Caller",
       id: string,
-      phone: string,
+      name?: string | null,
+      email?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1089,6 +1557,8 @@ export type OnCreateCallSubscription = {
       nextToken?: string | null,
     } | null,
     updatedAt: string,
+    callAgentId?: string | null,
+    callQueueId?: string | null,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,
@@ -1112,6 +1582,20 @@ export type OnUpdateCallSubscription = {
       key?: string | null,
       bucketId?: string | null,
     } | null,
+    agent?:  {
+      __typename: "Agent",
+      id: string,
+      username?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    queue?:  {
+      __typename: "Queue",
+      id: string,
+      name?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     metrics:  {
       __typename: "Metric",
       id: string,
@@ -1124,7 +1608,8 @@ export type OnUpdateCallSubscription = {
     caller?:  {
       __typename: "Caller",
       id: string,
-      phone: string,
+      name?: string | null,
+      email?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1134,6 +1619,8 @@ export type OnUpdateCallSubscription = {
       nextToken?: string | null,
     } | null,
     updatedAt: string,
+    callAgentId?: string | null,
+    callQueueId?: string | null,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,
@@ -1157,6 +1644,20 @@ export type OnDeleteCallSubscription = {
       key?: string | null,
       bucketId?: string | null,
     } | null,
+    agent?:  {
+      __typename: "Agent",
+      id: string,
+      username?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    queue?:  {
+      __typename: "Queue",
+      id: string,
+      name?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     metrics:  {
       __typename: "Metric",
       id: string,
@@ -1169,7 +1670,8 @@ export type OnDeleteCallSubscription = {
     caller?:  {
       __typename: "Caller",
       id: string,
-      phone: string,
+      name?: string | null,
+      email?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1179,6 +1681,8 @@ export type OnDeleteCallSubscription = {
       nextToken?: string | null,
     } | null,
     updatedAt: string,
+    callAgentId?: string | null,
+    callQueueId?: string | null,
     callMetricsId: string,
     callCallerId?: string | null,
   } | null,

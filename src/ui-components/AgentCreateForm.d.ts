@@ -21,31 +21,25 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type CallerCreateFormInputValues = {
-    id?: string;
-    name?: string;
-    email?: string;
+export declare type AgentCreateFormInputValues = {
+    username?: string;
 };
-export declare type CallerCreateFormValidationValues = {
-    id?: ValidationFunction<string>;
-    name?: ValidationFunction<string>;
-    email?: ValidationFunction<string>;
+export declare type AgentCreateFormValidationValues = {
+    username?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type CallerCreateFormOverridesProps = {
-    CallerCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    id?: PrimitiveOverrideProps<TextFieldProps>;
-    name?: PrimitiveOverrideProps<TextFieldProps>;
-    email?: PrimitiveOverrideProps<TextFieldProps>;
+export declare type AgentCreateFormOverridesProps = {
+    AgentCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    username?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type CallerCreateFormProps = React.PropsWithChildren<{
-    overrides?: CallerCreateFormOverridesProps | undefined | null;
+export declare type AgentCreateFormProps = React.PropsWithChildren<{
+    overrides?: AgentCreateFormOverridesProps | undefined | null;
 } & {
     clearOnSuccess?: boolean;
-    onSubmit?: (fields: CallerCreateFormInputValues) => CallerCreateFormInputValues;
-    onSuccess?: (fields: CallerCreateFormInputValues) => void;
-    onError?: (fields: CallerCreateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: CallerCreateFormInputValues) => CallerCreateFormInputValues;
-    onValidate?: CallerCreateFormValidationValues;
+    onSubmit?: (fields: AgentCreateFormInputValues) => AgentCreateFormInputValues;
+    onSuccess?: (fields: AgentCreateFormInputValues) => void;
+    onError?: (fields: AgentCreateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: AgentCreateFormInputValues) => AgentCreateFormInputValues;
+    onValidate?: AgentCreateFormValidationValues;
 } & React.CSSProperties>;
-export default function CallerCreateForm(props: CallerCreateFormProps): React.ReactElement;
+export default function AgentCreateForm(props: AgentCreateFormProps): React.ReactElement;

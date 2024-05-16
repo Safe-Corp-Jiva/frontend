@@ -6,7 +6,6 @@
 
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
-import { Caller } from "../API.ts";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -22,32 +21,25 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type CallerUpdateFormInputValues = {
-    id?: string;
+export declare type QueueCreateFormInputValues = {
     name?: string;
-    email?: string;
 };
-export declare type CallerUpdateFormValidationValues = {
-    id?: ValidationFunction<string>;
+export declare type QueueCreateFormValidationValues = {
     name?: ValidationFunction<string>;
-    email?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type CallerUpdateFormOverridesProps = {
-    CallerUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    id?: PrimitiveOverrideProps<TextFieldProps>;
+export declare type QueueCreateFormOverridesProps = {
+    QueueCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
-    email?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type CallerUpdateFormProps = React.PropsWithChildren<{
-    overrides?: CallerUpdateFormOverridesProps | undefined | null;
+export declare type QueueCreateFormProps = React.PropsWithChildren<{
+    overrides?: QueueCreateFormOverridesProps | undefined | null;
 } & {
-    id?: string;
-    caller?: Caller;
-    onSubmit?: (fields: CallerUpdateFormInputValues) => CallerUpdateFormInputValues;
-    onSuccess?: (fields: CallerUpdateFormInputValues) => void;
-    onError?: (fields: CallerUpdateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: CallerUpdateFormInputValues) => CallerUpdateFormInputValues;
-    onValidate?: CallerUpdateFormValidationValues;
+    clearOnSuccess?: boolean;
+    onSubmit?: (fields: QueueCreateFormInputValues) => QueueCreateFormInputValues;
+    onSuccess?: (fields: QueueCreateFormInputValues) => void;
+    onError?: (fields: QueueCreateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: QueueCreateFormInputValues) => QueueCreateFormInputValues;
+    onValidate?: QueueCreateFormValidationValues;
 } & React.CSSProperties>;
-export default function CallerUpdateForm(props: CallerUpdateFormProps): React.ReactElement;
+export default function QueueCreateForm(props: QueueCreateFormProps): React.ReactElement;
