@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 
 const TextBox = () => {
-  const [messages, setMessages] = useState<{ sender: string; text: string }[]>([])
+  const [messages, setMessages] = useState<{ call_id: String; sender: string; message: string }[]>([])
   const [input, setInput] = useState('')
   const ws = useRef<WebSocket | null>(null)
 
@@ -23,16 +23,18 @@ const TextBox = () => {
   }, [])
 
   useEffect(() => {
-    const message = { sender: 'supervisor', text: 'This is a supervisor message.' }
+    const message = { call_id: 'test-test', sender: 'supervisor', message: 'This is a supervisor message.' }
     setMessages([...messages, message])
   }, [])
+
+  console.log(messages)
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value)
   }
 
   const sendMessage = () => {
-    setMessages([...messages, { sender: 'user', text: input }])
+    setMessages([...messages, { call_id: 'test-test', sender: 'user', message: input }])
     let message = {
       call_id: 'test-test',
       sender: 'agent',
@@ -41,7 +43,10 @@ const TextBox = () => {
     ws.current?.send(JSON.stringify(message))
     setInput('')
     setTimeout(() => {
-      setMessages((prev) => [...prev, { sender: 'supervisor', text: 'This is a supervisor message.' }])
+      setMessages((prev) => [
+        ...prev,
+        { call_id: 'test-test', sender: 'supervisor', message: 'This is a supervisor message.' },
+      ])
     }, 1000)
   }
   return (
@@ -55,11 +60,11 @@ const TextBox = () => {
         <Image src="/icons/User.svg" alt="User" width={32} height={32} />
       </div>
       {/* Mensajes */}
-      <div className="flex flex-col flex-1 p-4 bg-gray-100 overflow-y-auto align-end h-[400px]">
+      <div className="flex flex-col flex-1 p-4 bg-gray-100 overflow-y-auto space-y-2 align-end h-[400px]">
         {messages.map((msg, index) => (
-          <div key={index} className={`flex max-h-24 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`p-2 rounded ${msg.sender === 'user' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}>
-              {msg.text}
+          <div key={index} className={`flex max-h-24 ${msg.sender === 'agent' ? 'justify-end' : 'justify-start'}`}>
+            <div className={`p-2 rounded ${msg.sender === 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}>
+              {msg.message}
             </div>
           </div>
         ))}

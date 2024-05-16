@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState<{ sender: string; text: string }[]>([])
+  const [messages, setMessages] = useState<{ call_id: string; sender: string; message: string }[]>([])
   const [input, setInput] = useState('')
   const ws = useRef<WebSocket | null>(null)
 
@@ -16,13 +16,15 @@ const ChatBot: React.FC = () => {
   // UseEffect to create websocket connection
   useEffect(() => {
     if (!isOpen) return
-    ws.current = new WebSocket('ws://localhost:3030?agentID=test&secondaryID=copilot')
-    ws.current.onopen = () => {
-      console.log('Connected to server')
-    }
-    ws.current.onmessage = (event) => {
-      const message = JSON.parse(event.data)
-      setMessages((prev) => [...prev, message])
+    if (messages.length === 0) {
+      ws.current = new WebSocket('ws://localhost:3030?agentID=test&secondaryID=copilot')
+      ws.current.onopen = () => {
+        console.log('Connected to server')
+      }
+      ws.current.onmessage = (event) => {
+        const message = JSON.parse(event.data)
+        setMessages((prev) => [...prev, message])
+      }
     }
     return () => {
       ws.current?.close()
@@ -31,7 +33,7 @@ const ChatBot: React.FC = () => {
 
   const sendMessage = () => {
     if (input.trim()) {
-      setMessages([...messages, { sender: 'user', text: input }])
+      setMessages([...messages, { call_id: 'test-copilot', sender: 'agent', message: input }])
       let message = {
         call_id: 'test-test',
         sender: 'agent',
@@ -40,7 +42,7 @@ const ChatBot: React.FC = () => {
       ws.current?.send(JSON.stringify(message))
       setInput('')
       setTimeout(() => {
-        setMessages((prev) => [...prev, { sender: 'bot', text: 'This is a bot response.' }])
+        setMessages((prev) => [...prev, { call_id: 'test-copilot', sender: 'bot', message: 'This is a bot response.' }])
       }, 1000)
     }
   }
@@ -67,9 +69,9 @@ const ChatBot: React.FC = () => {
           </div>
           <div className="flex flex-col p-4 space-y-2 h-64 overflow-y-auto">
             {messages.map((msg, index) => (
-              <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`p-2 rounded ${msg.sender === 'user' ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}>
-                  {msg.text}
+              <div key={index} className={`flex ${msg.sender === 'agent' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`p-2 rounded ${msg.sender === 'agent' ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}>
+                  {msg.message}
                 </div>
               </div>
             ))}
