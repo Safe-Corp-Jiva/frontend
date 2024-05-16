@@ -8,6 +8,102 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createAgent = /* GraphQL */ `mutation CreateAgent(
+  $input: CreateAgentInput!
+  $condition: ModelAgentConditionInput
+) {
+  createAgent(input: $input, condition: $condition) {
+    id
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateAgentMutationVariables,
+  APITypes.CreateAgentMutation
+>;
+export const updateAgent = /* GraphQL */ `mutation UpdateAgent(
+  $input: UpdateAgentInput!
+  $condition: ModelAgentConditionInput
+) {
+  updateAgent(input: $input, condition: $condition) {
+    id
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateAgentMutationVariables,
+  APITypes.UpdateAgentMutation
+>;
+export const deleteAgent = /* GraphQL */ `mutation DeleteAgent(
+  $input: DeleteAgentInput!
+  $condition: ModelAgentConditionInput
+) {
+  deleteAgent(input: $input, condition: $condition) {
+    id
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteAgentMutationVariables,
+  APITypes.DeleteAgentMutation
+>;
+export const createQueue = /* GraphQL */ `mutation CreateQueue(
+  $input: CreateQueueInput!
+  $condition: ModelQueueConditionInput
+) {
+  createQueue(input: $input, condition: $condition) {
+    id
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateQueueMutationVariables,
+  APITypes.CreateQueueMutation
+>;
+export const updateQueue = /* GraphQL */ `mutation UpdateQueue(
+  $input: UpdateQueueInput!
+  $condition: ModelQueueConditionInput
+) {
+  updateQueue(input: $input, condition: $condition) {
+    id
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateQueueMutationVariables,
+  APITypes.UpdateQueueMutation
+>;
+export const deleteQueue = /* GraphQL */ `mutation DeleteQueue(
+  $input: DeleteQueueInput!
+  $condition: ModelQueueConditionInput
+) {
+  deleteQueue(input: $input, condition: $condition) {
+    id
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteQueueMutationVariables,
+  APITypes.DeleteQueueMutation
+>;
 export const createChunk = /* GraphQL */ `mutation CreateChunk(
   $input: CreateChunkInput!
   $condition: ModelChunkConditionInput
@@ -80,7 +176,8 @@ export const createCaller = /* GraphQL */ `mutation CreateCaller(
 ) {
   createCaller(input: $input, condition: $condition) {
     id
-    phone
+    name
+    email
     createdAt
     updatedAt
     __typename
@@ -96,7 +193,8 @@ export const updateCaller = /* GraphQL */ `mutation UpdateCaller(
 ) {
   updateCaller(input: $input, condition: $condition) {
     id
-    phone
+    name
+    email
     createdAt
     updatedAt
     __typename
@@ -112,7 +210,8 @@ export const deleteCaller = /* GraphQL */ `mutation DeleteCaller(
 ) {
   deleteCaller(input: $input, condition: $condition) {
     id
-    phone
+    name
+    email
     createdAt
     updatedAt
     __typename
@@ -138,6 +237,20 @@ export const createCall = /* GraphQL */ `mutation CreateCall(
       bucketId
       __typename
     }
+    agent {
+      id
+      username
+      createdAt
+      updatedAt
+      __typename
+    }
+    queue {
+      id
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
     metrics {
       id
       length
@@ -149,7 +262,8 @@ export const createCall = /* GraphQL */ `mutation CreateCall(
     createdAt
     caller {
       id
-      phone
+      name
+      email
       createdAt
       updatedAt
       __typename
@@ -160,6 +274,8 @@ export const createCall = /* GraphQL */ `mutation CreateCall(
       __typename
     }
     updatedAt
+    callAgentId
+    callQueueId
     callMetricsId
     callCallerId
     __typename
@@ -185,6 +301,20 @@ export const updateCall = /* GraphQL */ `mutation UpdateCall(
       bucketId
       __typename
     }
+    agent {
+      id
+      username
+      createdAt
+      updatedAt
+      __typename
+    }
+    queue {
+      id
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
     metrics {
       id
       length
@@ -196,7 +326,8 @@ export const updateCall = /* GraphQL */ `mutation UpdateCall(
     createdAt
     caller {
       id
-      phone
+      name
+      email
       createdAt
       updatedAt
       __typename
@@ -207,6 +338,8 @@ export const updateCall = /* GraphQL */ `mutation UpdateCall(
       __typename
     }
     updatedAt
+    callAgentId
+    callQueueId
     callMetricsId
     callCallerId
     __typename
@@ -232,6 +365,20 @@ export const deleteCall = /* GraphQL */ `mutation DeleteCall(
       bucketId
       __typename
     }
+    agent {
+      id
+      username
+      createdAt
+      updatedAt
+      __typename
+    }
+    queue {
+      id
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
     metrics {
       id
       length
@@ -243,7 +390,8 @@ export const deleteCall = /* GraphQL */ `mutation DeleteCall(
     createdAt
     caller {
       id
-      phone
+      name
+      email
       createdAt
       updatedAt
       __typename
@@ -254,6 +402,8 @@ export const deleteCall = /* GraphQL */ `mutation DeleteCall(
       __typename
     }
     updatedAt
+    callAgentId
+    callQueueId
     callMetricsId
     callCallerId
     __typename

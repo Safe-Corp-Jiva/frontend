@@ -20,6 +20,16 @@ enum CallStatus {
   FINALIZED
 }
 
+type Agent @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  username: String
+}
+
+type Queue @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+}
+
 type Chunk @model @auth(rules: [{allow: public}]) {
   id: ID!
   sentiment: Sentiment
@@ -28,8 +38,9 @@ type Chunk @model @auth(rules: [{allow: public}]) {
 }
 
 type Caller @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  phone: AWSPhone!
+  id: AWSPhone!
+  name: String
+  email: String 
 }
 
 type S3Object {
@@ -41,6 +52,8 @@ type Call @model @auth(rules: [{allow: public}]) {
   id: ID!
   transcript: S3Object
   audio: S3Object
+  agent: Agent @hasOne
+  queue: Queue @hasOne
   metrics: Metric! @hasOne
   createdAt: AWSDateTime!
   caller: Caller @hasOne

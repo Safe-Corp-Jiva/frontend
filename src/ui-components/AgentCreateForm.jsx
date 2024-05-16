@@ -9,13 +9,11 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getCaller } from "../graphql/queries";
-import { updateCaller } from "../graphql/mutations";
+import { createAgent } from "../graphql/mutations";
 const client = generateClient();
-export default function CallerUpdateForm(props) {
+export default function AgentCreateForm(props) {
   const {
-    id: idProp,
-    caller: callerModelProp,
+    clearOnSuccess = true,
     onSuccess,
     onError,
     onSubmit,
@@ -25,43 +23,16 @@ export default function CallerUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    id: "",
-    name: "",
-    email: "",
+    username: "",
   };
-  const [id, setId] = React.useState(initialValues.id);
-  const [name, setName] = React.useState(initialValues.name);
-  const [email, setEmail] = React.useState(initialValues.email);
+  const [username, setUsername] = React.useState(initialValues.username);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = callerRecord
-      ? { ...initialValues, ...callerRecord }
-      : initialValues;
-    setId(cleanValues.id);
-    setName(cleanValues.name);
-    setEmail(cleanValues.email);
+    setUsername(initialValues.username);
     setErrors({});
   };
-  const [callerRecord, setCallerRecord] = React.useState(callerModelProp);
-  React.useEffect(() => {
-    const queryData = async () => {
-      const record = idProp
-        ? (
-            await client.graphql({
-              query: getCaller.replaceAll("__typename", ""),
-              variables: { id: idProp },
-            })
-          )?.data?.getCaller
-        : callerModelProp;
-      setCallerRecord(record);
-    };
-    queryData();
-  }, [idProp, callerModelProp]);
-  React.useEffect(resetStateValues, [callerRecord]);
   const validations = {
-    id: [{ type: "Required" }, { type: "Phone" }],
-    name: [],
-    email: [],
+    username: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -89,9 +60,7 @@ export default function CallerUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          id,
-          name: name ?? null,
-          email: email ?? null,
+          username,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -122,16 +91,18 @@ export default function CallerUpdateForm(props) {
             }
           });
           await client.graphql({
-            query: updateCaller.replaceAll("__typename", ""),
+            query: createAgent.replaceAll("__typename", ""),
             variables: {
               input: {
-                id: callerRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
+          }
+          if (clearOnSuccess) {
+            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -140,101 +111,45 @@ export default function CallerUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "CallerUpdateForm")}
+      {...getOverrideProps(overrides, "AgentCreateForm")}
       {...rest}
     >
       <TextField
-        label="Id"
-        isRequired={true}
-        isReadOnly={true}
-        type="tel"
-        value={id}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              id: value,
-              name,
-              email,
-            };
-            const result = onChange(modelFields);
-            value = result?.id ?? value;
-          }
-          if (errors.id?.hasError) {
-            runValidationTasks("id", value);
-          }
-          setId(value);
-        }}
-        onBlur={() => runValidationTasks("id", id)}
-        errorMessage={errors.id?.errorMessage}
-        hasError={errors.id?.hasError}
-        {...getOverrideProps(overrides, "id")}
-      ></TextField>
-      <TextField
-        label="Name"
+        label="Username"
         isRequired={false}
         isReadOnly={false}
-        value={name}
+        value={username}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              id,
-              name: value,
-              email,
+              username: value,
             };
             const result = onChange(modelFields);
-            value = result?.name ?? value;
+            value = result?.username ?? value;
           }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
+          if (errors.username?.hasError) {
+            runValidationTasks("username", value);
           }
-          setName(value);
+          setUsername(value);
         }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
-      ></TextField>
-      <TextField
-        label="Email"
-        isRequired={false}
-        isReadOnly={false}
-        value={email}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              id,
-              name,
-              email: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.email ?? value;
-          }
-          if (errors.email?.hasError) {
-            runValidationTasks("email", value);
-          }
-          setEmail(value);
-        }}
-        onBlur={() => runValidationTasks("email", email)}
-        errorMessage={errors.email?.errorMessage}
-        hasError={errors.email?.hasError}
-        {...getOverrideProps(overrides, "email")}
+        onBlur={() => runValidationTasks("username", username)}
+        errorMessage={errors.username?.errorMessage}
+        hasError={errors.username?.hasError}
+        {...getOverrideProps(overrides, "username")}
       ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Reset"
+          children="Clear"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || callerModelProp)}
-          {...getOverrideProps(overrides, "ResetButton")}
+          {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -244,10 +159,7 @@ export default function CallerUpdateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={
-              !(idProp || callerModelProp) ||
-              Object.values(errors).some((e) => e?.hasError)
-            }
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>
