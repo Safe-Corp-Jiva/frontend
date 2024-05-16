@@ -4,7 +4,9 @@ import React from 'react'
 import { CircleUserRound, PhoneOff, MicOff, TriangleAlert } from 'lucide-react'
 import RealTimeTranscript from '@/components/transcpt/realtime'
 
-function MockCall() {
+
+export default function Page({ params }: { params: { slug: string } }) {
+
   return (
     <div className="w-full h-full flex p-5 justify-evenly">
       <div className="w-4/12 bg-white rounded-lg flex flex-col justify-evenly items-center">
@@ -30,11 +32,11 @@ function MockCall() {
       <div className="w-6/12 bg-white rounded-lg flex-col justify-center items-center">
         <div className="w-full p-6 text-2xl font-bold border-b-2">Live Transcript:</div>
         <div>
-          <RealTimeTranscript callId="140d00fd-4b68-48e6-b315-bd8f770230a7" />
+          <RealTimeTranscript callId={params.slug} />
         </div>
       </div>
     </div>
   )
 }
 
-export default MockCall
+//localhost:3000/mockcall/140d00fd-4b68-48e6-b315-bd8f770230a7
