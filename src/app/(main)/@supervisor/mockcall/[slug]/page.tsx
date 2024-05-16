@@ -31,7 +31,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       </div>
       <div className="w-6/12 bg-white rounded-lg flex-col justify-center items-center">
         <div className="w-full p-6 text-2xl font-bold border-b-2">Live Transcript:</div>
-        <div>
+        <div className="overflow-hidden overflow-y-scroll max-h-[75vh]">
           <RealTimeTranscript callId={params.slug} />
         </div>
       </div>

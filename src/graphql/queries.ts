@@ -126,6 +126,11 @@ export const chunksByCallId = /* GraphQL */ `query ChunksByCallId(
       id
       sentiment
       callId
+      content {
+        role
+        text
+        __typename
+      }
       createdAt
       updatedAt
       __typename
