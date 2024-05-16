@@ -2,6 +2,8 @@
 import React from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { Headset } from 'lucide-react'
+import { UsersRound } from 'lucide-react'
 
 const NavBar = () => {
   const router = useRouter()
@@ -17,6 +19,12 @@ const NavBar = () => {
   }
   const handleDocuments = () => {
     router.push('/documents')
+  }
+  const handleMockCall = () => {
+    router.push('/mockcall')
+  }
+  const handleDndAgents= () => {
+    router.push('/mockdndagents')
   }
 
   return (
@@ -36,6 +44,12 @@ const NavBar = () => {
         </button>
         <button onClick={handleProfile} className="flex items-center justify-center">
           <Image src="icons/User.svg" alt="user" width={32} height={32} />
+        </button>
+        <button onClick={handleMockCall} className="flex items-center justify-center">
+          <Headset size={28} color="#434D75" />
+        </button>
+        <button onClick={handleDndAgents} className="flex items-center justify-center">
+          <UsersRound size={28} color="#434D75" />
         </button>
       </div>
       <button onClick={handleDocuments} className="flex items-center justify-center">
