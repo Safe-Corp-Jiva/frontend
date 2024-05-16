@@ -27,6 +27,84 @@ export const onChunkByCallId = /* GraphQL */ `subscription OnChunkByCallId($call
   APITypes.OnChunkByCallIdSubscriptionVariables,
   APITypes.OnChunkByCallIdSubscription
 >;
+export const onCreateAgent = /* GraphQL */ `subscription OnCreateAgent($filter: ModelSubscriptionAgentFilterInput) {
+  onCreateAgent(filter: $filter) {
+    id
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateAgentSubscriptionVariables,
+  APITypes.OnCreateAgentSubscription
+>;
+export const onUpdateAgent = /* GraphQL */ `subscription OnUpdateAgent($filter: ModelSubscriptionAgentFilterInput) {
+  onUpdateAgent(filter: $filter) {
+    id
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateAgentSubscriptionVariables,
+  APITypes.OnUpdateAgentSubscription
+>;
+export const onDeleteAgent = /* GraphQL */ `subscription OnDeleteAgent($filter: ModelSubscriptionAgentFilterInput) {
+  onDeleteAgent(filter: $filter) {
+    id
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteAgentSubscriptionVariables,
+  APITypes.OnDeleteAgentSubscription
+>;
+export const onCreateQueue = /* GraphQL */ `subscription OnCreateQueue($filter: ModelSubscriptionQueueFilterInput) {
+  onCreateQueue(filter: $filter) {
+    id
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateQueueSubscriptionVariables,
+  APITypes.OnCreateQueueSubscription
+>;
+export const onUpdateQueue = /* GraphQL */ `subscription OnUpdateQueue($filter: ModelSubscriptionQueueFilterInput) {
+  onUpdateQueue(filter: $filter) {
+    id
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateQueueSubscriptionVariables,
+  APITypes.OnUpdateQueueSubscription
+>;
+export const onDeleteQueue = /* GraphQL */ `subscription OnDeleteQueue($filter: ModelSubscriptionQueueFilterInput) {
+  onDeleteQueue(filter: $filter) {
+    id
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteQueueSubscriptionVariables,
+  APITypes.OnDeleteQueueSubscription
+>;
 export const onCreateChunk = /* GraphQL */ `subscription OnCreateChunk($filter: ModelSubscriptionChunkFilterInput) {
   onCreateChunk(filter: $filter) {
     id
@@ -87,7 +165,8 @@ export const onDeleteChunk = /* GraphQL */ `subscription OnDeleteChunk($filter: 
 export const onCreateCaller = /* GraphQL */ `subscription OnCreateCaller($filter: ModelSubscriptionCallerFilterInput) {
   onCreateCaller(filter: $filter) {
     id
-    phone
+    name
+    email
     createdAt
     updatedAt
     __typename
@@ -100,7 +179,8 @@ export const onCreateCaller = /* GraphQL */ `subscription OnCreateCaller($filter
 export const onUpdateCaller = /* GraphQL */ `subscription OnUpdateCaller($filter: ModelSubscriptionCallerFilterInput) {
   onUpdateCaller(filter: $filter) {
     id
-    phone
+    name
+    email
     createdAt
     updatedAt
     __typename
@@ -113,7 +193,8 @@ export const onUpdateCaller = /* GraphQL */ `subscription OnUpdateCaller($filter
 export const onDeleteCaller = /* GraphQL */ `subscription OnDeleteCaller($filter: ModelSubscriptionCallerFilterInput) {
   onDeleteCaller(filter: $filter) {
     id
-    phone
+    name
+    email
     createdAt
     updatedAt
     __typename
@@ -136,6 +217,20 @@ export const onCreateCall = /* GraphQL */ `subscription OnCreateCall($filter: Mo
       bucketId
       __typename
     }
+    agent {
+      id
+      username
+      createdAt
+      updatedAt
+      __typename
+    }
+    queue {
+      id
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
     metrics {
       id
       length
@@ -147,7 +242,8 @@ export const onCreateCall = /* GraphQL */ `subscription OnCreateCall($filter: Mo
     createdAt
     caller {
       id
-      phone
+      name
+      email
       createdAt
       updatedAt
       __typename
@@ -158,6 +254,8 @@ export const onCreateCall = /* GraphQL */ `subscription OnCreateCall($filter: Mo
       __typename
     }
     updatedAt
+    callAgentId
+    callQueueId
     callMetricsId
     callCallerId
     __typename
@@ -180,6 +278,20 @@ export const onUpdateCall = /* GraphQL */ `subscription OnUpdateCall($filter: Mo
       bucketId
       __typename
     }
+    agent {
+      id
+      username
+      createdAt
+      updatedAt
+      __typename
+    }
+    queue {
+      id
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
     metrics {
       id
       length
@@ -191,7 +303,8 @@ export const onUpdateCall = /* GraphQL */ `subscription OnUpdateCall($filter: Mo
     createdAt
     caller {
       id
-      phone
+      name
+      email
       createdAt
       updatedAt
       __typename
@@ -202,6 +315,8 @@ export const onUpdateCall = /* GraphQL */ `subscription OnUpdateCall($filter: Mo
       __typename
     }
     updatedAt
+    callAgentId
+    callQueueId
     callMetricsId
     callCallerId
     __typename
@@ -224,6 +339,20 @@ export const onDeleteCall = /* GraphQL */ `subscription OnDeleteCall($filter: Mo
       bucketId
       __typename
     }
+    agent {
+      id
+      username
+      createdAt
+      updatedAt
+      __typename
+    }
+    queue {
+      id
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
     metrics {
       id
       length
@@ -235,7 +364,8 @@ export const onDeleteCall = /* GraphQL */ `subscription OnDeleteCall($filter: Mo
     createdAt
     caller {
       id
-      phone
+      name
+      email
       createdAt
       updatedAt
       __typename
@@ -246,6 +376,8 @@ export const onDeleteCall = /* GraphQL */ `subscription OnDeleteCall($filter: Mo
       __typename
     }
     updatedAt
+    callAgentId
+    callQueueId
     callMetricsId
     callCallerId
     __typename
