@@ -22,15 +22,21 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type CallerCreateFormInputValues = {
-    phone?: string;
+    id?: string;
+    name?: string;
+    email?: string;
 };
 export declare type CallerCreateFormValidationValues = {
-    phone?: ValidationFunction<string>;
+    id?: ValidationFunction<string>;
+    name?: ValidationFunction<string>;
+    email?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type CallerCreateFormOverridesProps = {
     CallerCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    phone?: PrimitiveOverrideProps<TextFieldProps>;
+    id?: PrimitiveOverrideProps<TextFieldProps>;
+    name?: PrimitiveOverrideProps<TextFieldProps>;
+    email?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type CallerCreateFormProps = React.PropsWithChildren<{
     overrides?: CallerCreateFormOverridesProps | undefined | null;

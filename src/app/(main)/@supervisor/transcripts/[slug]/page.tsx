@@ -1,6 +1,7 @@
 import React from 'react'
 import { dataSearch, SlugPage } from '@components/transcpt'
 
+
 export default function Page({ params }: { params: { slug: string } }) {
   const transcript = dataSearch.find((transcript) => transcript.id === parseInt(params.slug))
 
@@ -10,3 +11,6 @@ export default function Page({ params }: { params: { slug: string } }) {
     </div>
   )
 }
+
+
+//localhost:3000/mockcall/140d00fd-4b68-48e6-b315-bd8f770230a7

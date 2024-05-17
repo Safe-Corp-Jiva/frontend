@@ -1,18 +1,46 @@
+enum Sentiment {
+  NEGATIVE
+  NEUTRAL
+  POSITIVE
+  UNDEFINED
+}
+
+type ChunkContent {
+  role: TranscriptRole
+  text: String
+}
+
+enum TranscriptRole {
+  AGENT
+  CUSTOMER
+}
+
 enum CallStatus {
   STARTED
   FINALIZED
 }
 
+type Agent @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  username: String
+}
+
+type Queue @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+}
+
 type Chunk @model @auth(rules: [{allow: public}]) {
   id: ID!
-  sentiment: Float
-  text: String
+  sentiment: Sentiment
+  content: ChunkContent
   callId: ID! @index(name: "byCall")
 }
 
 type Caller @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  phone: AWSPhone!
+  id: AWSPhone!
+  name: String
+  email: String 
 }
 
 type S3Object {
@@ -24,6 +52,8 @@ type Call @model @auth(rules: [{allow: public}]) {
   id: ID!
   transcript: S3Object
   audio: S3Object
+  agent: Agent @hasOne
+  queue: Queue @hasOne
   metrics: Metric! @hasOne
   createdAt: AWSDateTime!
   caller: Caller @hasOne
@@ -36,4 +66,8 @@ type Metric @model @auth(rules: [{allow: public}]) {
   length: Float
   waittime: Float
 }
- 
+
+type Subscription {
+  onChunkByCallId(callId: ID!): Chunk
+    @aws_subscribe(mutations: ["createChunk"])
+}
