@@ -4,11 +4,7 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import { Column, initialData } from '@/components/mockdndagents'
 import { InitialData } from '@/components/mockdndagents/types'
 
-interface AppProps {
-  initialData: InitialData
-}
-
-const Page: React.FC<AppProps> = () => {
+export default function Page() {
   const [state, setState] = useState<InitialData>(initialData)
 
   const onDragEnd = (result: DropResult) => {
@@ -90,5 +86,3 @@ const Page: React.FC<AppProps> = () => {
     </DragDropContext>
   )
 }
-
-export default Page
