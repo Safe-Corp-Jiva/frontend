@@ -1,17 +1,16 @@
 'use client'
-import Image from 'next/image'
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 interface Props {
-  onExpand: (section: string) => void
+  maximize: () => void
+  minimize: () => void
+  isMaximized: boolean
 }
 
-export default function TrendingCard({ onExpand }: Props) {
+export default function TrendingCard({ maximize, minimize, isMaximized }: Props) {
   const router = useRouter()
 
-  const handleExpand = () => {
-    onExpand('TrendingCard')
-  }
   const trendingTopics = [
     {
       topic: "Lost Flight",
@@ -44,9 +43,15 @@ export default function TrendingCard({ onExpand }: Props) {
     <div className = "w-full h-full bg-white rounded-xl flex flex-col p-4">
       <div className = "flex justify-between mb-4">
         <h1 className="text-gray-400 text-xl md:text-2xl">Most Requested Topics</h1>
-        <button onClick={handleExpand}>
-          <Image src = "/icons/expand.svg" alt="home" width={16} height={16}/>
-        </button>
+        {isMaximized ? (
+          <button onClick={minimize}>
+            <Image src="/icons/expand.svg" alt="home" width={16} height={16} />
+          </button>
+        ) : (
+          <button onClick={maximize}>
+            <Image src="/icons/expand.svg" alt="home" width={16} height={16} />
+          </button>
+        )}
       </div>
       <div className = "h-full overflow-y-auto">
         {trendingTopics.map((topic, index) => (
