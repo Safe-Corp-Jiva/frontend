@@ -3,3 +3,7 @@
   gap: 20px; /* Increase the gap between child elements */
 }
 
+
+.maximized > h1 {
+  font-size: 1.563rem;
+}

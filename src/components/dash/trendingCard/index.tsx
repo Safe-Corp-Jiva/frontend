@@ -1,6 +1,17 @@
+'use client'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation';
 
-export default function TrendingCard() {
+interface Props {
+  onExpand: (section: string) => void
+}
+
+export default function TrendingCard({ onExpand }: Props) {
+  const router = useRouter()
+
+  const handleExpand = () => {
+    onExpand('TrendingCard')
+  }
   const trendingTopics = [
     {
       topic: "Lost Flight",
@@ -32,8 +43,10 @@ export default function TrendingCard() {
   return (
     <div className = "w-full h-full bg-white rounded-xl flex flex-col p-4">
       <div className = "flex justify-between mb-4">
-        <h1 className="text-gray-400 text-xl">Most Requested Topics</h1>
-        <Image src = "icons/expand.svg" alt="home" width={16} height={16}/>
+        <h1 className="text-gray-400 text-xl md:text-2xl">Most Requested Topics</h1>
+        <button onClick={handleExpand}>
+          <Image src = "/icons/expand.svg" alt="home" width={16} height={16}/>
+        </button>
       </div>
       <div className = "h-full overflow-y-auto">
         {trendingTopics.map((topic, index) => (
@@ -41,7 +54,7 @@ export default function TrendingCard() {
             <h1 className = "flex-none text-gray-400">{index + 1}.-</h1>
             <h1 className = "flex-1">{topic.topic}</h1>
             <h1 className = "text-right text-gray-400">{topic.quantity}</h1>
-            <Image src = "icons/barChart.svg" alt="home" width={24} height={24} />
+            <Image src = "/icons/barChart.svg" alt="home" width={24} height={24} />
           </div>
         ))}
       </div>

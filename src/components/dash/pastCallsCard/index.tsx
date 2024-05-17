@@ -1,4 +1,21 @@
-export default function PastCallsCard() {
+'use client'
+import React, { useState } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation';
+
+interface Props {
+  onExpand: (section: string) => void
+  isMaximized?: boolean;
+}
+
+export default function PastCallsCard({ onExpand, isMaximized }: Props) {
+  const router = useRouter()
+  
+
+  const handleExpand = () => {
+    onExpand('pastCallsCards')
+    
+  }
   const pastCalls = [
     {
       id: '001',
@@ -40,16 +57,21 @@ export default function PastCallsCard() {
   }
 
   return (
-    <div className="w-full h-full bg-white rounded-xl flex flex-col p-4">
-      <h1 className="text-gray-400 mb-4 text-xl">Past Calls</h1>
-      <div className="flex flex-row justify-between items-center font-style text-gray-400">
+    <div className="w-full h-full bg-white rounded-xl flex flex-col p-4" >
+      <div className = "flex justify-between mb-4">
+        <h1 className="text-gray-400 text-xl" style={{ fontSize: isMaximized ? '1.5rem' : '1rem' }}>Past Calls</h1>
+        <button onClick={handleExpand}>
+          <Image src = "/icons/expand.svg" alt="home" width={16} height={16}/>
+        </button>
+      </div>
+      <div className="flex flex-row justify-between items-center font-style text-gray-400" style={{ fontSize: isMaximized ? '1.2rem' : '1rem' }} >
         <h1 className="flex-1">Id</h1>
         <h1 className="flex-1">Time</h1>
         <h1 className="flex-1">Agent</h1>
         <h1 className="flex-1">Result</h1>
       </div>
       {pastCalls.map((pastCall, index) => (
-        <div className="flex flex-row justify-between items-center h-full" key={index}>
+        <div className="flex flex-row justify-between items-center h-full" key={index} style={{ fontSize: isMaximized ? '1.2rem' : '1rem' }} >
           <h1 className="flex-1">{pastCall.id}</h1>
           <h1 className="flex-1 font-bold">{pastCall.time}</h1>
           <h1 className="flex-1">{pastCall.agent}</h1>

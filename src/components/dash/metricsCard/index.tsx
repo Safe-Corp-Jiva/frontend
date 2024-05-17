@@ -1,9 +1,11 @@
 'use client'
-
-import React from 'react';
+import Image from 'next/image'
+import React, { useState } from 'react'
 import Circle from 'rc-progress/es/Circle';
 import Line from 'rc-progress/es/Line';
+import { useRouter } from 'next/navigation';
 import './style.css';
+
 
 const ProgressBar = ({ percent, title, _strokeColor, _trailColor }: {percent: number, title: string, _strokeColor: string, _trailColor: string  }) => {
   return (
@@ -30,12 +32,31 @@ const ChangeLine = ({ percent, title, _strokeColor, _trailColor  }: {percent: nu
     </div>
   );
 };
+interface Props {
+  onExpand: (section: string) => void
+  isMaximized: boolean;
+}
 
-export default function MetricsCard() {
+
+
+export default function MetricsCard({ onExpand }: Props) {
+  const router = useRouter()
+  const [isMaximized, setIsMaximized] = useState(false);
+
+  const handleExpand = () => {
+    onExpand('metricsCard')
+    setIsMaximized(true);
+  }
+
   return (
     
-    <div className='w-full h-full bg-white rounded-xl flex flex-col justify-start items-start p-5'>
-      <h1 className='text-gray-400 text-xl mb-4'>Data</h1>
+    <div className={`w-full h-full bg-white rounded-xl flex flex-col p-4 ${isMaximized ? 'maximized' : ''}`}>
+      <div className = "flex justify-between mb-4">
+        <h1 className={`text-gray-400 text-xl ${isMaximized ? 'maximized h1' : ''}`} style={{ fontSize: isMaximized ? '1.563rem' : '' }}>Data</h1>
+        <button onClick={handleExpand}>
+          <Image src = "/icons/expand.svg" alt="home" width={16} height={16}/>
+        </button>
+      </div>
       <div className="bg-white rounded-xl p-5 max-w-full bg max-h-full size-full">
         <div className="flex justify-center" style={{ gap: '80px' }}> 
           <ProgressBar percent={68} title="Satisfied Calls" _strokeColor= "#34B53A" _trailColor= "#E2FBD7" />
