@@ -1,10 +1,10 @@
 import React from 'react'
 
 const CheckUserRole = () => {
-    return 'supervisor'
+  return 'agent'
 }
 export default function Layout({ agent, supervisor }: { agent: React.ReactNode; supervisor: React.ReactNode }) {
-    const role = CheckUserRole()
+  const role = CheckUserRole()
 
-    return <div className="h-screen w-screen bg-SCJ-gray">{role === 'supervisor' ? supervisor : agent}</div>
+  return <div className="h-screen w-screen bg-SCJ-gray">{role === 'supervisor' ? supervisor : agent}</div>
 }
