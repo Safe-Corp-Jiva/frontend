@@ -25,15 +25,21 @@ export default function CallerUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    phone: "",
+    id: "",
+    name: "",
+    email: "",
   };
-  const [phone, setPhone] = React.useState(initialValues.phone);
+  const [id, setId] = React.useState(initialValues.id);
+  const [name, setName] = React.useState(initialValues.name);
+  const [email, setEmail] = React.useState(initialValues.email);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = callerRecord
       ? { ...initialValues, ...callerRecord }
       : initialValues;
-    setPhone(cleanValues.phone);
+    setId(cleanValues.id);
+    setName(cleanValues.name);
+    setEmail(cleanValues.email);
     setErrors({});
   };
   const [callerRecord, setCallerRecord] = React.useState(callerModelProp);
@@ -53,7 +59,9 @@ export default function CallerUpdateForm(props) {
   }, [idProp, callerModelProp]);
   React.useEffect(resetStateValues, [callerRecord]);
   const validations = {
-    phone: [{ type: "Required" }, { type: "Phone" }],
+    id: [{ type: "Required" }, { type: "Phone" }],
+    name: [],
+    email: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -81,7 +89,9 @@ export default function CallerUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          phone,
+          id,
+          name: name ?? null,
+          email: email ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -134,29 +144,83 @@ export default function CallerUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Phone"
+        label="Id"
         isRequired={true}
-        isReadOnly={false}
+        isReadOnly={true}
         type="tel"
-        value={phone}
+        value={id}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              phone: value,
+              id: value,
+              name,
+              email,
             };
             const result = onChange(modelFields);
-            value = result?.phone ?? value;
+            value = result?.id ?? value;
           }
-          if (errors.phone?.hasError) {
-            runValidationTasks("phone", value);
+          if (errors.id?.hasError) {
+            runValidationTasks("id", value);
           }
-          setPhone(value);
+          setId(value);
         }}
-        onBlur={() => runValidationTasks("phone", phone)}
-        errorMessage={errors.phone?.errorMessage}
-        hasError={errors.phone?.hasError}
-        {...getOverrideProps(overrides, "phone")}
+        onBlur={() => runValidationTasks("id", id)}
+        errorMessage={errors.id?.errorMessage}
+        hasError={errors.id?.hasError}
+        {...getOverrideProps(overrides, "id")}
+      ></TextField>
+      <TextField
+        label="Name"
+        isRequired={false}
+        isReadOnly={false}
+        value={name}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              id,
+              name: value,
+              email,
+            };
+            const result = onChange(modelFields);
+            value = result?.name ?? value;
+          }
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
+          }
+          setName(value);
+        }}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
+      ></TextField>
+      <TextField
+        label="Email"
+        isRequired={false}
+        isReadOnly={false}
+        value={email}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              id,
+              name,
+              email: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.email ?? value;
+          }
+          if (errors.email?.hasError) {
+            runValidationTasks("email", value);
+          }
+          setEmail(value);
+        }}
+        onBlur={() => runValidationTasks("email", email)}
+        errorMessage={errors.email?.errorMessage}
+        hasError={errors.email?.hasError}
+        {...getOverrideProps(overrides, "email")}
       ></TextField>
       <Flex
         justifyContent="space-between"
