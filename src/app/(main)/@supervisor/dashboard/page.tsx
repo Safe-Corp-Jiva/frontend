@@ -16,7 +16,10 @@ export default function Dashboard() {
 
   return (
     <div className="h-full w-full grid grid-cols-2 grid-rows-2 gap-5 p-5">
-      <PastCallsCard onExpand={() => handleExpand('PastCallsCard')} />
+      <PastCallsCard 
+        maximize={() => handleExpand('PastCallsCard')}
+        minimize={() => handleMinimize()}
+        isMaximized={false} />
       <OnGoingCallsCard
         maximize={() => handleExpand('OnGoingCallsCard')}
         minimize={() => handleMinimize()}
@@ -27,7 +30,10 @@ export default function Dashboard() {
         minimize={() => handleMinimize()}
         isMaximized={false}
       />
-      <MetricsCard onExpand={() => handleExpand('MetricsCard')} isMaximized={false} />
+      <MetricsCard 
+        maximize={() => handleExpand('MetricsCard')}
+        minimize={() => handleMinimize()}
+        isMaximized={false} />
     </div>
   )
 }

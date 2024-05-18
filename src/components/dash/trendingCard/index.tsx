@@ -34,43 +34,43 @@ export default function TrendingCard({ maximize, minimize, isMaximized }: Props)
     },
     {
       topic: 'Change Flight',
+      quantity: '9003',
+    },
+    {
+      topic: 'Frequent Flyer Programs',
       quantity: '12',
     },
     {
-      topic: 'Change Flight',
-      quantity: '12',
+      topic: 'Flight Delays',
+      quantity: '773492',
     },
     {
-      topic: 'Change Flight',
-      quantity: '12',
+      topic: 'Travel Insurance',
+      quantity: '109',
     },
     {
-      topic: 'Change Flight',
-      quantity: '12',
+      topic: 'Group Bookings',
+      quantity: '23',
     },
     {
-      topic: 'Change Flight',
-      quantity: '12',
+      topic: 'Travel Documentation',
+      quantity: '452',
     },
     {
-      topic: 'Change Flight',
-      quantity: '12',
+      topic: 'In-flight Services',
+      quantity: '307',
     },
     {
-      topic: 'Change Flight',
-      quantity: '12',
+      topic: 'Seat Selection',
+      quantity: '620',
     },
     {
-      topic: 'Change Flight',
-      quantity: '12',
+      topic: 'Baggage Allowance',
+      quantity: '84',
     },
     {
-      topic: 'Change Flight',
-      quantity: '12',
-    },
-    {
-      topic: 'Change Flight',
-      quantity: '12',
+      topic: 'Connecting Flights',
+      quantity: '62941',
     },
   ]
   trendingTopics.sort((a, b) => parseInt(b.quantity) - parseInt(a.quantity))
@@ -81,7 +81,7 @@ export default function TrendingCard({ maximize, minimize, isMaximized }: Props)
         <h1 className={`text-gray-400 ${isMaximized ? 'text-2xl' : 'text-xl'}`}>Most Requested Topics</h1>
         {isMaximized ? (
           <button onClick={minimize}>
-            <Image src="/icons/expand.svg" alt="home" width={16} height={16} />
+            <Image src="/icons/close.svg" alt="home" width={32} height={32} />
           </button>
         ) : (
           <button onClick={maximize}>
@@ -98,7 +98,7 @@ export default function TrendingCard({ maximize, minimize, isMaximized }: Props)
             key={index}
           >
             <h1 className="flex-none text-gray-400">{index + 1}.-</h1>
-            <h1 className="flex-1">{topic.topic}</h1>
+            <h1 className="flex-1 font-semibold">{topic.topic}</h1>
             <h1 className="text-right text-gray-400">{topic.quantity}</h1>
             <Image src="/icons/barChart.svg" alt="home" width={24} height={24} />
           </div>

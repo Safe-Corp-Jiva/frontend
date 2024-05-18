@@ -14,8 +14,6 @@ export default function DashboardMax({ isMaximized }: Props) {
   const pathname = usePathname()
   const slug = pathname?.split('/').pop()
 
-  const [selectedButton, setSelectedButton] = useState<string | null>(null)
-
   const handleExpand = (cardName: string): void => {
     router.push(`/dashboard/${cardName}`)
   }
@@ -27,15 +25,13 @@ export default function DashboardMax({ isMaximized }: Props) {
   const renderCard = (cardName: string) => {
     switch (cardName) {
       case 'PastCallsCard':
-        return <PastCallsCard onExpand={handleExpand} isMaximized={true} />
+        return <PastCallsCard maximize={() => handleExpand('PastCallsCard')} minimize={handleMinimize} isMaximized={true} />
       case 'OnGoingCallsCard':
         return <OnGoingCallsCard maximize={() => handleExpand('OnGoingCallsCard')} minimize={handleMinimize} isMaximized={true} />
       case 'TrendingCard':
-        return (
-          <TrendingCard maximize={() => handleExpand('TrendingCard')} minimize={handleMinimize} isMaximized={true} />
-        )
+        return <TrendingCard maximize={() => handleExpand('TrendingCard')} minimize={handleMinimize} isMaximized={true} />
       case 'MetricsCard':
-        return <MetricsCard onExpand={handleExpand} isMaximized={isMaximized} />
+        return <MetricsCard maximize={() => handleExpand('MetricsCard')} minimize={handleMinimize} isMaximized={true}  />
       default:
         return null
     }
@@ -51,10 +47,15 @@ export default function DashboardMax({ isMaximized }: Props) {
             }`}
             onClick={() => handleExpand('OnGoingCallsCard')}
           >
-            <Image src="/icons/OngoingCall.svg" alt="oc" width={64} height={64} />
+            <Image src="/icons/OngoingCall.svg" alt="ongoing calls" width={64} height={64} />
           </button>
-          <button className="flex items-center justify-center p-2" onClick={() => handleExpand('PastCallsCard')}>
-            <Image src="/icons/PastCalls.svg" alt="pc" width={64} height={64} />
+          <button
+            className={`flex items-center justify-center p-2 rounded-xl aspect-square ${
+              slug == 'PastCallsCard' ? 'bg-SCJ-primary' : 'bg-white'
+            }`}
+            onClick={() => handleExpand('PastCallsCard')}
+          >
+            <Image src="/icons/PastCalls.svg" alt="ongoing calls" width={64} height={64} />
           </button>
           <button
             className={`flex items-center justify-center p-2 rounded-xl aspect-square ${
@@ -62,10 +63,15 @@ export default function DashboardMax({ isMaximized }: Props) {
             }`}
             onClick={() => handleExpand('TrendingCard')}
           >
-            <Image src="/icons/Topics.svg" alt="tt" width={64} height={64} />
+            <Image src="/icons/Topics.svg" alt="trending topics" width={64} height={64} />
           </button>
-          <button className="flex items-center justify-center p-2" onClick={() => handleExpand('MetricsCard')}>
-            <Image src="/icons/PieChart.svg" alt="m" width={64} height={64} />
+          <button
+            className={`flex items-center justify-center p-2 rounded-xl aspect-square ${
+              slug == 'MetricsCard' ? 'bg-SCJ-primary' : 'bg-white'
+            }`}
+            onClick={() => handleExpand('MetricsCard')}
+          >
+            <Image src="/icons/PieChart.svg" alt="trending topics" width={64} height={64} />
           </button>
         </div>
       </div>

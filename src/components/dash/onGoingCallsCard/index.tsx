@@ -71,7 +71,7 @@ export default function OnGoingCallsCard({ maximize, minimize, isMaximized }: Pr
         <h1 className="text-gray-400 text-xl">Ongoing Call</h1>
         {isMaximized ? (
           <button onClick={minimize}>
-            <Image src="/icons/expand.svg" alt="home" width={16} height={16} />
+            <Image src="/icons/close.svg" alt="home" width={32} height={32} />
           </button>
         ) : (
           <button onClick={maximize}>
@@ -93,7 +93,7 @@ export default function OnGoingCallsCard({ maximize, minimize, isMaximized }: Pr
           key={index}
         >
           <h1 className="flex-1">{call.agent}</h1>
-          <h1 className="flex-1 font-bold">{call.topic}</h1>
+          <h1 className="flex-1 font-semibold">{call.topic}</h1>
           <div
             className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center ${getResultStatus(call.status)}`}
           >
