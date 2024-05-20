@@ -22,11 +22,6 @@ const TextBox = () => {
     }
   }, [])
 
-  useEffect(() => {
-    const message = { call_id: 'test-test', sender: 'supervisor', message: 'This is a supervisor message.' }
-    setMessages([...messages, message])
-  }, [])
-
   console.log(messages)
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
