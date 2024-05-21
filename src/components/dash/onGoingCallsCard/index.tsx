@@ -1,108 +1,37 @@
-'use client'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+"use client";
+import { useOngoingCalls } from './hooks';
+import { getResultHelp, getResultStatus } from './utils';
 
-interface Props {
-  maximize: () => void
-  minimize: () => void
-  isMaximized: boolean
-}
+import { useRouter } from 'next/navigation';
 
-export default function OnGoingCallsCard({ maximize, minimize, isMaximized }: Props) {
-  const router = useRouter()
+export default function OnGoingCallsCard() {
+  const OnGoingCalls = useOngoingCalls();
+  const router = useRouter();
 
-  const OnGoingCalls = [
-    {
-      agent: '001',
-      topic: 'Booking',
-      status: 'Satisfied',
-      help: 1,
-    },
-    {
-      agent: '002',
-      topic: 'Compliance',
-      status: 'Unsatisfied',
-      help: 0,
-    },
-    {
-      agent: '003',
-      topic: 'Trip Org.',
-      status: 'Neutral',
-      help: 0,
-    },
-    {
-      agent: '004',
-      topic: 'Booking',
-      status: 'Unknown',
-      help: 0,
-    },
-  ]
-
-  function getResultStatus(result: string) {
-    switch (result) {
-      case 'Satisfied':
-        return 'bg-green-400/70 text-green-600 border border-green-600 border-2 font-light'
-      case 'Unsatisfied':
-        return 'bg-red-400/70 text-red-600 border border-red-600 border-2 font-light'
-      case 'Neutral':
-        return 'bg-yellow-200 text-yellow-600 border border-yellow-500 border-2 font-light'
-      case 'Unknown':
-        return 'bg-gray-400/70 text-gray-600 border border-gray-600 border-2 font-light'
-      default:
-        return ''
-    }
-  }
-
-  function getResultHelp(result: number) {
-    switch (result) {
-      case 1:
-        return 'bg-red-500 text-white border border-red-500 border-2 font-bold'
-      case 0:
-        return 'bg-gray-600/70 text-gray-800 border border-gray-800 border-2 font-light'
-      default:
-        return ''
-    }
+  const handleCallClick = (id: string) => () => {
+    router.push(`/mockcall/${id}`);
   }
 
   return (
-    <div className="w-full h-full bg-white rounded-xl flex flex-col p-4">
-      <div className="flex justify-between mb-4">
-        <h1 className="text-gray-400 text-xl">Ongoing Call</h1>
-        {isMaximized ? (
-          <button onClick={minimize}>
-            <Image src="/icons/close.svg" alt="home" width={32} height={32} />
-          </button>
-        ) : (
-          <button onClick={maximize}>
-            <Image src="/icons/expand.svg" alt="home" width={16} height={16} />
-          </button>
-        )}
-      </div>
-      <div className="flex flex-row justify-between text-center font-style text-gray-400">
-        <h1 className="flex-1">Agent</h1>
-        <h1 className="flex-1">Topic</h1>
-        <h1 className="flex-1">Status</h1>
-        <h1 className="flex-1">Help</h1>
+    <div className='w-full h-full bg-white rounded-xl flex flex-col p-4 overflow-hidden overflow-y-scroll'>
+      <h1 className='text-gray-500 font-bold mb-4 text-xl'>Ongoing Calls</h1>
+      <div className='flex flex-row justify-between text-center font-style text-gray-400'>
+        <h1 className='flex-1'>Agent</h1>
+        <h1 className='flex-1'>Topic</h1>
+        <h1 className='flex-1'>Status</h1>
+        <h1 className='flex-1'>Help</h1>
       </div>
       {OnGoingCalls.map((call, index) => (
-        <div
-          className={`flex flex-row justify-between space-x-8 p-2 text-center items-center h-full border-b-2 border-gray-200 ${
-            call.help === 1 ? 'bg-red-200 rounded-3xl' : ''
-          }`}
-          key={index}
-        >
-          <h1 className="flex-1">{call.agent}</h1>
-          <h1 className="flex-1 font-semibold">{call.topic}</h1>
-          <div
-            className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center ${getResultStatus(call.status)}`}
-          >
+        <button onClick={handleCallClick(call.id)} className={`flex flex-row justify-between space-x-8 p-2 text-center items-center h-full border-b-2 border-gray-200 ${call.help === 1 ? 'bg-red-200 rounded-3xl'  : ''}`} key={index}>
+          <h1 className='flex-1'>{call?.agent?.username ?? "John Doe"}</h1>
+          <h1 className='flex-1 font-bold'>{call?.queue?.name ?? "Bookings"}</h1>
+          <div className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center ${getResultStatus(call.status)}`}>
             <span>{call.status}</span>
           </div>
-          <div className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center ${getResultHelp(call.help)}`}>
+          <div className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center ${getResultHelp(call?.help ?? 0)}`}>
             <span>{call.help === 1 ? 'HELP' : 'No help'}</span>
           </div>
-        </div>
+        </button>
       ))}
     </div>
   )
