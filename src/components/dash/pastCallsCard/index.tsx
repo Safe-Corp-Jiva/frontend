@@ -105,7 +105,7 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
     },
   ]
 
-  function getResultColor(result: string) {
+  function getResultStatus(result: string) {
     switch (result) {
       case 'Satisfied':
         return 'bg-green-400/40 text-green-600 border border-green-600 border-2 font-light'

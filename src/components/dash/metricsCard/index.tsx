@@ -32,8 +32,9 @@ const ProgressBar = ({ percent, title, _strokeColor, _trailColor, isMaximized }:
         <div className={`absolute inset-0 flex items-center justify-center ${textSizeClass}`}>{percent}%</div>
       </div>
     </div>
-  );
-};
+  )
+}
+
 
 interface ChangeLineProps {
   percent: number
@@ -55,8 +56,8 @@ const ChangeLine = ({ percent, title, _strokeColor, _trailColor, isMaximized }: 
         <div className={`absolute right-0 -ml-4 flex items-center justify-center ${percentClass}`} style={{ top: '-27px' }}>{percent}</div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default function MetricsCard({ maximize, minimize, isMaximized }: Props) {
   const router = useRouter()
@@ -91,6 +92,6 @@ export default function MetricsCard({ maximize, minimize, isMaximized }: Props) 
         </div>
       </div>
     </div>
-  );
+  )
 }
 
