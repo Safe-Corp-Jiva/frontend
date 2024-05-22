@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Spinner from 'react-bootstrap/Spinner'
 import Image from 'next/image'
 
-function wait() {
+function Wait() {
   return (
     <div className="flex h-full w-full bg-transparent">
       <div className="flex-grow flex flex-col items-center justify-center h-full">
@@ -12,8 +12,8 @@ function wait() {
           <Image src="icons/waiting.svg" alt="notifications" width={230} height={230} />
           <span style={{ fontSize: '20px', marginTop: '20px' }}>Relax and prepare</span>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-            <Button variant="primary" disabled style={{ borderRadius: '20px', borderColor: "#818cf8",  backgroundColor: '#818cf8', color: 'white'}}>
-              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+            <Button variant="primary" disabled style={{ borderRadius: '20px', borderColor: "#818cf8",  backgroundColor: '#818cf8', color: 'white',}}>
+              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className='mr-2' />
               Waiting for call...
             </Button>
           </div>
@@ -23,5 +23,5 @@ function wait() {
   )
 }
 
-export default wait
+export default Wait
 
