@@ -8,6 +8,7 @@ Amplify.configure(awsconfig)
 const CheckUserRole = () => {
   return 'agent'
 }
+
 export default function Layout({ agent, supervisor }: { agent: React.ReactNode; supervisor: React.ReactNode }) {
   const role = CheckUserRole()
 
