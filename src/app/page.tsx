@@ -3,8 +3,16 @@ import React from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { MainPageFileOverride } from './Overrides'
+
+// // Temp
+// import RealTimeTranscript from '@/components/transcpt/realtime'
+// import { Amplify } from 'aws-amplify'
+// import awsconfig from '../aws-exports'
+// Amplify.configure(awsconfig)
 
 export default function Login() {
+  const mainPage = MainPageFileOverride.useValue()
   const router = useRouter()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -21,9 +29,11 @@ export default function Login() {
 
   return (
     <div className="h-screen flex items-center justify-center bg-SCJ-gray">
+      {/* <RealTimeTranscript callId="140d00fd-4b68-48e6-b315-bd8f770230a7" /> */}
+
       <div className="bg-white border-2 border-teal-300 flex flex-row justify-center items-center w-3/4 h-3/4 rounded-xl font-sans">
         <div className="w-full h-[90%] border-r-teal-300 border-r-2 flex justify-center items-center flex-1">
-          <Image src='/logoAA.png' alt="logo" width={300} height={300} />
+          <Image src="/logoAA.png" alt="logo" width={300} height={300} />
         </div>
         <div className="w-full h-auto p-3 flex flex-col justify-center items-center flex-1">
           <p className="text-indigo-500 font-extrabold text-2xl mt-10">Welcome Back!</p>

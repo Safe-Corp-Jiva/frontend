@@ -1,0 +1,46 @@
+# GH action that builds the code and runs the tests on every push to any branch
+# Rodrigo Nunez, Apr 2024
+name: Build code and run tests
+
+on: push
+
+jobs:
+  run-build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # COMMENTED: This is an example of how to cache the build to speed up the process
+      # - name: Configura build cache
+      #   uses: actions/cache@v4
+      #   with:
+      #     # See here for caching with `yarn` https://github.com/actions/cache/blob/main/examples.md#node---yarn or you can leverage caching with actions/setup-node https://github.com/actions/setup-node
+      #     path: |
+      #       ~/.npm
+      #       ${{ github.workspace }}/.next/cache
+      #     # Generate a new cache whenever packages or source files change.
+      #     key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+      #     # If source files changed but packages didn't, rebuild from a prior cache.
+      #     restore-keys: |
+      #       ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
+      - name: Build code
+        env:
+          AMPLIFY_CONFIG: ${{ secrets.AMPLIFY_CONFIG }}
+        run: |
+          echo $AMPLIFY_CONFIG | base64 --decode > ./src/aws-exports.js
+          npm install
+          npm run build
+
+      - name: Start app
+        run: npm run start &
+
+      - name: Wait for app to start
+        run: sleep 10
+
+      - name: Install playwright
+        run: npx playwright install
+
+      - name: Run tests
+        run: npm run safetest
