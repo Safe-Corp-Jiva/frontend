@@ -26,7 +26,7 @@ export default function PastCallsCard() {
     },
   ]
 
-  function getResultColor(result: string) {
+  function getResultStatus(result: string) {
     switch (result) {
       case 'Satisfied':
         return 'bg-green-400/40 text-green-600 border border-green-600 border-2 font-light'
@@ -42,19 +42,22 @@ export default function PastCallsCard() {
   return (
     <div className="w-full h-full bg-white rounded-xl flex flex-col p-4">
       <h1 className="text-gray-400 mb-4 text-xl">Past Calls</h1>
-      <div className="flex flex-row justify-between items-center font-style text-gray-400">
+      <div className="flex flex-row justify-between text-center font-style text-gray-400">
         <h1 className="flex-1">Id</h1>
         <h1 className="flex-1">Time</h1>
         <h1 className="flex-1">Agent</h1>
         <h1 className="flex-1">Result</h1>
       </div>
       {pastCalls.map((pastCall, index) => (
-        <div className="flex flex-row justify-between items-center h-full" key={index}>
+        <div
+          className="flex flex-row justify-between space-x-8 p-2 text-center items-center h-full border-b-2 border-gray-200"
+          key={index}
+        >
           <h1 className="flex-1">{pastCall.id}</h1>
           <h1 className="flex-1 font-bold">{pastCall.time}</h1>
           <h1 className="flex-1">{pastCall.agent}</h1>
           <div
-            className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center ${getResultColor(
+            className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center ${getResultStatus(
               pastCall.result
             )}`}
           >
