@@ -10,14 +10,6 @@
       "StackName": "amplify-jiva-dev-68e67",
       "StackId": "arn:aws:cloudformation:us-east-1:767398119914:stack/amplify-jiva-dev-68e67/832eb4f0-feeb-11ee-8454-0ee50bcfdbad",
       "AmplifyAppId": "d23o3c6dlhehlz"
-    },
-    "categories": {
-      "auth": {
-        "jiva": {}
-      },
-      "api": {
-        "jiva": {}
-      }
     }
   }
 }
