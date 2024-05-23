@@ -6,7 +6,7 @@ import awsconfig from '@/aws-exports'
 Amplify.configure(awsconfig)
 
 const CheckUserRole = () => {
-  return 'agent'
+  return 'supervisor'
 }
 
 export default function Layout({ agent, supervisor }: { agent: React.ReactNode; supervisor: React.ReactNode }) {

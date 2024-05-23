@@ -36,9 +36,6 @@ jobs:
       - name: Start app
         run: npm run start &
 
-      - name: Wait for app to start
-        run: sleep 10
-
       - name: Install playwright
         run: npx playwright install
 

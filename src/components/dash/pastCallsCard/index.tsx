@@ -149,7 +149,7 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
             <h1 className="flex-1 font-semibold">{pastCall.time}</h1>
             <h1 className="flex-1">{pastCall.agent}</h1>
             <div
-              className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center  ${getResultColor(
+              className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center  ${getResultStatus(
                 pastCall.result
               )}`}
             >

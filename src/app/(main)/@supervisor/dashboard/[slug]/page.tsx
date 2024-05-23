@@ -1,18 +1,15 @@
 'use client'
 import { MetricsCard, OnGoingCallsCard, PastCallsCard, TrendingCard } from '@/components/dash'
 import Image from 'next/image'
-import { usePathname, useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
-interface Props {
-  onExpand: (cardName: string) => void
-  isMaximized: boolean //
-}
+// interface Props {
+//   onExpand: (cardName: string) => void
+//   isMaximized: boolean
+// }
 
-export default function DashboardMax({ isMaximized }: Props) {
+export default function DashboardMax({ params }: { params: { slug: string } }) {
   const router = useRouter()
-  const pathname = usePathname()
-  const slug = pathname?.split('/').pop()
 
   const handleExpand = (cardName: string): void => {
     router.push(`/dashboard/${cardName}`)
@@ -25,13 +22,23 @@ export default function DashboardMax({ isMaximized }: Props) {
   const renderCard = (cardName: string) => {
     switch (cardName) {
       case 'PastCallsCard':
-        return <PastCallsCard maximize={() => handleExpand('PastCallsCard')} minimize={handleMinimize} isMaximized={true} />
+        return (
+          <PastCallsCard maximize={() => handleExpand('PastCallsCard')} minimize={handleMinimize} isMaximized={true} />
+        )
       case 'OnGoingCallsCard':
-        return <OnGoingCallsCard maximize={() => handleExpand('OnGoingCallsCard')} minimize={handleMinimize} isMaximized={true} />
+        return (
+          <OnGoingCallsCard
+            maximize={() => handleExpand('OnGoingCallsCard')}
+            minimize={handleMinimize}
+            isMaximized={true}
+          />
+        )
       case 'TrendingCard':
-        return <TrendingCard maximize={() => handleExpand('TrendingCard')} minimize={handleMinimize} isMaximized={true} />
+        return (
+          <TrendingCard maximize={() => handleExpand('TrendingCard')} minimize={handleMinimize} isMaximized={true} />
+        )
       case 'MetricsCard':
-        return <MetricsCard maximize={() => handleExpand('MetricsCard')} minimize={handleMinimize} isMaximized={true}  />
+        return <MetricsCard maximize={() => handleExpand('MetricsCard')} minimize={handleMinimize} isMaximized={true} />
       default:
         return null
     }
@@ -39,11 +46,11 @@ export default function DashboardMax({ isMaximized }: Props) {
   return (
     <div className="h-full w-full grid grid-cols-2 gap-5 p-5">
       <div className="col-span-2 flex items-center justify-center">
-        <div className="w-3/4 h-3/4">{slug && renderCard(slug)}</div>
+        <div className="w-3/4 h-3/4">{params.slug && renderCard(params.slug)}</div>
         <div className="flex flex-col space-y-6 ml-5">
           <button
             className={`flex items-center justify-center p-2 rounded-xl aspect-square ${
-              slug == 'OnGoingCallsCard' ? 'bg-SCJ-primary' : 'bg-white'
+              params.slug == 'OnGoingCallsCard' ? 'bg-SCJ-primary' : 'bg-white'
             }`}
             onClick={() => handleExpand('OnGoingCallsCard')}
           >
@@ -51,7 +58,7 @@ export default function DashboardMax({ isMaximized }: Props) {
           </button>
           <button
             className={`flex items-center justify-center p-2 rounded-xl aspect-square ${
-              slug == 'PastCallsCard' ? 'bg-SCJ-primary' : 'bg-white'
+              params.slug == 'PastCallsCard' ? 'bg-SCJ-primary' : 'bg-white'
             }`}
             onClick={() => handleExpand('PastCallsCard')}
           >
@@ -59,7 +66,7 @@ export default function DashboardMax({ isMaximized }: Props) {
           </button>
           <button
             className={`flex items-center justify-center p-2 rounded-xl aspect-square ${
-              slug == 'TrendingCard' ? 'bg-SCJ-primary' : 'bg-white'
+              params.slug == 'TrendingCard' ? 'bg-SCJ-primary' : 'bg-white'
             }`}
             onClick={() => handleExpand('TrendingCard')}
           >
@@ -67,7 +74,7 @@ export default function DashboardMax({ isMaximized }: Props) {
           </button>
           <button
             className={`flex items-center justify-center p-2 rounded-xl aspect-square ${
-              slug == 'MetricsCard' ? 'bg-SCJ-primary' : 'bg-white'
+              params.slug == 'MetricsCard' ? 'bg-SCJ-primary' : 'bg-white'
             }`}
             onClick={() => handleExpand('MetricsCard')}
           >
