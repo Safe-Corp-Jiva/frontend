@@ -4,7 +4,7 @@ import FlagIcon from '../iconscomponents/flagicon'
 import AudioPlayer from 'react-h5-audio-player'
 import './audio.css'
 
-export default function SlugPage({ transcript }: { transcript: any }) {
+export default function SlugPage({ transcript, audioURL }: { transcript: any; audioURL: string }) {
   const sentimentColorText = (sentiment: number) => {
     switch (sentiment) {
       case 1:
@@ -58,7 +58,8 @@ export default function SlugPage({ transcript }: { transcript: any }) {
         <FlagIcon className={`w-10 h-10 absolute left-2 top-7 ${flagColor(transcript.flagged)}`} />
         <AudioPlayer
           style={{ width: '50%' }}
-          src="/audio/PandaEyesTest.mp3"
+          // src="/audio/PandaEyesTest.mp3"
+          src={audioURL}
           customAdditionalControls={[]} // Remove the loop controls
         />
       </div>
