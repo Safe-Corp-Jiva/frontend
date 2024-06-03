@@ -4,6 +4,11 @@ import { GetObjectCommand, ListObjectsCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { S3 } from './config'
 import { getRecording, listRecordings } from './recordings'
+import { getCallData } from './connect'
+
+export type Transcript = {
+  [key: string]: { recording: string | null; transcript: any[] | null; contactData: any }
+}
 
 export const getTranscript = async ({ fileKey }: { fileKey: string }) => {
   try {
@@ -29,7 +34,7 @@ export const listTranscripts = async () => {
       Bucket: process.env.S3_BUCKET_NAME,
       Prefix: 'Analysis/Voice/',
     }
-    const data = {} as { [key: string]: { recording: string | null; transcript: any[] | null } }
+    const data = {} as Transcript
 
     // RegEx to extract contact ID from file key
     const contactIdExp = /\/\d{4}\/\d{2}\/\d{2}\/([a-zA-Z0-9\-]+)_/g
@@ -40,9 +45,11 @@ export const listTranscripts = async () => {
       const res = contactIdExp.exec(recording.Key ?? '') ?? []
       const contactId = res[1]
       if (contactId) {
+        const contactData = await getCallData({ contactId })
         data[contactId] = {
           recording: await getRecording({ fileKey: recording.Key ?? '' }),
           transcript: null,
+          contactData,
         }
       }
     }
@@ -57,9 +64,11 @@ export const listTranscripts = async () => {
         const transcript = await getTranscript({ fileKey: item.Key ?? '' })
         data[contactId].transcript = transcript
       } else if (contactId) {
+        const contactData = await getCallData({ contactId })
         data[contactId] = {
           recording: null,
           transcript: await getTranscript({ fileKey: item.Key ?? '' }),
+          contactData,
         }
       }
     }
