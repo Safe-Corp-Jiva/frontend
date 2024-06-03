@@ -1,13 +1,39 @@
-import React from 'react'
-import { MetricsCard, PastCallsCard, OnGoingCallsCard, TrendingCard, ChatBot } from '@/components/dash'
+'use client'
+import { MetricsCard, OnGoingCallsCard, PastCallsCard, TrendingCard } from '@/components/dash'
+import { useRouter } from 'next/navigation'
+import React, { useEffect } from 'react'
+
 export default function Dashboard() {
+  const router = useRouter()
+
+  const handleExpand = (cardName: string) => {
+    router.push(`/dashboard/${cardName}`)
+  }
+
+  const handleMinimize = () => {
+    router.push(`/dashboard`)
+  }
+
   return (
     <div className="h-full w-full grid grid-cols-2 grid-rows-2 gap-5 p-5">
-      <PastCallsCard />
-      <OnGoingCallsCard />
-      <TrendingCard />
-      <MetricsCard />
-      <ChatBot />
+      <PastCallsCard 
+        maximize={() => handleExpand('PastCallsCard')}
+        minimize={() => handleMinimize()}
+        isMaximized={false} />
+      <OnGoingCallsCard
+        maximize={() => handleExpand('OnGoingCallsCard')}
+        minimize={() => handleMinimize()}
+        isMaximized={false}
+      />
+      <TrendingCard
+        maximize={() => handleExpand('TrendingCard')}
+        minimize={() => handleMinimize()}
+        isMaximized={false}
+      />
+      <MetricsCard 
+        maximize={() => handleExpand('MetricsCard')}
+        minimize={() => handleMinimize()}
+        isMaximized={false} />
     </div>
   )
 }

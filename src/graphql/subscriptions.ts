@@ -8,11 +8,165 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const onChunkByCallId = /* GraphQL */ `subscription OnChunkByCallId($callId: ID!) {
+  onChunkByCallId(callId: $callId) {
+    id
+    sentiment
+    content {
+      role
+      text
+      __typename
+    }
+    callId
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnChunkByCallIdSubscriptionVariables,
+  APITypes.OnChunkByCallIdSubscription
+>;
+export const onCreateAgent = /* GraphQL */ `subscription OnCreateAgent($filter: ModelSubscriptionAgentFilterInput) {
+  onCreateAgent(filter: $filter) {
+    id
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateAgentSubscriptionVariables,
+  APITypes.OnCreateAgentSubscription
+>;
+export const onUpdateAgent = /* GraphQL */ `subscription OnUpdateAgent($filter: ModelSubscriptionAgentFilterInput) {
+  onUpdateAgent(filter: $filter) {
+    id
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateAgentSubscriptionVariables,
+  APITypes.OnUpdateAgentSubscription
+>;
+export const onDeleteAgent = /* GraphQL */ `subscription OnDeleteAgent($filter: ModelSubscriptionAgentFilterInput) {
+  onDeleteAgent(filter: $filter) {
+    id
+    username
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteAgentSubscriptionVariables,
+  APITypes.OnDeleteAgentSubscription
+>;
+export const onCreateQueue = /* GraphQL */ `subscription OnCreateQueue($filter: ModelSubscriptionQueueFilterInput) {
+  onCreateQueue(filter: $filter) {
+    id
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateQueueSubscriptionVariables,
+  APITypes.OnCreateQueueSubscription
+>;
+export const onUpdateQueue = /* GraphQL */ `subscription OnUpdateQueue($filter: ModelSubscriptionQueueFilterInput) {
+  onUpdateQueue(filter: $filter) {
+    id
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateQueueSubscriptionVariables,
+  APITypes.OnUpdateQueueSubscription
+>;
+export const onDeleteQueue = /* GraphQL */ `subscription OnDeleteQueue($filter: ModelSubscriptionQueueFilterInput) {
+  onDeleteQueue(filter: $filter) {
+    id
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteQueueSubscriptionVariables,
+  APITypes.OnDeleteQueueSubscription
+>;
+export const onCreateChunk = /* GraphQL */ `subscription OnCreateChunk($filter: ModelSubscriptionChunkFilterInput) {
+  onCreateChunk(filter: $filter) {
+    id
+    sentiment
+    content {
+      role
+      text
+      __typename
+    }
+    callId
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateChunkSubscriptionVariables,
+  APITypes.OnCreateChunkSubscription
+>;
+export const onUpdateChunk = /* GraphQL */ `subscription OnUpdateChunk($filter: ModelSubscriptionChunkFilterInput) {
+  onUpdateChunk(filter: $filter) {
+    id
+    sentiment
+    content {
+      role
+      text
+      __typename
+    }
+    callId
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateChunkSubscriptionVariables,
+  APITypes.OnUpdateChunkSubscription
+>;
+export const onDeleteChunk = /* GraphQL */ `subscription OnDeleteChunk($filter: ModelSubscriptionChunkFilterInput) {
+  onDeleteChunk(filter: $filter) {
+    id
+    sentiment
+    content {
+      role
+      text
+      __typename
+    }
+    callId
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteChunkSubscriptionVariables,
+  APITypes.OnDeleteChunkSubscription
+>;
 export const onCreateCaller = /* GraphQL */ `subscription OnCreateCaller($filter: ModelSubscriptionCallerFilterInput) {
   onCreateCaller(filter: $filter) {
     id
-    phone
-    sentiments
+    name
+    email
     createdAt
     updatedAt
     __typename
@@ -25,8 +179,8 @@ export const onCreateCaller = /* GraphQL */ `subscription OnCreateCaller($filter
 export const onUpdateCaller = /* GraphQL */ `subscription OnUpdateCaller($filter: ModelSubscriptionCallerFilterInput) {
   onUpdateCaller(filter: $filter) {
     id
-    phone
-    sentiments
+    name
+    email
     createdAt
     updatedAt
     __typename
@@ -39,8 +193,8 @@ export const onUpdateCaller = /* GraphQL */ `subscription OnUpdateCaller($filter
 export const onDeleteCaller = /* GraphQL */ `subscription OnDeleteCaller($filter: ModelSubscriptionCallerFilterInput) {
   onDeleteCaller(filter: $filter) {
     id
-    phone
-    sentiments
+    name
+    email
     createdAt
     updatedAt
     __typename
@@ -63,26 +217,45 @@ export const onCreateCall = /* GraphQL */ `subscription OnCreateCall($filter: Mo
       bucketId
       __typename
     }
+    agent {
+      id
+      username
+      createdAt
+      updatedAt
+      __typename
+    }
+    queue {
+      id
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
     metrics {
       id
-      sentiment
       length
       waittime
       createdAt
       updatedAt
       __typename
     }
-    agentId
     createdAt
-    updatedAt
     caller {
       id
-      phone
-      sentiments
+      name
+      email
       createdAt
       updatedAt
       __typename
     }
+    status
+    chunks {
+      nextToken
+      __typename
+    }
+    updatedAt
+    callAgentId
+    callQueueId
     callMetricsId
     callCallerId
     __typename
@@ -105,26 +278,45 @@ export const onUpdateCall = /* GraphQL */ `subscription OnUpdateCall($filter: Mo
       bucketId
       __typename
     }
+    agent {
+      id
+      username
+      createdAt
+      updatedAt
+      __typename
+    }
+    queue {
+      id
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
     metrics {
       id
-      sentiment
       length
       waittime
       createdAt
       updatedAt
       __typename
     }
-    agentId
     createdAt
-    updatedAt
     caller {
       id
-      phone
-      sentiments
+      name
+      email
       createdAt
       updatedAt
       __typename
     }
+    status
+    chunks {
+      nextToken
+      __typename
+    }
+    updatedAt
+    callAgentId
+    callQueueId
     callMetricsId
     callCallerId
     __typename
@@ -147,26 +339,45 @@ export const onDeleteCall = /* GraphQL */ `subscription OnDeleteCall($filter: Mo
       bucketId
       __typename
     }
+    agent {
+      id
+      username
+      createdAt
+      updatedAt
+      __typename
+    }
+    queue {
+      id
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
     metrics {
       id
-      sentiment
       length
       waittime
       createdAt
       updatedAt
       __typename
     }
-    agentId
     createdAt
-    updatedAt
     caller {
       id
-      phone
-      sentiments
+      name
+      email
       createdAt
       updatedAt
       __typename
     }
+    status
+    chunks {
+      nextToken
+      __typename
+    }
+    updatedAt
+    callAgentId
+    callQueueId
     callMetricsId
     callCallerId
     __typename
@@ -179,7 +390,6 @@ export const onDeleteCall = /* GraphQL */ `subscription OnDeleteCall($filter: Mo
 export const onCreateMetric = /* GraphQL */ `subscription OnCreateMetric($filter: ModelSubscriptionMetricFilterInput) {
   onCreateMetric(filter: $filter) {
     id
-    sentiment
     length
     waittime
     createdAt
@@ -194,7 +404,6 @@ export const onCreateMetric = /* GraphQL */ `subscription OnCreateMetric($filter
 export const onUpdateMetric = /* GraphQL */ `subscription OnUpdateMetric($filter: ModelSubscriptionMetricFilterInput) {
   onUpdateMetric(filter: $filter) {
     id
-    sentiment
     length
     waittime
     createdAt
@@ -209,7 +418,6 @@ export const onUpdateMetric = /* GraphQL */ `subscription OnUpdateMetric($filter
 export const onDeleteMetric = /* GraphQL */ `subscription OnDeleteMetric($filter: ModelSubscriptionMetricFilterInput) {
   onDeleteMetric(filter: $filter) {
     id
-    sentiment
     length
     waittime
     createdAt
