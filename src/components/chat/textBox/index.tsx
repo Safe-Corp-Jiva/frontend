@@ -2,16 +2,25 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 
-const TextBox = () => {
+const TextBox = (user, agent = false) => {
   const [messages, setMessages] = useState<{ call_id: String; sender: string; message: string }[]>([])
   const [input, setInput] = useState('')
   const ws = useRef<WebSocket | null>(null)
 
+  const supervisorEmail = useState<String>('')
+  const agentEmail = useState<String>('')
+
   // Create websocket connection
   useEffect(() => {
-    ws.current = new WebSocket('ws://localhost:3030?agentID=test&secondaryID=test')
+    ws.current = new WebSocket(`ws://localhost:3030?primaryID=${agentEmail}&secondaryID=${supervisorEmail}`)
     ws.current.onopen = () => {
       console.log('Connected to server')
+    }
+
+    const getSupervisor = async () => {
+      const response = await getSupervisor()
+      const data = await response.json()
+      supervisorEmail[1](data.email)
     }
     ws.current.onmessage = (event) => {
       const message = JSON.parse(event.data)
@@ -47,7 +56,7 @@ const TextBox = () => {
   return (
     <div className="flex flex-col justify-between h-full">
       {/* Encabezado del Chat */}
-      <div className="p-4 border rounded-l-xl bg-white flex justify-between items-center">
+      <div className="p-4 border border-12 rounded-l-xl bg-white flex justify-between items-center">
         <div>
           <h2 className="text-lg font-semibold">Fer Cantú</h2>
           <p className="text-sm text-gray-500">Online</p>
