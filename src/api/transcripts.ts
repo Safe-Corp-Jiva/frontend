@@ -7,7 +7,7 @@ import { getRecording, listRecordings } from './recordings'
 import { getCallData } from './connect'
 
 export type Transcript = {
-  [key: string]: { recording: string | null; transcript: any[] | null; contactData: any }
+  [key: string]: { recordingURL: string | null; transcript: any[] | null; contactData: any }
 }
 
 export const getTranscript = async ({ fileKey }: { fileKey: string }) => {
@@ -47,7 +47,7 @@ export const listTranscripts = async () => {
       if (contactId) {
         const contactData = await getCallData({ contactId })
         data[contactId] = {
-          recording: await getRecording({ fileKey: recording.Key ?? '' }),
+          recordingURL: await getRecording({ fileKey: recording.Key ?? '' }),
           transcript: null,
           contactData,
         }
@@ -66,7 +66,7 @@ export const listTranscripts = async () => {
       } else if (contactId) {
         const contactData = await getCallData({ contactId })
         data[contactId] = {
-          recording: null,
+          recordingURL: null,
           transcript: await getTranscript({ fileKey: item.Key ?? '' }),
           contactData,
         }
