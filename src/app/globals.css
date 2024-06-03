@@ -41,3 +41,8 @@
     text-wrap: balance;
   }
 }
+
+[data-amplify-authenticator] {
+  --amplify-components-authenticator-router-box-shadow: 0 0 0px rgba(0, 0, 0, 0);
+  --amplify-components-authenticator-router-border-width: 0;
+}
