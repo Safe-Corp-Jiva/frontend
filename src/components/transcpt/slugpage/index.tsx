@@ -39,13 +39,13 @@ export default function SlugPage({ transcript, audioURL }: { transcript: any; au
           <span className="text-2xl">Agent</span>
           <span className="text-black/50 text-sm">{transcript.agent}</span>
         </div>
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <span className="text-2xl">Duration</span>
           <span className="text-black/50">{transcript.duration}</span>
-        </div>
+        </div> */}
         <div className="flex flex-col text-end">
           <span className="text-2xl font-bold">{transcript.id}</span>
-          {sentimentColorText(transcript.sentiment)}
+          {/* {sentimentColorText(transcript.sentiment)} */}
         </div>
       </div>
       <div className="flex w-full justify-between items-center h-full">
@@ -55,7 +55,7 @@ export default function SlugPage({ transcript, audioURL }: { transcript: any; au
         <div className="w-1/2 h-full px-4 py-2 text-sm flex items-center">{transcript.transcript}</div>
       </div>
       <div className="w-full border-t-2 border-black/20 flex items-center justify-center relative">
-        <FlagIcon className={`w-10 h-10 absolute left-2 top-7 ${flagColor(transcript.flagged)}`} />
+        {/* <FlagIcon className={`w-10 h-10 absolute left-2 top-7 ${flagColor(transcript.flagged)}`} /> */}
         <AudioPlayer
           style={{ width: '50%' }}
           // src="/audio/PandaEyesTest.mp3"

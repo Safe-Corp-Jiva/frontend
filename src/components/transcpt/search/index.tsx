@@ -128,7 +128,7 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
             <SearchButtons text="Name" fn={() => handleFilterChange('name')} className={activeButtonClass('name')} classNameIcon={activeButtonClassIcon('name')} />
             <SearchButtons text="Date" fn={() => handleFilterChange('date')} className={activeButtonClass('date')} classNameIcon={activeButtonClassIcon('date')}/>
             <SearchButtons text="Id" fn={() => handleFilterChange('id')} className={activeButtonClass('id')} classNameIcon={activeButtonClassIcon('id')}/>
-            <SearchButtons text="Flag" fn={() => handleFilterChange('flag')} className={activeButtonClass('flag')} classNameIcon={activeButtonClassIcon('flag')}/>
+            {/* <SearchButtons text="Flag" fn={() => handleFilterChange('flag')} className={activeButtonClass('flag')} classNameIcon={activeButtonClassIcon('flag')}/> */}
           </div>
           <Tab.List className="w-full h-full overflow-auto px-2">
             <table className="table-auto w-full text-left">
