@@ -3,8 +3,9 @@ import { useRouter } from 'next/navigation'
 import { useAuthenticator, Authenticator } from '@aws-amplify/ui-react'
 
 function LoginModal() {
-  const { authStatus } = useAuthenticator((context) => [context.authStatus])
+  const { authStatus, email } = useAuthenticator((context) => [context.authStatus])
   const router = useRouter()
+  console.log('email', email)
 
   // useEffect to handle redirection after authentication
   useEffect(() => {
