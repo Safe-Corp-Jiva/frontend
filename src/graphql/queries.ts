@@ -2,11 +2,11 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from "../API";
+import * as APITypes from '../API'
 type GeneratedQuery<InputType, OutputType> = string & {
-  __generatedQueryInput: InputType;
-  __generatedQueryOutput: OutputType;
-};
+  __generatedQueryInput: InputType
+  __generatedQueryOutput: OutputType
+}
 
 export const getAgent = /* GraphQL */ `query GetAgent($id: ID!) {
   getAgent(id: $id) {
@@ -17,7 +17,7 @@ export const getAgent = /* GraphQL */ `query GetAgent($id: ID!) {
     __typename
   }
 }
-` as GeneratedQuery<APITypes.GetAgentQueryVariables, APITypes.GetAgentQuery>;
+` as GeneratedQuery<APITypes.GetAgentQueryVariables, APITypes.GetAgentQuery>
 export const listAgents = /* GraphQL */ `query ListAgents(
   $filter: ModelAgentFilterInput
   $limit: Int
@@ -35,10 +35,7 @@ export const listAgents = /* GraphQL */ `query ListAgents(
     __typename
   }
 }
-` as GeneratedQuery<
-  APITypes.ListAgentsQueryVariables,
-  APITypes.ListAgentsQuery
->;
+` as GeneratedQuery<APITypes.ListAgentsQueryVariables, APITypes.ListAgentsQuery>
 export const getQueue = /* GraphQL */ `query GetQueue($id: ID!) {
   getQueue(id: $id) {
     id
@@ -48,7 +45,7 @@ export const getQueue = /* GraphQL */ `query GetQueue($id: ID!) {
     __typename
   }
 }
-` as GeneratedQuery<APITypes.GetQueueQueryVariables, APITypes.GetQueueQuery>;
+` as GeneratedQuery<APITypes.GetQueueQueryVariables, APITypes.GetQueueQuery>
 export const listQueues = /* GraphQL */ `query ListQueues(
   $filter: ModelQueueFilterInput
   $limit: Int
@@ -66,10 +63,7 @@ export const listQueues = /* GraphQL */ `query ListQueues(
     __typename
   }
 }
-` as GeneratedQuery<
-  APITypes.ListQueuesQueryVariables,
-  APITypes.ListQueuesQuery
->;
+` as GeneratedQuery<APITypes.ListQueuesQueryVariables, APITypes.ListQueuesQuery>
 export const getChunk = /* GraphQL */ `query GetChunk($id: ID!) {
   getChunk(id: $id) {
     id
@@ -85,7 +79,7 @@ export const getChunk = /* GraphQL */ `query GetChunk($id: ID!) {
     __typename
   }
 }
-` as GeneratedQuery<APITypes.GetChunkQueryVariables, APITypes.GetChunkQuery>;
+` as GeneratedQuery<APITypes.GetChunkQueryVariables, APITypes.GetChunkQuery>
 export const listChunks = /* GraphQL */ `query ListChunks(
   $filter: ModelChunkFilterInput
   $limit: Int
@@ -104,10 +98,7 @@ export const listChunks = /* GraphQL */ `query ListChunks(
     __typename
   }
 }
-` as GeneratedQuery<
-  APITypes.ListChunksQueryVariables,
-  APITypes.ListChunksQuery
->;
+` as GeneratedQuery<APITypes.ListChunksQueryVariables, APITypes.ListChunksQuery>
 export const chunksByCallId = /* GraphQL */ `query ChunksByCallId(
   $callId: ID!
   $sortDirection: ModelSortDirection
@@ -139,10 +130,7 @@ export const chunksByCallId = /* GraphQL */ `query ChunksByCallId(
     __typename
   }
 }
-` as GeneratedQuery<
-  APITypes.ChunksByCallIdQueryVariables,
-  APITypes.ChunksByCallIdQuery
->;
+` as GeneratedQuery<APITypes.ChunksByCallIdQueryVariables, APITypes.ChunksByCallIdQuery>
 export const getCaller = /* GraphQL */ `query GetCaller($id: ID!) {
   getCaller(id: $id) {
     id
@@ -153,7 +141,7 @@ export const getCaller = /* GraphQL */ `query GetCaller($id: ID!) {
     __typename
   }
 }
-` as GeneratedQuery<APITypes.GetCallerQueryVariables, APITypes.GetCallerQuery>;
+` as GeneratedQuery<APITypes.GetCallerQueryVariables, APITypes.GetCallerQuery>
 export const listCallers = /* GraphQL */ `query ListCallers(
   $filter: ModelCallerFilterInput
   $limit: Int
@@ -172,10 +160,7 @@ export const listCallers = /* GraphQL */ `query ListCallers(
     __typename
   }
 }
-` as GeneratedQuery<
-  APITypes.ListCallersQueryVariables,
-  APITypes.ListCallersQuery
->;
+` as GeneratedQuery<APITypes.ListCallersQueryVariables, APITypes.ListCallersQuery>
 export const getCall = /* GraphQL */ `query GetCall($id: ID!) {
   getCall(id: $id) {
     id
@@ -233,7 +218,7 @@ export const getCall = /* GraphQL */ `query GetCall($id: ID!) {
     __typename
   }
 }
-` as GeneratedQuery<APITypes.GetCallQueryVariables, APITypes.GetCallQuery>;
+` as GeneratedQuery<APITypes.GetCallQueryVariables, APITypes.GetCallQuery>
 export const listCalls = /* GraphQL */ `query ListCalls(
   $filter: ModelCallFilterInput
   $limit: Int
@@ -255,7 +240,24 @@ export const listCalls = /* GraphQL */ `query ListCalls(
     __typename
   }
 }
-` as GeneratedQuery<APITypes.ListCallsQueryVariables, APITypes.ListCallsQuery>;
+` as GeneratedQuery<APITypes.ListCallsQueryVariables, APITypes.ListCallsQuery>
+export const listPastCalls = /* GraphQL */ `query ListPastCalls {
+  listCalls {
+      nextToken
+      items {
+          id
+          createdAt
+          status
+          agent {
+              username
+              lastName
+              firstName
+          }
+          updatedAt
+      }
+  }
+}
+` as GeneratedQuery<any, any>
 export const getMetric = /* GraphQL */ `query GetMetric($id: ID!) {
   getMetric(id: $id) {
     id
@@ -266,7 +268,7 @@ export const getMetric = /* GraphQL */ `query GetMetric($id: ID!) {
     __typename
   }
 }
-` as GeneratedQuery<APITypes.GetMetricQueryVariables, APITypes.GetMetricQuery>;
+` as GeneratedQuery<APITypes.GetMetricQueryVariables, APITypes.GetMetricQuery>
 export const listMetrics = /* GraphQL */ `query ListMetrics(
   $filter: ModelMetricFilterInput
   $limit: Int
@@ -285,7 +287,4 @@ export const listMetrics = /* GraphQL */ `query ListMetrics(
     __typename
   }
 }
-` as GeneratedQuery<
-  APITypes.ListMetricsQueryVariables,
-  APITypes.ListMetricsQuery
->;
+` as GeneratedQuery<APITypes.ListMetricsQueryVariables, APITypes.ListMetricsQuery>
