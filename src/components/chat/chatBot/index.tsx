@@ -49,18 +49,26 @@ const ChatBot: React.FC = () => {
     setIsOpen(!isOpen)
   }
 
-  useMemo(() => {
+  useEffect(() => {
     if (!isOpen) return
     if (!profileID) return
-    ws.current = new WebSocket(`ws://localhost:3030?agentID=${profileID}&secondaryID=copilot`)
+    const WEBSOCKET_ENDPOINT = process.env.NEXT_PUBLIC_WEBSOCKET_ENDPOINT
+    ws.current = new WebSocket(`ws://${WEBSOCKET_ENDPOINT}?agentID=${profileID}&secondaryID=copilot`)
     ws.current.onopen = () => {
       console.log('Connected to server')
     }
     ws.current.onmessage = (event) => {
-      // console.log('Received message')
+      console.log('Received message:', event.data)
       const chunk = JSON.parse(event.data) as Message
       if (chunk.message_id) {
-        setMessages((prev) => [...prev, chunk])
+        setMessages((prev) => {
+          if (!prev.some((msg) => msg.message_id === chunk.message_id)) {
+            console.log('Adding new message:', chunk)
+            return [...prev, chunk]
+          }
+          console.log('Message already exists:', chunk)
+          return prev
+        })
       } else {
         handleCopilotMessage(chunk)
       }
@@ -134,6 +142,7 @@ const ChatBot: React.FC = () => {
             </button>
           </div>
           <div className="flex flex-col p-4 space-y-2 h-64 overflow-y-auto">
+            {messages.length === 0 && <div className="text-center text-gray-500">Welcome to the Archie Copilot!</div>}
             {messages
               .sort(
                 (a, b) =>
