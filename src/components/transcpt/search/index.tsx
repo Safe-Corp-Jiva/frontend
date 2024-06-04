@@ -146,7 +146,7 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
                       <span className="text-black/60">{transcript.date}</span>
                     </td>
                     <td className="px-2 py-4 text-black/85">{transcript.name + ' ' + transcript.lastName}</td>
-                    <td className="px-2 py-4 text-black/60">{transcript.agent}</td>
+                    <td className="px-2 py-4 text-SCJ-primary">@{transcript.agent}</td>
                     <td className="px-2 py-4">
                       <div
                         className={`h-3 w-3 rounded-full ${sentimentColor(-100 /* transcript.sentiment */)} inline-block`}
