@@ -1,7 +1,6 @@
 'use client'
 
 const User = (key: any, agent: any) => {
-  console.log(agent)
   return (
     <div className="overflow-auto">
       <div key={key} className="flex items-center p-4 hover:bg-gray-200 cursor-pointer">
@@ -12,4 +11,3 @@ const User = (key: any, agent: any) => {
 }
 
 export default User
-

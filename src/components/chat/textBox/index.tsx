@@ -21,8 +21,6 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
   const ws = useRef<WebSocket | null>(null)
   const [selectedAgent, setSelectedAgent] = useState<any>(agent)
 
-  console.log(selectedAgent)
-
   useEffect(() => {
     if (isAgent) {
       ws.current = new WebSocket(`ws://localhost:3030?agentID=${agentID}&secondaryID=supervisor`)
@@ -45,8 +43,6 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
       ws.current?.close()
     }
   }, [])
-
-  console.log(messages)
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value)
