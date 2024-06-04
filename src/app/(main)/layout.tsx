@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+import './keybindings.js'
 import { fetchAuthSession } from 'aws-amplify/auth'
 import { useRouter } from 'next/navigation'
 
