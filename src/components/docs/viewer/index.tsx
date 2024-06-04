@@ -12,7 +12,13 @@ export default function DocumentViewer({ documents }: { documents: any[] }) {
         <div className="flex flex-col w-full items-center divide-y-2">
           {documents &&
             documents.map((document: any, index: number) => (
-              <button key={index} className="w-full text-center py-2 text-xs" onClick={() => setSelected(document)}>
+              <button
+                key={index}
+                className={`w-full text-center py-2 text-xs ${
+                  selected.filename === document.filename && 'bg-slate-300'
+                }`}
+                onClick={() => setSelected(document)}
+              >
                 {document.filename?.length ?? 0 > 16 ? document.filename?.slice(0, 16) + '...' : document.filename}
               </button>
             ))}
