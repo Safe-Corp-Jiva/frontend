@@ -1,6 +1,8 @@
 'use client'
 import { MetricsCard, OnGoingCallsCard, PastCallsCard, TrendingCard } from '@/components/dash'
 import { useRouter } from 'next/navigation'
+import RealTimeTranscript from '@/components/alerts'
+
 
 export default function Dashboard() {
   const router = useRouter()
@@ -31,6 +33,7 @@ export default function Dashboard() {
         isMaximized={false}
       />
       <MetricsCard maximize={() => handleExpand('MetricsCard')} minimize={() => handleMinimize()} isMaximized={false} />
+      <RealTimeTranscript/>
     </div>
   )
 }
