@@ -70,11 +70,6 @@ type Metric @model @auth(rules: [{allow: public}]) {
   waittime: Float
 }
 
-type Subscription {
-  onChunkByCallId(callId: ID!): Chunk
-    @aws_subscribe(mutations: ["createChunk"])
-}
-
 type ContactLensEvent @model @auth(rules: [{allow: public}]) {
   id: ID!
   ruleName: String!
@@ -84,4 +79,11 @@ type ContactLensEvent @model @auth(rules: [{allow: public}]) {
   agentArn: String!
   queueArn: String!
   timestamp: AWSDateTime!
+}
+
+type Subscription {
+  onChunkByCallId(callId: ID!): Chunk
+    @aws_subscribe(mutations: ["createChunk"])
+  onContactLensEvent: ContactLensEvent 
+    @aws_subscribe(mutations: ["createContactLensEvent"])
 }
