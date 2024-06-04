@@ -1,5 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
+import Wait  from '../wait/page'
+import 'amazon-connect-streams';
 
 function page() {
   return (
