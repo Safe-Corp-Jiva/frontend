@@ -15,7 +15,6 @@ function page() {
   useEffect(() => {
     const container = document.getElementById('container');
     if (!container) {
-      console.error('Container element not found');
       return;
     }
 
@@ -23,6 +22,13 @@ function page() {
     connect.core.initCCP(container, {
       ccpUrl: 'https://adventure-architects-dev.my.connect.aws/ccp-v2/',
       loginPopup: true,
+      loginOptions: {                 // optional, if provided opens login in new window
+        autoClose: true,              // optional, defaults to `false`
+        height: 600,                  // optional, defaults to 578
+        width: 400,                   // optional, defaults to 433
+        top: 0,                       // optional, defaults to 0
+        left: 0                       // optional, defaults to 0
+      },
       softphone: {
         allowFramedSoftphone: true,
       },
@@ -141,7 +147,15 @@ function page() {
   };
   return (
     <>
+      <div id="container" style={{ display: 'none' }}></div>
       {!incomingCall && !callAccepted && <Wait />}
+      {incomingCall && !callAccepted && (
+        <div>
+          <button className="bg-yellow-400 rounded-full w-10 h-10 flex justify-center items-center" onClick={handleAnswerCall}>
+              <Image src="/icons/exclamation-triangle.svg" alt="triangle" width={20} height={20} />
+          </button>
+        </div>
+      )}
       {callAccepted && (
         <div className="flex items-center justify-center bg-SCJ-gray w-full h-full">
           <div className="bg-white flex flex-col justify-center rounded-xl w-1/3 h-5/6 mx-4">
@@ -152,7 +166,7 @@ function page() {
                 <h4 className="font-bold text-sm">5:37</h4>
               </div>
               <div className="flex flex-row p-3 space-x-5">
-                <button className="bg-red-500 rounded-full w-10 h-10 flex justify-center items-center">
+                <button className="bg-red-500 rounded-full w-10 h-10 flex justify-center items-center" onClick={handleEndCall}>
                   <Image src="/icons/telephone.svg" alt="telephone" width={20} height={20} />
                 </button>
                 <button className="bg-blue-400 rounded-full w-10 h-10 flex justify-center items-center">
