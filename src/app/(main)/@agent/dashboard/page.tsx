@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Wait from '../wait/page'
 import { useEffect, useState } from 'react';
 import 'amazon-connect-streams';
+import ChatBot from '@/components/chat/chatBot'
 
 function page() {
   const [agent, setAgent] = useState<connect.Agent | null>(null);
@@ -190,8 +191,10 @@ function page() {
           </div>
         </div>
       )}
+         <ChatBot />
     </>
   );
 }
 
 export default page
+

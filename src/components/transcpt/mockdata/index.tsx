@@ -1,3 +1,4 @@
+// Innecessary mock data
 export const dataSearch = [
   {
     id: 0,

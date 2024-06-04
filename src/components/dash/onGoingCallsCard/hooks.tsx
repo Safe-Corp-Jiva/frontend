@@ -1,71 +1,70 @@
-import { useEffect, useState } from 'react';
-import { Call, CallStatus } from '@/API';
-import { callSubFactory } from '@/utils/gql';
+import { useEffect, useState } from 'react'
+import { Call, CallStatus } from '@/API'
+import { callSubFactory } from '@/utils/gql'
 
 interface CustomCall extends Call {
-  help?: number;
-  topic?: string;
+  help?: number
+  topic?: string
 }
 
 export function useOngoingCalls() {
-  const [OnGoingCalls, setOnGoingCalls] = useState<CustomCall[]>([]);
+  const [OnGoingCalls, setOnGoingCalls] = useState<CustomCall[]>([])
 
   const createCallback = (calls: Call[]) => {
-    setOnGoingCalls((prev) => [...prev, ...calls]);
-  };
+    setOnGoingCalls((prev) => [...prev, ...calls])
+  }
 
   const updateCallback = (call?: Call) => {
-    if (!call) return;
+    if (!call) return
 
     if (call.status === CallStatus.FINALIZED) {
-      setOnGoingCalls((prev) => prev.filter((prevCall) => prevCall.id !== call.id));
+      setOnGoingCalls((prev) => prev.filter((prevCall) => prevCall.id !== call.id))
     } else {
-      setOnGoingCalls((prev) => prev.map((prevCall) => prevCall.id === call.id ? call : prevCall));
+      setOnGoingCalls((prev) => prev.map((prevCall) => (prevCall.id === call.id ? call : prevCall)))
     }
   }
 
   const deleteCallback = (call: Call) => {
-    setOnGoingCalls((prev) => prev.filter((prevCall) => prevCall.id !== call.id));
+    setOnGoingCalls((prev) => prev.filter((prevCall) => prevCall.id !== call.id))
   }
 
   const fallback = (error: Error) => {
-    console.error(error);
-  };
+    console.error(error)
+  }
 
   useEffect(() => {
-    const { getter, createSub, updateSub, deleteSub } = callSubFactory();
+    const { getter, createSub, updateSub, deleteSub } = callSubFactory()
 
     const fetchCalls = async () => {
-      const calls = await getter();
-      console.log(calls);
-      createCallback(calls);
-    };
+      const calls = await getter()
+      createCallback(calls)
+    }
 
-    fetchCalls();
+    fetchCalls()
 
-    const formatter = (data?: Call) => data ? [data] : [];
+    const formatter = (data?: Call) => (data ? [data] : [])
 
     const createSubscriber = createSub.subscribe({
       next: (value) => createCallback(formatter(value?.data?.onCreateCall as Call)),
-      error: (error) => fallback(error)
-    });
+      error: (error) => fallback(error),
+    })
 
     const updateSubscriber = updateSub.subscribe({
       next: (value) => updateCallback(value?.data?.onUpdateCall as Call),
-      error: (error) => fallback(error)
-    });
+      error: (error) => fallback(error),
+    })
 
     const deleteSubscriber = deleteSub.subscribe({
       next: (value) => deleteCallback(value?.data?.onDeleteCall as Call),
-      error: (error) => fallback(error)
-    });
+      error: (error) => fallback(error),
+    })
 
     return () => {
-      createSubscriber.unsubscribe();
-      updateSubscriber.unsubscribe();
-      deleteSubscriber.unsubscribe();
+      createSubscriber.unsubscribe()
+      updateSubscriber.unsubscribe()
+      deleteSubscriber.unsubscribe()
     }
-  }, []);
+  }, [])
 
-  return OnGoingCalls;
+  return OnGoingCalls
 }
