@@ -23,7 +23,7 @@ const NavBar = () => {
   const handleMockCall = () => {
     router.push('/mockcall')
   }
-  const handleDndAgents= () => {
+  const handleDndAgents = () => {
     router.push('/mockdndagents')
   }
 
@@ -42,18 +42,15 @@ const NavBar = () => {
         <button onClick={handleChat} className="flex items-center justify-center">
           <Image src="/icons/Chat.svg" alt="chat" width={32} height={32} />
         </button>
-        <button onClick={handleProfile} className="flex items-center justify-center">
-          <Image src="/icons/User.svg" alt="user" width={32} height={32} />
-        </button>
-        <button onClick={handleMockCall} className="flex items-center justify-center">
-          <Headset size={28} color="#434D75" />
+        <button onClick={handleDocuments} className="flex items-center justify-center">
+          <Image src="/icons/Manual.svg" alt="user" width={32} height={32} />
         </button>
         <button onClick={handleDndAgents} className="flex items-center justify-center">
           <UsersRound size={28} color="#434D75" />
         </button>
       </div>
-      <button onClick={handleDocuments} className="flex items-center justify-center">
-        <Image src="/icons/Manual.svg" alt="user" width={32} height={32} />
+      <button onClick={handleProfile} className="flex items-center justify-center">
+        <Image src="/icons/User.svg" alt="user" width={32} height={32} />
       </button>
     </div>
   )
