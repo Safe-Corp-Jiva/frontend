@@ -24,14 +24,23 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type AgentUpdateFormInputValues = {
     username?: string;
+    lastName?: string;
+    firstName?: string;
+    email?: string;
 };
 export declare type AgentUpdateFormValidationValues = {
     username?: ValidationFunction<string>;
+    lastName?: ValidationFunction<string>;
+    firstName?: ValidationFunction<string>;
+    email?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type AgentUpdateFormOverridesProps = {
     AgentUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     username?: PrimitiveOverrideProps<TextFieldProps>;
+    lastName?: PrimitiveOverrideProps<TextFieldProps>;
+    firstName?: PrimitiveOverrideProps<TextFieldProps>;
+    email?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type AgentUpdateFormProps = React.PropsWithChildren<{
     overrides?: AgentUpdateFormOverridesProps | undefined | null;
