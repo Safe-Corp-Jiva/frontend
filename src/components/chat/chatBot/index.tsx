@@ -45,8 +45,6 @@ const ChatBot: React.FC = () => {
     getAttributes()
   }, [])
 
-  console.log(profileID)
-
   const toggleChat = () => {
     setIsOpen(!isOpen)
   }
@@ -59,7 +57,7 @@ const ChatBot: React.FC = () => {
       console.log('Connected to server')
     }
     ws.current.onmessage = (event) => {
-      console.log('Received message')
+      // console.log('Received message')
       const chunk = JSON.parse(event.data) as Message
       if (chunk.message_id) {
         setMessages((prev) => [...prev, chunk])
@@ -83,8 +81,6 @@ const ChatBot: React.FC = () => {
       setCopilotMessage([])
     }
   }
-
-  console.log('messages', messages)
 
   const sendMessage = () => {
     if (input.trim()) {
@@ -118,8 +114,6 @@ const ChatBot: React.FC = () => {
     }
   }
 
-  console.log(messages)
-
   const parseTimestamp = (timestamp: Timestamp) => {
     const date = new Date(timestamp.secs_since_epoch * 1000)
     return date.toLocaleTimeString()
@@ -149,7 +143,9 @@ const ChatBot: React.FC = () => {
               .map((msg, index) => (
                 <div
                   key={index}
-                  className={`flex flex-col max-w-52 justify-between ${msg.sender === 'agent' ? 'self-end' : 'self-start'}`}
+                  className={`flex flex-col max-w-52 justify-between ${
+                    msg.sender === 'agent' ? 'self-end' : 'self-start'
+                  }`}
                 >
                   <div className={`p-2 rounded ${msg.sender === 'agent' ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}>
                     {msg.output ? msg.output : msg.message}

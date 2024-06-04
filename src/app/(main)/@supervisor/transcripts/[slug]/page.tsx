@@ -1,5 +1,4 @@
-import { dataSearch, SlugPage } from '@components/transcpt'
-import { getRecording, recordingSampleKey } from '@/api/recordings'
+import { SlugPage } from '@components/transcpt'
 
 export default async function Page({ params }: { params: { slug: string } }) {
   return (
