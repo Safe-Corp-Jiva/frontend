@@ -13,7 +13,7 @@ function classNames(...classes: any[]) {
 }
 
 interface SearchPlusTabsProps {
-  transcripts: Transcript[];
+  transcripts: Transcript[]
 }
 
 export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
@@ -58,13 +58,13 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
 
   const activeButtonClass = (filter: string) => {
     return `rounded-2xl border cursor-pointer px-2 py-1 ${
-      activeFilter === filter ? 'bg-SCJ-primary text-white border-SCJ-primary stroke-white' : 'bg-white text-black border-black/20 stroke-black/25'
+      activeFilter === filter
+        ? 'bg-SCJ-primary text-white border-SCJ-primary stroke-white'
+        : 'bg-white text-black border-black/20 stroke-black/25'
     }`
   }
   const activeButtonClassIcon = (filter: string) => {
-    return ` ${
-      activeFilter === filter ? 'stroke-white' : 'stroke-black/75 text-trasparent'
-    }`
+    return ` ${activeFilter === filter ? 'stroke-white' : 'stroke-black/75 text-trasparent'}`
   }
 
   const sentimentColor = (sentiment: number) => {
@@ -106,10 +106,10 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
 
   const ClickToTranscript = (transcript: Transcript) => {
     // temporal idea ¯\_(ツ)_/¯
-    localStorage.setItem('transcript', transcript);
-    router.push(`/transcripts/${transcript.id}`);
+    localStorage.setItem('transcript', JSON.stringify(transcript))
+    router.push(`/transcripts/${transcript.id}`)
   }
-  
+
   return (
     <div className="w-full h-5/6 bg-white rounded-xl p-5 flex justify-evenly items-start gap-4">
       <Tab.Group vertical>
@@ -125,9 +125,24 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
             />
           </div>
           <div className="flex w-full space-x-3 px-2">
-            <SearchButtons text="Name" fn={() => handleFilterChange('name')} className={activeButtonClass('name')} classNameIcon={activeButtonClassIcon('name')} />
-            <SearchButtons text="Date" fn={() => handleFilterChange('date')} className={activeButtonClass('date')} classNameIcon={activeButtonClassIcon('date')}/>
-            <SearchButtons text="Id" fn={() => handleFilterChange('id')} className={activeButtonClass('id')} classNameIcon={activeButtonClassIcon('id')}/>
+            <SearchButtons
+              text="Name"
+              fn={() => handleFilterChange('name')}
+              className={activeButtonClass('name')}
+              classNameIcon={activeButtonClassIcon('name')}
+            />
+            <SearchButtons
+              text="Date"
+              fn={() => handleFilterChange('date')}
+              className={activeButtonClass('date')}
+              classNameIcon={activeButtonClassIcon('date')}
+            />
+            <SearchButtons
+              text="Id"
+              fn={() => handleFilterChange('id')}
+              className={activeButtonClass('id')}
+              classNameIcon={activeButtonClassIcon('id')}
+            />
             {/* <SearchButtons text="Flag" fn={() => handleFilterChange('flag')} className={activeButtonClass('flag')} classNameIcon={activeButtonClassIcon('flag')}/> */}
           </div>
           <Tab.List className="w-full h-full overflow-auto px-2">
@@ -142,14 +157,16 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
                     }
                   >
                     <td className="px-2 py-4 flex flex-col justify-center">
-                      <span className="font-bold text-lg">{transcript.id.slice(0,8)}...</span>
+                      <span className="font-bold text-lg">{transcript.id.slice(0, 8)}...</span>
                       <span className="text-black/60">{transcript.date}</span>
                     </td>
                     <td className="px-2 py-4 text-black/85">{transcript.name + ' ' + transcript.lastName}</td>
                     <td className="px-2 py-4 text-SCJ-primary">@{transcript.agent}</td>
                     <td className="px-2 py-4">
                       <div
-                        className={`h-3 w-3 rounded-full ${sentimentColor(-100 /* transcript.sentiment */)} inline-block`}
+                        className={`h-3 w-3 rounded-full ${sentimentColor(
+                          -100 /* transcript.sentiment */
+                        )} inline-block`}
                       ></div>
                     </td>
                     <td className="px-2 py-4">
@@ -177,23 +194,26 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
                   </div>
                   {/* Render de los chunks */}
                   <div className="rounded-b-xl size-full px-10 py-5 overflow-auto">
-                    {
-                      transcript.chunks?.map((chunk) => (
-                        <div key={chunk.Id} className="flex flex-col gap-1 m-4">
-                          <div className="flex justify-between items-center">
-                            { chunk.ParticipantId && <span className="text-black/60">{chunk.ParticipantId}</span> } 
-                          </div>
-                          {/* // Bloques de chunk */}
-                          <div className="rounded-xl bg-white border border-black/20 p-3">
-                            <span>{chunk.Content}</span>
-                          </div>
+                    {transcript.chunks?.map((chunk) => (
+                      <div key={chunk.Id} className="flex flex-col gap-1 m-4">
+                        <div className="flex justify-between items-center">
+                          {chunk.ParticipantId && <span className="text-black/60">{chunk.ParticipantId}</span>}
                         </div>
-                      ))
-                    }
+                        {/* // Bloques de chunk */}
+                        <div className="rounded-xl bg-white border border-black/20 p-3">
+                          <span>{chunk.Content}</span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                   {/* Botón to see more */}
                   <div className="w-full flex justify-center items-center my-3">
-                    <div className="rounded-xl bg-SCJ-primary text-white px-5 py-3 cursor-pointer" onClick={() => ClickToTranscript(transcript)}>See more...</div>
+                    <div
+                      className="rounded-xl bg-SCJ-primary text-white px-5 py-3 cursor-pointer"
+                      onClick={() => ClickToTranscript(transcript)}
+                    >
+                      See more...
+                    </div>
                   </div>
                 </div>
               </Tab.Panel>
