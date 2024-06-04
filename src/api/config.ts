@@ -9,12 +9,13 @@ import awsconfig from '@/aws-exports'
 Amplify.configure(awsconfig)
 
 const config = {
-  region: process.env.AWS_REGION,
+  region: process.env.AWS_REGION ?? 'us-east-1',
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? '',
   },
 }
+
 // Configure the AWS SDK with your credentials and region
 export const S3 = new S3Client(config)
 export const CONNECT = new ConnectClient(config)

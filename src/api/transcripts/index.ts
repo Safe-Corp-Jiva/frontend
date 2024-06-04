@@ -8,8 +8,23 @@ import { listPastCalls } from '@/graphql/queries'
 import { CallStatus } from '@/API'
 import { AMPLIFY_CLIENT } from '../config'
 
+export type TranscriptChunk = {
+  Content: string;
+  Id: string;
+  LoudnessScore: number[];
+  ParticipantId: string;
+  Sentiment: string;
+}
+
 export type Transcript = {
-  [key: string]: { recordingURL: string | null; transcript: any[] | null; callData: any }
+  recordingURL: string | null; 
+  chunks: TranscriptChunk[] | null;
+  id: string;
+  date: string;
+  name: string;
+  lastName: string;
+  agent: string;
+  flagged: boolean;
 }
 
 export const getTranscript = async ({ fileKey }: { fileKey: string }) => {
@@ -38,7 +53,7 @@ export const listTranscripts = async () => {
       Bucket: process.env.S3_BUCKET_NAME,
       Prefix: 'Analysis/Voice/',
     }
-    const data = {} as Transcript
+    const data: any = {};
 
     // List calls and add to data object, which should be finalized
     const calls = await AMPLIFY_CLIENT.graphql({
@@ -77,7 +92,29 @@ export const listTranscripts = async () => {
         data[contactId].transcript = transcript
       }
     }
-    return data
+    
+    // Create final array of transcripts
+    const transcripts: Transcript[] = []
+    for (const key in data) {
+      const { recordingURL, transcript, callData } = data[key]
+      const { id, createdAt, agent, flagged } = callData
+      
+      // Convert createdAt (ISO Timestamp) to DD/MM/YYYY
+      const date = new Date(createdAt);
+
+      transcripts.push({ 
+        recordingURL, 
+        chunks: transcript, 
+        id, 
+        date: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`, 
+        flagged: flagged ?? false,
+        name: agent?.firstName, 
+        lastName: agent?.lastName,
+        agent: agent?.username,
+      })
+    }
+
+    return transcripts;
   } catch (error) {
     console.error('Error listing objects:', error)
     return null

@@ -250,6 +250,8 @@ export const listPastCalls = /* GraphQL */ `query ListPastCalls {
           status
           agent {
               username
+              lastName
+              firstName
           }
           updatedAt
       }
