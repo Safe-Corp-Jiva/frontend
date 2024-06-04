@@ -12,6 +12,9 @@ export const getAgent = /* GraphQL */ `query GetAgent($id: ID!) {
   getAgent(id: $id) {
     id
     username
+    lastName
+    firstName
+    email
     createdAt
     updatedAt
     __typename
@@ -27,6 +30,9 @@ export const listAgents = /* GraphQL */ `query ListAgents(
     items {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -117,11 +123,6 @@ export const chunksByCallId = /* GraphQL */ `query ChunksByCallId(
       id
       sentiment
       callId
-      content {
-        role
-        text
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -177,6 +178,9 @@ export const getCall = /* GraphQL */ `query GetCall($id: ID!) {
     agent {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -288,3 +292,43 @@ export const listMetrics = /* GraphQL */ `query ListMetrics(
   }
 }
 ` as GeneratedQuery<APITypes.ListMetricsQueryVariables, APITypes.ListMetricsQuery>
+export const getContactLensEvent = /* GraphQL */ `query GetContactLensEvent($id: ID!) {
+  getContactLensEvent(id: $id) {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetContactLensEventQueryVariables, APITypes.GetContactLensEventQuery>
+export const listContactLensEvents = /* GraphQL */ `query ListContactLensEvents(
+  $filter: ModelContactLensEventFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listContactLensEvents(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      ruleName
+      actionName
+      instanceArn
+      contactArn
+      agentArn
+      queueArn
+      timestamp
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.ListContactLensEventsQueryVariables, APITypes.ListContactLensEventsQuery>

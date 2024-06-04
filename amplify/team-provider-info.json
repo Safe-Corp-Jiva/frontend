@@ -20,6 +20,9 @@
           "bucketName": "amazon-connect-37ad28d502f0",
           "region": "us-east-1"
         }
+      },
+      "api": {
+        "jiva": {}
       }
     }
   }

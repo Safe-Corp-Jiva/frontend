@@ -1,7 +1,8 @@
 import { generateClient } from 'aws-amplify/api';
-import { onChunkByCallId, onCreateCall, onUpdateCall, onDeleteCall } from '@/graphql/subscriptions';
+import { onChunkByCallId, onCreateCall, onUpdateCall, onDeleteCall, onContactLensEvent } from '@/graphql/subscriptions';
 import { chunksByCallId, listCalls } from '@/graphql/queries';
 import { CallStatus } from '@/API';
+
 
 const client = generateClient();
 
@@ -23,7 +24,6 @@ export const chunkSubFactory = (callId: string) => ({
     },
   })
 });
-
 
 export const callSubFactory = () => ({
   getter: async () => (
@@ -48,5 +48,11 @@ export const callSubFactory = () => ({
   }),
   deleteSub: client.graphql({
     query: onDeleteCall
+  })
+});
+
+export const contactLensEventSubFactory = () => ({
+  sub: client.graphql({
+    query: onContactLensEvent,
   })
 });
