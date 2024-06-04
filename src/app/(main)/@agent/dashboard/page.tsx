@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import ChatBot from '@/components/chat/chatBot'
 
 function page() {
   return (
@@ -30,8 +31,10 @@ function page() {
           <h1>Transcript goes here</h1>
         </div>
       </div>
+      <ChatBot />
     </div>
   )
 }
 
 export default page
+

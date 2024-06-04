@@ -1,27 +1,42 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import { useAuthenticator } from '@aws-amplify/ui-react'
+import { Message } from '@/components/chat/chatBot'
 
-const TextBox = (user, agent = false) => {
-  const [messages, setMessages] = useState<{ call_id: String; sender: string; message: string }[]>([])
+type Timestamp = {
+  secs_since_epoch: number
+  nanos_since_epoch: number
+}
+
+type TextBoxProps = {
+  isAgent?: boolean
+  agent?: any
+  agentID?: any
+}
+
+const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID }) => {
+  const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const ws = useRef<WebSocket | null>(null)
+  const [selectedAgent, setSelectedAgent] = useState<any>(agent)
 
-  const supervisorEmail = useState<String>('')
-  const agentEmail = useState<String>('')
+  console.log(selectedAgent)
 
-  // Create websocket connection
   useEffect(() => {
-    ws.current = new WebSocket(`ws://localhost:3030?primaryID=${agentEmail}&secondaryID=${supervisorEmail}`)
+    if (isAgent) {
+      ws.current = new WebSocket(`ws://localhost:3030?agentID=${agentID}&secondaryID=supervisor`)
+    } else {
+      ws.current = new WebSocket(`ws://localhost:3030?agentID=${selectedAgent.id}&secondaryID=supervisor`)
+    }
+    if (ws.current === null) {
+      return
+    }
+
     ws.current.onopen = () => {
       console.log('Connected to server')
     }
 
-    const getSupervisor = async () => {
-      const response = await getSupervisor()
-      const data = await response.json()
-      supervisorEmail[1](data.email)
-    }
     ws.current.onmessage = (event) => {
       const message = JSON.parse(event.data)
       setMessages((prev) => [...prev, message])
@@ -37,41 +52,66 @@ const TextBox = (user, agent = false) => {
     setInput(e.target.value)
   }
 
+  const parseTimestamp = (timestamp: Timestamp) => {
+    const date = new Date(timestamp.secs_since_epoch * 1000)
+    return date.toLocaleTimeString()
+  }
+
   const sendMessage = () => {
-    setMessages([...messages, { call_id: 'test-test', sender: 'user', message: input }])
     let message = {
-      call_id: 'test-test',
-      sender: 'agent',
+      chat_id: `${selectedAgent.id}-supervisor`,
+      sender: isAgent ? 'agent' : 'supervisor',
       message: input,
     }
     ws.current?.send(JSON.stringify(message))
     setInput('')
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        { call_id: 'test-test', sender: 'supervisor', message: 'This is a supervisor message.' },
-      ])
-    }, 1000)
   }
   return (
     <div className="flex flex-col justify-between h-full">
       {/* Encabezado del Chat */}
       <div className="p-4 border border-12 rounded-l-xl bg-white flex justify-between items-center">
         <div>
-          <h2 className="text-lg font-semibold">Fer Cantú</h2>
-          <p className="text-sm text-gray-500">Online</p>
+          <h2 className="text-lg font-semibold">{agent.username}</h2>
         </div>
         <Image src="/icons/User.svg" alt="User" width={32} height={32} />
       </div>
       {/* Mensajes */}
       <div className="flex flex-col flex-1 p-4 bg-gray-100 overflow-y-auto space-y-2 align-end h-[400px]">
-        {messages.map((msg, index) => (
-          <div key={index} className={`flex max-h-24 ${msg.sender === 'agent' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`p-2 rounded ${msg.sender === 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}>
-              {msg.message}
-            </div>
-          </div>
-        ))}
+        {isAgent
+          ? messages
+              .sort(
+                (a, b) =>
+                  a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
+                  a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+              )
+              .map((msg, index) => (
+                <div
+                  key={index}
+                  className={`flex flex-col max-w-50 max-h-24 ${msg.sender === 'agent' ? 'self-end' : 'self-start'}`}
+                >
+                  <div className={`p-2 rounded ${msg.sender === 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}>
+                    {msg.message}
+                  </div>
+                  <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
+                </div>
+              ))
+          : messages
+              .sort(
+                (a, b) =>
+                  a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
+                  a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+              )
+              .map((msg, index) => (
+                <div
+                  key={index}
+                  className={`flex flex-col max-w-50 max-h-24 ${msg.sender === 'agent' ? 'self-start' : 'self-end'}`}
+                >
+                  <div className={`p-2 rounded ${msg.sender !== 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}>
+                    {msg.message}
+                  </div>
+                  <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
+                </div>
+              ))}
       </div>
       {/* TextBox*/}
       <div className="mt-auto p-4 border-t border-gray-300 flex justify-between items-center">

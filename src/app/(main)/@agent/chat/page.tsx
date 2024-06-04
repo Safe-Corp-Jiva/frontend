@@ -1,12 +1,27 @@
 'use client'
-import React, { useEffect } from 'react'
-import { Users } from '@/components/chat'
+import React, { useEffect, useState } from 'react'
 import { TextBox } from '@/components/chat'
 import { useAuthenticator } from '@aws-amplify/ui-react'
+import { fetchUserAttributes } from 'aws-amplify/auth'
 
 function Chat() {
   const { user } = useAuthenticator((context) => [context.user])
-  console.log('user', user)
+  const [agentID, setAgentID] = useState<any>('')
+  useEffect(() => {
+    const getUserAttributes = async () => {
+      try {
+        const attributes = await fetchUserAttributes()
+        console.log('User attributes: ', attributes)
+        setAgentID(attributes['custom:profileId'])
+      } catch (error) {
+        console.log('Error fetching user attributes: ', error)
+      }
+    }
+
+    getUserAttributes()
+  }, [])
+
+  console.log(agentID)
 
   return (
     <div
@@ -14,7 +29,7 @@ function Chat() {
       style={{ height: 'calc(100% - 2rem)' }}
     >
       <div className="border rounded-xl border-gray-300 flex-1 flex flex-col bg-white">
-        <TextBox user={user} agent />
+        {agentID && <TextBox agentID={agentID} isAgent={true} />}
       </div>
     </div>
   )

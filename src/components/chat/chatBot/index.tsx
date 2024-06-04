@@ -9,9 +9,10 @@ type Timestamp = {
   nanos_since_epoch: number
 }
 
-type Message = {
-  message_id: string
-  call_id?: string
+export type Message = {
+  message_id?: string
+  chat_id?: string
+  action?: string
   sender: string
   message?: string
   output?: string
@@ -21,7 +22,7 @@ type Message = {
 type SendMessage = {
   sender: string
   message: string
-  call_id: string
+  chat_id: string
 }
 
 const ChatBot: React.FC = () => {
@@ -30,7 +31,7 @@ const ChatBot: React.FC = () => {
   const [input, setInput] = useState('')
   const ws = useRef<WebSocket | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const copilotBuffer = useRef<{ [key: string]: string }>({})
+  const [copilotMessage, setCopilotMessage] = useState<any>([])
 
   const toggleChat = () => {
     setIsOpen(!isOpen)
@@ -45,10 +46,10 @@ const ChatBot: React.FC = () => {
     ws.current.onmessage = (event) => {
       console.log('Received message')
       const chunk = JSON.parse(event.data) as Message
-      if (chunk.sender === 'copilot') {
-        handleCopilotMessage(chunk)
-      } else {
+      if (chunk.message_id) {
         setMessages((prev) => [...prev, chunk])
+      } else {
+        handleCopilotMessage(chunk)
       }
     }
     return () => {
@@ -57,33 +58,26 @@ const ChatBot: React.FC = () => {
   }, [isOpen])
 
   const handleCopilotMessage = (chunk: Message) => {
-    const { message_id, output, timestamp } = chunk
-
-    if (!copilotBuffer.current[message_id]) {
-      copilotBuffer.current[message_id] = ''
-      setMessages((prev) => [...prev, { message_id, sender: 'Copilot', output: '', timestamp }])
-    }
-
-    copilotBuffer.current[message_id] += output
-
-    setMessages((prev) => {
-      const newMessages = prev.map((msg) =>
-        msg.message_id === message_id ? { ...msg, output: copilotBuffer.current[message_id] } : msg
-      )
-      return newMessages
+    setCopilotMessage((prev) => {
+      return [...prev, chunk.output]
     })
+
+    if (chunk.action === 'end') {
+      setCopilotMessage([])
+    }
   }
+
+  console.log('messages', messages)
 
   const sendMessage = () => {
     if (input.trim()) {
       const newMessage: SendMessage = {
-        call_id: 'test-copilot',
+        chat_id: 'test-copilot',
         sender: 'agent',
         message: input,
       }
 
       const message: Message = {
-        message_id: crypto.randomUUID(),
         timestamp: {
           secs_since_epoch: Date.now() / 1000,
           nanos_since_epoch: 0,
@@ -91,6 +85,7 @@ const ChatBot: React.FC = () => {
         ...newMessage,
       }
       setMessages([...messages, message])
+      setCopilotMessage([])
       ws.current?.send(JSON.stringify(newMessage))
       setInput('')
     }
@@ -145,6 +140,11 @@ const ChatBot: React.FC = () => {
                   <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
                 </div>
               ))}
+            {copilotMessage.length > 0 && (
+              <div className="flex flex-col max-w-52 justify-between self-start">
+                <div className="p-2 rounded bg-gray-200 text-black">{copilotMessage}</div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
           <div className="p-4 bg-gray-100 flex">
