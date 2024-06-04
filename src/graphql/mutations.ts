@@ -15,6 +15,9 @@ export const createAgent = /* GraphQL */ `mutation CreateAgent(
   createAgent(input: $input, condition: $condition) {
     id
     username
+    lastName
+    firstName
+    email
     createdAt
     updatedAt
     __typename
@@ -31,6 +34,9 @@ export const updateAgent = /* GraphQL */ `mutation UpdateAgent(
   updateAgent(input: $input, condition: $condition) {
     id
     username
+    lastName
+    firstName
+    email
     createdAt
     updatedAt
     __typename
@@ -47,6 +53,9 @@ export const deleteAgent = /* GraphQL */ `mutation DeleteAgent(
   deleteAgent(input: $input, condition: $condition) {
     id
     username
+    lastName
+    firstName
+    email
     createdAt
     updatedAt
     __typename
@@ -240,6 +249,9 @@ export const createCall = /* GraphQL */ `mutation CreateCall(
     agent {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -304,6 +316,9 @@ export const updateCall = /* GraphQL */ `mutation UpdateCall(
     agent {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -368,6 +383,9 @@ export const deleteCall = /* GraphQL */ `mutation DeleteCall(
     agent {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -463,4 +481,70 @@ export const deleteMetric = /* GraphQL */ `mutation DeleteMetric(
 ` as GeneratedMutation<
   APITypes.DeleteMetricMutationVariables,
   APITypes.DeleteMetricMutation
+>;
+export const createContactLensEvent = /* GraphQL */ `mutation CreateContactLensEvent(
+  $input: CreateContactLensEventInput!
+  $condition: ModelContactLensEventConditionInput
+) {
+  createContactLensEvent(input: $input, condition: $condition) {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateContactLensEventMutationVariables,
+  APITypes.CreateContactLensEventMutation
+>;
+export const updateContactLensEvent = /* GraphQL */ `mutation UpdateContactLensEvent(
+  $input: UpdateContactLensEventInput!
+  $condition: ModelContactLensEventConditionInput
+) {
+  updateContactLensEvent(input: $input, condition: $condition) {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateContactLensEventMutationVariables,
+  APITypes.UpdateContactLensEventMutation
+>;
+export const deleteContactLensEvent = /* GraphQL */ `mutation DeleteContactLensEvent(
+  $input: DeleteContactLensEventInput!
+  $condition: ModelContactLensEventConditionInput
+) {
+  deleteContactLensEvent(input: $input, condition: $condition) {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteContactLensEventMutationVariables,
+  APITypes.DeleteContactLensEventMutation
 >;

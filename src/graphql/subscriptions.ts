@@ -27,10 +27,30 @@ export const onChunkByCallId = /* GraphQL */ `subscription OnChunkByCallId($call
   APITypes.OnChunkByCallIdSubscriptionVariables,
   APITypes.OnChunkByCallIdSubscription
 >;
+export const onContactLensEvent = /* GraphQL */ `subscription OnContactLensEvent {
+  onContactLensEvent {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnContactLensEventSubscriptionVariables,
+  APITypes.OnContactLensEventSubscription
+>;
 export const onCreateAgent = /* GraphQL */ `subscription OnCreateAgent($filter: ModelSubscriptionAgentFilterInput) {
   onCreateAgent(filter: $filter) {
     id
     username
+    lastName
+    firstName
+    email
     createdAt
     updatedAt
     __typename
@@ -44,6 +64,9 @@ export const onUpdateAgent = /* GraphQL */ `subscription OnUpdateAgent($filter: 
   onUpdateAgent(filter: $filter) {
     id
     username
+    lastName
+    firstName
+    email
     createdAt
     updatedAt
     __typename
@@ -57,6 +80,9 @@ export const onDeleteAgent = /* GraphQL */ `subscription OnDeleteAgent($filter: 
   onDeleteAgent(filter: $filter) {
     id
     username
+    lastName
+    firstName
+    email
     createdAt
     updatedAt
     __typename
@@ -220,6 +246,9 @@ export const onCreateCall = /* GraphQL */ `subscription OnCreateCall($filter: Mo
     agent {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -281,6 +310,9 @@ export const onUpdateCall = /* GraphQL */ `subscription OnUpdateCall($filter: Mo
     agent {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -342,6 +374,9 @@ export const onDeleteCall = /* GraphQL */ `subscription OnDeleteCall($filter: Mo
     agent {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -428,4 +463,61 @@ export const onDeleteMetric = /* GraphQL */ `subscription OnDeleteMetric($filter
 ` as GeneratedSubscription<
   APITypes.OnDeleteMetricSubscriptionVariables,
   APITypes.OnDeleteMetricSubscription
+>;
+export const onCreateContactLensEvent = /* GraphQL */ `subscription OnCreateContactLensEvent(
+  $filter: ModelSubscriptionContactLensEventFilterInput
+) {
+  onCreateContactLensEvent(filter: $filter) {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateContactLensEventSubscriptionVariables,
+  APITypes.OnCreateContactLensEventSubscription
+>;
+export const onUpdateContactLensEvent = /* GraphQL */ `subscription OnUpdateContactLensEvent(
+  $filter: ModelSubscriptionContactLensEventFilterInput
+) {
+  onUpdateContactLensEvent(filter: $filter) {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateContactLensEventSubscriptionVariables,
+  APITypes.OnUpdateContactLensEventSubscription
+>;
+export const onDeleteContactLensEvent = /* GraphQL */ `subscription OnDeleteContactLensEvent(
+  $filter: ModelSubscriptionContactLensEventFilterInput
+) {
+  onDeleteContactLensEvent(filter: $filter) {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteContactLensEventSubscriptionVariables,
+  APITypes.OnDeleteContactLensEventSubscription
 >;
