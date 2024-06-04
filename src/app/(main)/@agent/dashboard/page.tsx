@@ -150,10 +150,14 @@ function page() {
       <div id="container" style={{ display: 'none' }}></div>
       {!incomingCall && !callAccepted && <Wait />}
       {incomingCall && !callAccepted && (
-        <div>
-          <button className="bg-yellow-400 rounded-full w-10 h-10 flex justify-center items-center" onClick={handleAnswerCall}>
-              <Image src="/icons/exclamation-triangle.svg" alt="triangle" width={20} height={20} />
-          </button>
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
+          <div className="bg-white flex flex-col justify-center rounded-xl p-6">
+            <h1 className="text-2xl font-bold text-center mb-4">Incoming call!!!</h1>
+            <button className="bg-green-500 text-white rounded-full w-20 h-20 flex justify-center items-center" onClick={handleAnswerCall}>
+              <span className="sr-only">Answer call</span>
+              <Image src="/icons/check.svg" alt="Answer call" width={32} height={32} />
+            </button>
+          </div>
         </div>
       )}
       {callAccepted && (
