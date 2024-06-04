@@ -2,8 +2,10 @@
 import React from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Headset } from 'lucide-react'
+import { Headset, Icon } from 'lucide-react'
 import { UsersRound } from 'lucide-react'
+
+import IconWithTool from '../iconwithtool'
 
 const NavBar = () => {
   const router = useRouter()
@@ -33,24 +35,24 @@ const NavBar = () => {
         <div className="flex items-center justify-center">
           <Image src="/icons/logo.svg" alt="logo" width={56} height={56} />
         </div>
-        <button onClick={handleDash} className="flex items-center justify-center">
-          <Image src="/icons/House.svg" alt="home" width={32} height={32} />
+        <button className="flex items-center justify-center">
+          <IconWithTool icon="Home" path="/dashboard" text="Dashboard" />
         </button>
         <button className="flex items-center justify-center">
-          <Image src="/icons/Notif.svg" alt="notifications" width={32} height={32} />
+          <IconWithTool icon="Bell" path="/" text="Notifications" />
         </button>
-        <button onClick={handleChat} className="flex items-center justify-center">
-          <Image src="/icons/Chat.svg" alt="chat" width={32} height={32} />
+        <button className="flex items-center justify-center">
+          <IconWithTool icon="Chat" path="/chat" text="Chat" />
         </button>
-        <button onClick={handleDocuments} className="flex items-center justify-center">
-          <Image src="/icons/Manual.svg" alt="user" width={32} height={32} />
+        <button className="flex items-center justify-center">
+          <IconWithTool icon="Book" path="/documents" text="Documents" />
         </button>
-        <button onClick={handleDndAgents} className="flex items-center justify-center">
-          <UsersRound size={28} color="#434D75" />
+        <button className="flex items-center justify-center">
+          <IconWithTool icon="Users" path="/mockdndagents" text="Queue Agents" />
         </button>
       </div>
-      <button onClick={handleProfile} className="flex items-center justify-center">
-        <Image src="/icons/User.svg" alt="user" width={32} height={32} />
+      <button className="flex items-center justify-center">
+        <IconWithTool icon="UserRound" path="/profile" text="Profile" />
       </button>
     </div>
   )
