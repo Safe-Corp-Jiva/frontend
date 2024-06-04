@@ -1,10 +1,14 @@
+// Interfaz "See More"
+
 'use client'
 import React from 'react'
 import FlagIcon from '../iconscomponents/flagicon'
 import AudioPlayer from 'react-h5-audio-player'
 import './audio.css'
 
-export default function SlugPage({ transcript, audioURL }: { transcript: any; audioURL: string }) {
+import type { Transcript } from '@/api/transcripts'
+
+export default function SlugPage() {
   const sentimentColorText = (sentiment: number) => {
     switch (sentiment) {
       case 1:
@@ -26,12 +30,16 @@ export default function SlugPage({ transcript, audioURL }: { transcript: any; au
   const flagColor = (flagged: boolean) => {
     return flagged ? 'text-red-400 stroke-red-200 ' : 'stroke-black/25 text-transparent'
   }
+
+  const transcript = localStorage.getItem('transcript');
+  console.log(transcript);
+
   return (
     <div className="w-full h-full bg-white rounded-xl flex flex-col p-5">
       <div className="w-full flex justify-between border-b-2 border-black/20 pb-2">
         <div className="flex flex-col">
           <span className="text-2xl font-bold">
-            {transcript.name} {transcript.lastname}
+            {transcript.agent} {<transcript className="user"></transcript>name}
           </span>
           <span className="text-black/50">{transcript.date}</span>
         </div>
@@ -59,7 +67,7 @@ export default function SlugPage({ transcript, audioURL }: { transcript: any; au
         <AudioPlayer
           style={{ width: '50%' }}
           // src="/audio/PandaEyesTest.mp3"
-          src={audioURL}
+          src={transcript.recordingURL}
           customAdditionalControls={[]} // Remove the loop controls
         />
       </div>

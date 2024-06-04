@@ -1,7 +1,7 @@
 'use client'
 import { SetStateAction, useState } from 'react'
 import { Tab } from '@headlessui/react'
-import { dataSearch } from '../mockdata'
+// import { dataSearch } from '../mockdata'
 import SearchButtons from '../searchbuttons'
 import FlagIcon from '../iconscomponents/flagicon'
 import { useRouter } from 'next/navigation'
@@ -106,7 +106,7 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
 
   const ClickToTranscript = (transcript: Transcript) => {
     // temporal idea ¯\_(ツ)_/¯
-    localStorage.setItem('transcript', JSON.stringify(transcript));
+    localStorage.setItem('transcript', transcript);
     router.push(`/transcripts/${transcript.id}`);
   }
   
@@ -175,6 +175,7 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
                       <span className="font-medium text-2Ixl">{transcript.id}</span>
                     </div>
                   </div>
+                  {/* Render de los chunks */}
                   <div className="rounded-b-xl size-full px-10 py-5 overflow-auto">
                     {
                       transcript.chunks?.map((chunk) => (
@@ -182,6 +183,7 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
                           <div className="flex justify-between items-center">
                             { chunk.ParticipantId && <span className="text-black/60">{chunk.ParticipantId}</span> } 
                           </div>
+                          {/* // Bloques de chunk */}
                           <div className="rounded-xl bg-white border border-black/20 p-3">
                             <span>{chunk.Content}</span>
                           </div>
@@ -189,6 +191,7 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
                       ))
                     }
                   </div>
+                  {/* Botón to see more */}
                   <div className="w-full flex justify-center items-center my-3">
                     <div className="rounded-xl bg-SCJ-primary text-white px-5 py-3 cursor-pointer" onClick={() => ClickToTranscript(transcript)}>See more...</div>
                   </div>
