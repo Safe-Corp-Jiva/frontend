@@ -4,9 +4,7 @@ import { GetObjectCommand, ListObjectsCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { S3 } from '../config'
 import { getRecording, listRecordings } from '../recordings'
-import { listPastCalls } from '@/graphql/queries'
-import { CallStatus } from '@/API'
-import { AMPLIFY_CLIENT } from '../config'
+import { getPastCalls } from '../calls'
 
 export type TranscriptChunk = {
   Content: string;
@@ -55,11 +53,7 @@ export const listTranscripts = async () => {
     }
     const data: any = {};
 
-    // List calls and add to data object, which should be finalized
-    const calls = await AMPLIFY_CLIENT.graphql({
-      query: listPastCalls,
-      // variables: { filter: { status: { eq: CallStatus.FINALIZED } } },
-    }).then(({ data }) => data?.listCalls?.items ?? [])
+    const calls = await getPastCalls()
 
     // Add keys to data object as long as they exist in dynamoDB
     for (const call of calls) {
