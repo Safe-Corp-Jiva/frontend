@@ -11,7 +11,6 @@ function Chat() {
     const getUserAttributes = async () => {
       try {
         const attributes = await fetchUserAttributes()
-        console.log('User attributes: ', attributes)
         setAgentID(attributes['custom:profileId'])
       } catch (error) {
         console.log('Error fetching user attributes: ', error)
@@ -20,8 +19,6 @@ function Chat() {
 
     getUserAttributes()
   }, [])
-
-  console.log(agentID)
 
   return (
     <div

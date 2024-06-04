@@ -18,9 +18,6 @@ interface SearchPlusTabsProps {
 
 export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
   const router = useRouter()
-
-  console.log(transcripts)
-
   const [searchTerm, setSearchTerm] = useState('')
   const [activeFilter, setActiveFilter] = useState('name')
   const [isFlagFilterActive, setIsFlagFilterActive] = useState(false)
