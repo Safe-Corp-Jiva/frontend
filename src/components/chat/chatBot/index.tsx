@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
+import { fetchUserAttributes } from 'aws-amplify/auth'
 
 // Define the Message type
 type Timestamp = {
@@ -33,13 +34,27 @@ const ChatBot: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [copilotMessage, setCopilotMessage] = useState<any>([])
 
+  const [profileID, setProfileID] = useState<any>('')
+
+  useEffect(() => {
+    const getAttributes = async () => {
+      const attributes = await fetchUserAttributes()
+      setProfileID(attributes['custom:profileId'])
+    }
+
+    getAttributes()
+  }, [])
+
+  console.log(profileID)
+
   const toggleChat = () => {
     setIsOpen(!isOpen)
   }
 
-  useEffect(() => {
+  useMemo(() => {
     if (!isOpen) return
-    ws.current = new WebSocket('ws://localhost:3030?agentID=test&secondaryID=copilot')
+    if (!profileID) return
+    ws.current = new WebSocket(`ws://localhost:3030?agentID=${profileID}&secondaryID=copilot`)
     ws.current.onopen = () => {
       console.log('Connected to server')
     }
@@ -55,12 +70,14 @@ const ChatBot: React.FC = () => {
     return () => {
       ws.current?.close()
     }
-  }, [isOpen])
+  }, [isOpen, profileID])
 
   const handleCopilotMessage = (chunk: Message) => {
-    setCopilotMessage((prev) => {
+    setCopilotMessage((prev: Message[]) => {
       return [...prev, chunk.output]
     })
+
+    messagesEndRef?.current?.scrollIntoView({ behavior: 'smooth' })
 
     if (chunk.action === 'end') {
       setCopilotMessage([])
