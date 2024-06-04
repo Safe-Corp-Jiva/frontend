@@ -1,6 +1,6 @@
 import { BottomNav } from '@/components/docs'
 import { SearchPlusTabs } from '@/components/transcpt'
-import { listTranscripts, Transcript } from '@/api/transcripts'
+import { listTranscripts, Transcript } from '@/api/transcripts/'
 
 async function Transcripts() {
   const transcripts = await listTranscripts()

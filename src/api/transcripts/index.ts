@@ -2,12 +2,14 @@
 // ronuma, may 2024
 import { GetObjectCommand, ListObjectsCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
-import { S3 } from './config'
-import { getRecording, listRecordings } from './recordings'
-import { getCallData } from './connect'
+import { S3 } from '../config'
+import { getRecording, listRecordings } from '../recordings'
+import { listPastCalls } from '@/graphql/queries'
+import { CallStatus } from '@/API'
+import { AMPLIFY_CLIENT } from '../config'
 
 export type Transcript = {
-  [key: string]: { recordingURL: string | null; transcript: any[] | null; contactData: any }
+  [key: string]: { recordingURL: string | null; transcript: any[] | null; callData: any }
 }
 
 export const getTranscript = async ({ fileKey }: { fileKey: string }) => {
@@ -29,6 +31,8 @@ export const getTranscript = async ({ fileKey }: { fileKey: string }) => {
 }
 
 export const listTranscripts = async () => {
+  // RegEx to extract contact ID from file key
+  const contactIdExp = /\/\d{4}\/\d{2}\/\d{2}\/([a-zA-Z0-9\-]+)_/g
   try {
     const params = {
       Bucket: process.env.S3_BUCKET_NAME,
@@ -36,43 +40,43 @@ export const listTranscripts = async () => {
     }
     const data = {} as Transcript
 
-    // RegEx to extract contact ID from file key
-    const contactIdExp = /\/\d{4}\/\d{2}\/\d{2}\/([a-zA-Z0-9\-]+)_/g
+    // List calls and add to data object, which should be finalized
+    const calls = await AMPLIFY_CLIENT.graphql({
+      query: listPastCalls,
+      // variables: { filter: { status: { eq: CallStatus.FINALIZED } } },
+    }).then(({ data }) => data?.listCalls?.items ?? [])
 
-    // List recordings and add to data object
-    const recordings = (await listRecordings()) ?? []
-    for (const recording of recordings) {
-      const res = contactIdExp.exec(recording.Key ?? '') ?? []
-      const contactId = res[1]
+    // Add keys to data object as long as they exist in dynamoDB
+    for (const call of calls) {
+      const contactId = call?.id
       if (contactId) {
-        const contactData = await getCallData({ contactId })
         data[contactId] = {
-          recordingURL: await getRecording({ fileKey: recording.Key ?? '' }),
+          recordingURL: null,
           transcript: null,
-          contactData,
+          callData: call,
         }
       }
     }
-
-    // List transcripts and add to data object
+    // List recordings and add to data object, only if they exist in dynamoDB
+    const recordings = (await listRecordings()) ?? []
+    for (const recording of recordings) {
+      const matches = contactIdExp.exec(recording.Key ?? '') ?? []
+      const contactId = matches[1]
+      if (contactId && data[contactId]) {
+        data[contactId].recordingURL = await getRecording({ fileKey: recording.Key ?? '' })
+      }
+    }
+    // List transcripts and add to data object if they exist in dynamoDB
     const command = new ListObjectsCommand(params)
     const response = await S3.send(command)
     for (const item of response.Contents ?? []) {
-      const res = contactIdExp.exec(item.Key ?? '') ?? []
-      const contactId = res[1]
+      const matches = contactIdExp.exec(item.Key ?? '') ?? []
+      const contactId = matches[1]
       if (contactId && data[contactId]) {
         const transcript = await getTranscript({ fileKey: item.Key ?? '' })
         data[contactId].transcript = transcript
-      } else if (contactId) {
-        const contactData = await getCallData({ contactId })
-        data[contactId] = {
-          recordingURL: null,
-          transcript: await getTranscript({ fileKey: item.Key ?? '' }),
-          contactData,
-        }
       }
     }
-
     return data
   } catch (error) {
     console.error('Error listing objects:', error)

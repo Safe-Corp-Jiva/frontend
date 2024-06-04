@@ -3,6 +3,10 @@
 // ronuma, may 2024
 import { S3Client } from '@aws-sdk/client-s3'
 import { ConnectClient } from '@aws-sdk/client-connect'
+import { generateClient } from 'aws-amplify/api'
+import { Amplify } from 'aws-amplify'
+import awsconfig from '@/aws-exports'
+Amplify.configure(awsconfig)
 
 const config = {
   region: process.env.AWS_REGION,
@@ -14,3 +18,4 @@ const config = {
 // Configure the AWS SDK with your credentials and region
 export const S3 = new S3Client(config)
 export const CONNECT = new ConnectClient(config)
+export const AMPLIFY_CLIENT = generateClient()
