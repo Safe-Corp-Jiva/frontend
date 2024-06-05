@@ -28,16 +28,19 @@ jobs:
       - name: Build code
         env:
           AMPLIFY_CONFIG: ${{ secrets.AMPLIFY_CONFIG }}
+          ENV_VARS: ${{ secrets.ENV:_VARS }}
         run: |
           echo $AMPLIFY_CONFIG | base64 --decode > ./src/aws-exports.js
-          npm install --force
+          echo $ENV_VARS | base64 --decode > .env
+          npm install
           npm run build
 
-      - name: Start app
-        run: npm run start &
+      # Commented for now unitl we have a test suite
+      # - name: Start app
+      #   run: npm run start &
 
-      - name: Install playwright
-        run: npx playwright install
+      # - name: Install playwright
+      #   run: npx playwright install
 
-      - name: Run tests
-        run: npm run safetest
+      # - name: Run tests
+      #   run: npm run safetest
