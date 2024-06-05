@@ -33,11 +33,12 @@ jobs:
           npm install --force
           npm run build
 
-      - name: Start app
-        run: npm run start &
+      # Commented for now unitl we have a test suite
+      # - name: Start app
+      #   run: npm run start &
 
-      - name: Install playwright
-        run: npx playwright install
+      # - name: Install playwright
+      #   run: npx playwright install
 
-      - name: Run tests
-        run: npm run safetest
+      # - name: Run tests
+      #   run: npm run safetest
