@@ -6,178 +6,11 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Badge,
-  Button,
-  Divider,
-  Flex,
-  Grid,
-  Icon,
-  ScrollView,
-  SelectField,
-  Text,
-  TextField,
-  useTheme,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { createMetric } from "../graphql/mutations";
 const client = generateClient();
-function ArrayField({
-  items = [],
-  onChange,
-  label,
-  inputFieldRef,
-  children,
-  hasError,
-  setFieldValue,
-  currentFieldValue,
-  defaultFieldValue,
-  lengthLimit,
-  getBadgeText,
-  runValidationTasks,
-  errorMessage,
-}) {
-  const labelElement = <Text>{label}</Text>;
-  const {
-    tokens: {
-      components: {
-        fieldmessages: { error: errorStyles },
-      },
-    },
-  } = useTheme();
-  const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
-  const [isEditing, setIsEditing] = React.useState();
-  React.useEffect(() => {
-    if (isEditing) {
-      inputFieldRef?.current?.focus();
-    }
-  }, [isEditing]);
-  const removeItem = async (removeIndex) => {
-    const newItems = items.filter((value, index) => index !== removeIndex);
-    await onChange(newItems);
-    setSelectedBadgeIndex(undefined);
-  };
-  const addItem = async () => {
-    const { hasError } = runValidationTasks();
-    if (
-      currentFieldValue !== undefined &&
-      currentFieldValue !== null &&
-      currentFieldValue !== "" &&
-      !hasError
-    ) {
-      const newItems = [...items];
-      if (selectedBadgeIndex !== undefined) {
-        newItems[selectedBadgeIndex] = currentFieldValue;
-        setSelectedBadgeIndex(undefined);
-      } else {
-        newItems.push(currentFieldValue);
-      }
-      await onChange(newItems);
-      setIsEditing(false);
-    }
-  };
-  const arraySection = (
-    <React.Fragment>
-      {!!items?.length && (
-        <ScrollView height="inherit" width="inherit" maxHeight={"7rem"}>
-          {items.map((value, index) => {
-            return (
-              <Badge
-                key={index}
-                style={{
-                  cursor: "pointer",
-                  alignItems: "center",
-                  marginRight: 3,
-                  marginTop: 3,
-                  backgroundColor:
-                    index === selectedBadgeIndex ? "#B8CEF9" : "",
-                }}
-                onClick={() => {
-                  setSelectedBadgeIndex(index);
-                  setFieldValue(items[index]);
-                  setIsEditing(true);
-                }}
-              >
-                {getBadgeText ? getBadgeText(value) : value.toString()}
-                <Icon
-                  style={{
-                    cursor: "pointer",
-                    paddingLeft: 3,
-                    width: 20,
-                    height: 20,
-                  }}
-                  viewBox={{ width: 20, height: 20 }}
-                  paths={[
-                    {
-                      d: "M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z",
-                      stroke: "black",
-                    },
-                  ]}
-                  ariaLabel="button"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    removeItem(index);
-                  }}
-                />
-              </Badge>
-            );
-          })}
-        </ScrollView>
-      )}
-      <Divider orientation="horizontal" marginTop={5} />
-    </React.Fragment>
-  );
-  if (lengthLimit !== undefined && items.length >= lengthLimit && !isEditing) {
-    return (
-      <React.Fragment>
-        {labelElement}
-        {arraySection}
-      </React.Fragment>
-    );
-  }
-  return (
-    <React.Fragment>
-      {labelElement}
-      {isEditing && children}
-      {!isEditing ? (
-        <>
-          <Button
-            onClick={() => {
-              setIsEditing(true);
-            }}
-          >
-            Add item
-          </Button>
-          {errorMessage && hasError && (
-            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
-              {errorMessage}
-            </Text>
-          )}
-        </>
-      ) : (
-        <Flex justifyContent="flex-end">
-          {(currentFieldValue || isEditing) && (
-            <Button
-              children="Cancel"
-              type="button"
-              size="small"
-              onClick={() => {
-                setFieldValue(defaultFieldValue);
-                setIsEditing(false);
-                setSelectedBadgeIndex(undefined);
-              }}
-            ></Button>
-          )}
-          <Button size="small" variation="link" onClick={addItem}>
-            {selectedBadgeIndex !== undefined ? "Save" : "Add"}
-          </Button>
-        </Flex>
-      )}
-      {arraySection}
-    </React.Fragment>
-  );
-}
 export default function MetricCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -190,35 +23,18 @@ export default function MetricCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    sentiment: [],
     length: "",
     waittime: "",
   };
-  const [sentiment, setSentiment] = React.useState(initialValues.sentiment);
   const [length, setLength] = React.useState(initialValues.length);
   const [waittime, setWaittime] = React.useState(initialValues.waittime);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setSentiment(initialValues.sentiment);
-    setCurrentSentimentValue("");
     setLength(initialValues.length);
     setWaittime(initialValues.waittime);
     setErrors({});
   };
-  const [currentSentimentValue, setCurrentSentimentValue] = React.useState("");
-  const sentimentRef = React.createRef();
-  const getDisplayValue = {
-    sentiment: (r) => {
-      const enumDisplayValueMap = {
-        POSITIVE: "Positive",
-        NEUTRAL: "Neutral",
-        NEGATIVE: "Negative",
-      };
-      return enumDisplayValueMap[r];
-    },
-  };
   const validations = {
-    sentiment: [],
     length: [],
     waittime: [],
   };
@@ -248,7 +64,6 @@ export default function MetricCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          sentiment,
           length,
           waittime,
         };
@@ -304,70 +119,6 @@ export default function MetricCreateForm(props) {
       {...getOverrideProps(overrides, "MetricCreateForm")}
       {...rest}
     >
-      <ArrayField
-        onChange={async (items) => {
-          let values = items;
-          if (onChange) {
-            const modelFields = {
-              sentiment: values,
-              length,
-              waittime,
-            };
-            const result = onChange(modelFields);
-            values = result?.sentiment ?? values;
-          }
-          setSentiment(values);
-          setCurrentSentimentValue("");
-        }}
-        currentFieldValue={currentSentimentValue}
-        label={"Sentiment"}
-        items={sentiment}
-        hasError={errors?.sentiment?.hasError}
-        runValidationTasks={async () =>
-          await runValidationTasks("sentiment", currentSentimentValue)
-        }
-        errorMessage={errors?.sentiment?.errorMessage}
-        getBadgeText={getDisplayValue.sentiment}
-        setFieldValue={setCurrentSentimentValue}
-        inputFieldRef={sentimentRef}
-        defaultFieldValue={""}
-      >
-        <SelectField
-          label="Sentiment"
-          placeholder="Please select an option"
-          isDisabled={false}
-          value={currentSentimentValue}
-          onChange={(e) => {
-            let { value } = e.target;
-            if (errors.sentiment?.hasError) {
-              runValidationTasks("sentiment", value);
-            }
-            setCurrentSentimentValue(value);
-          }}
-          onBlur={() => runValidationTasks("sentiment", currentSentimentValue)}
-          errorMessage={errors.sentiment?.errorMessage}
-          hasError={errors.sentiment?.hasError}
-          ref={sentimentRef}
-          labelHidden={true}
-          {...getOverrideProps(overrides, "sentiment")}
-        >
-          <option
-            children="Positive"
-            value="POSITIVE"
-            {...getOverrideProps(overrides, "sentimentoption0")}
-          ></option>
-          <option
-            children="Neutral"
-            value="NEUTRAL"
-            {...getOverrideProps(overrides, "sentimentoption1")}
-          ></option>
-          <option
-            children="Negative"
-            value="NEGATIVE"
-            {...getOverrideProps(overrides, "sentimentoption2")}
-          ></option>
-        </SelectField>
-      </ArrayField>
       <TextField
         label="Length"
         isRequired={false}
@@ -381,7 +132,6 @@ export default function MetricCreateForm(props) {
             : parseFloat(e.target.value);
           if (onChange) {
             const modelFields = {
-              sentiment,
               length: value,
               waittime,
             };
@@ -411,7 +161,6 @@ export default function MetricCreateForm(props) {
             : parseFloat(e.target.value);
           if (onChange) {
             const modelFields = {
-              sentiment,
               length,
               waittime: value,
             };

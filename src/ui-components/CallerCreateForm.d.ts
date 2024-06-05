@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -22,18 +22,21 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type CallerCreateFormInputValues = {
-    phone?: string;
-    sentiments?: string[];
+    id?: string;
+    name?: string;
+    email?: string;
 };
 export declare type CallerCreateFormValidationValues = {
-    phone?: ValidationFunction<string>;
-    sentiments?: ValidationFunction<string>;
+    id?: ValidationFunction<string>;
+    name?: ValidationFunction<string>;
+    email?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type CallerCreateFormOverridesProps = {
     CallerCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    phone?: PrimitiveOverrideProps<TextFieldProps>;
-    sentiments?: PrimitiveOverrideProps<SelectFieldProps>;
+    id?: PrimitiveOverrideProps<TextFieldProps>;
+    name?: PrimitiveOverrideProps<TextFieldProps>;
+    email?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type CallerCreateFormProps = React.PropsWithChildren<{
     overrides?: CallerCreateFormOverridesProps | undefined | null;

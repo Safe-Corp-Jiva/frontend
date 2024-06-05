@@ -1,40 +1,22 @@
-"use client";
-// import awsExports from "@/aws-exports";
-import { TextGenerateEffect } from "@/ui/text-generate-effect";
-import { WavyBackground } from "@/ui/wavy-background";
+'use client'
+import React from 'react'
+import Image from 'next/image'
 
-import { Authenticator } from "@aws-amplify/ui-react";
-import { Amplify } from "aws-amplify";
-import { signOut } from "aws-amplify/auth";
+import { MainPageFileOverride } from './Overrides'
+import { LoginModal } from '@/components/login'
 
-// Amplify.configure(awsExports);
 
-export default function Home() {
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error("Error signing out", error);
-    }
-  };
+export default function Login() {
+  const mainPage = MainPageFileOverride.useValue()
+
   return (
-    <Authenticator>
-      <WavyBackground className="max-w-4xl mx-auto pb-40">
-        <TextGenerateEffect
-          words={"Safe Corp Jiva"}
-          className="text-2xl md:text-4xl lg:text-7xl text-white font-bold inter-var text-center"
-        />
-        <TextGenerateEffect
-          words={`Welcome back!`}
-          className="text-base md:text-lg mt-4 text-white font-normal inter-var text-center"
-        />
-        <button
-          className="mt-4 bg-white w-full mx-auto text-black px-4 py-2 rounded-md"
-          onClick={handleSignOut}
-        >
-          Sign Out
-        </button>
-      </WavyBackground>
-    </Authenticator>
-  );
+      <div className="h-screen flex items-center justify-center bg-SCJ-gray">
+        <div className="bg-white border-2 border-teal-300 flex flex-row justify-center items-center w-3/4 h-3/4 rounded-xl font-sans">
+          <div className="w-full h-[90%] border-r-teal-300 border-r-2 flex justify-center items-center flex-1">
+            <Image src="/logoAA.png" alt="logo" width={300} height={300} />
+          </div>
+          <LoginModal />
+        </div>
+      </div>
+  )
 }
