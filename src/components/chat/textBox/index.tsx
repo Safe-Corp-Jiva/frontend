@@ -1,7 +1,6 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
-import { useAuthenticator } from '@aws-amplify/ui-react'
 import { Message } from '@/components/chat/chatBot'
 
 type Timestamp = {
@@ -22,23 +21,32 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
   const [selectedAgent, setSelectedAgent] = useState<any>(agent)
 
   useEffect(() => {
-    if (isAgent) {
-      ws.current = new WebSocket(`ws://localhost:3030?agentID=${agentID}&secondaryID=supervisor`)
-    } else {
-      ws.current = new WebSocket(`ws://localhost:3030?agentID=${selectedAgent.id}&secondaryID=supervisor`)
-    }
-    if (ws.current === null) {
-      return
+    const initializeWebSocket = async () => {
+      const WEBSOCKET_ENDPOINT = process.env.NEXT_PUBLIC_WEBSOCKET_ENDPOINT
+      if (!WEBSOCKET_ENDPOINT) {
+        console.log('WEBSOCKET_ENDPOINT not found')
+        return
+      }
+      if (isAgent) {
+        ws.current = new WebSocket(`ws://${WEBSOCKET_ENDPOINT}?agentID=${agentID}&secondaryID=supervisor`)
+      } else {
+        ws.current = new WebSocket(`ws://${WEBSOCKET_ENDPOINT}?agentID=${selectedAgent.id}&secondaryID=supervisor`)
+      }
+      if (ws.current === null) {
+        return
+      }
+
+      ws.current.onopen = () => {
+        console.log('Connected to server')
+      }
+
+      ws.current.onmessage = (event) => {
+        const message = JSON.parse(event.data)
+        setMessages((prev) => [...prev, message])
+      }
     }
 
-    ws.current.onopen = () => {
-      console.log('Connected to server')
-    }
-
-    ws.current.onmessage = (event) => {
-      const message = JSON.parse(event.data)
-      setMessages((prev) => [...prev, message])
-    }
+    initializeWebSocket()
     return () => {
       ws.current?.close()
     }

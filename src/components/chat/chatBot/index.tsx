@@ -33,6 +33,7 @@ const ChatBot: React.FC = () => {
   const ws = useRef<WebSocket | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [copilotMessage, setCopilotMessage] = useState<any>([])
+  const [tempMessage, setTempMessage] = useState<Message | null>(null)
 
   const [profileID, setProfileID] = useState<any>('')
 
@@ -49,18 +50,24 @@ const ChatBot: React.FC = () => {
     setIsOpen(!isOpen)
   }
 
-  useMemo(() => {
+  useEffect(() => {
     if (!isOpen) return
     if (!profileID) return
-    ws.current = new WebSocket(`ws://localhost:3030?agentID=${profileID}&secondaryID=copilot`)
+    const WEBSOCKET_ENDPOINT = process.env.NEXT_PUBLIC_WEBSOCKET_ENDPOINT
+    ws.current = new WebSocket(`ws://${WEBSOCKET_ENDPOINT}?agentID=${profileID}&secondaryID=copilot`)
     ws.current.onopen = () => {
       console.log('Connected to server')
     }
     ws.current.onmessage = (event) => {
-      // console.log('Received message')
       const chunk = JSON.parse(event.data) as Message
       if (chunk.message_id) {
-        setMessages((prev) => [...prev, chunk])
+        setTempMessage(null)
+        setMessages((prev) => {
+          if (!prev.some((msg) => msg.message_id === chunk.message_id)) {
+            return [...prev, chunk]
+          }
+          return prev
+        })
       } else {
         handleCopilotMessage(chunk)
       }
@@ -71,6 +78,7 @@ const ChatBot: React.FC = () => {
   }, [isOpen, profileID])
 
   const handleCopilotMessage = (chunk: Message) => {
+    if (chunk.output === 'Processing Results\n') return
     setCopilotMessage((prev: Message[]) => {
       return [...prev, chunk.output]
     })
@@ -97,7 +105,8 @@ const ChatBot: React.FC = () => {
         },
         ...newMessage,
       }
-      setMessages([...messages, message])
+      setTempMessage(message)
+
       setCopilotMessage([])
       ws.current?.send(JSON.stringify(newMessage))
       setInput('')
@@ -134,6 +143,7 @@ const ChatBot: React.FC = () => {
             </button>
           </div>
           <div className="flex flex-col p-4 space-y-2 h-64 overflow-y-auto">
+            {messages.length === 0 && <div className="text-center text-gray-500">Welcome to the Archie Copilot!</div>}
             {messages
               .sort(
                 (a, b) =>
@@ -153,6 +163,18 @@ const ChatBot: React.FC = () => {
                   <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
                 </div>
               ))}
+            {tempMessage && (
+              <div
+                className={`flex flex-col max-w-52 justify-between ${tempMessage.sender === 'agent' ? 'self-end' : 'self-start'}`}
+              >
+                <div
+                  className={`p-2 rounded ${tempMessage.sender === 'agent' ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}
+                >
+                  {tempMessage.message}
+                </div>
+                <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(tempMessage.timestamp)}</span>
+              </div>
+            )}
             {copilotMessage.length > 0 && (
               <div className="flex flex-col max-w-52 justify-between self-start">
                 <div className="p-2 rounded bg-gray-200 text-black">{copilotMessage}</div>
