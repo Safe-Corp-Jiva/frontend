@@ -74,11 +74,22 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
               }`}
               key={index}
             >
-              <h1 className="flex-1">{formatDateFromString(call.createdAt)}</h1>
-              <h1 className="flex-1">{formatDateFromString(call.updatedAt)}</h1>
+              <h1 className="flex-1">
+                {
+                  formatDateFromString(call.createdAt).split(",")?.map((a, i) => {
+                    return <div className={i == 1 ? "text-xs" : ""}>{a}</div>
+                  })
+                }
+              </h1>
+              <h1 className="flex-1">
+                {
+                  formatDateFromString(call.updatedAt).split(",")?.map((a, i) => {
+                    return <div className={i == 1 ? "text-xs" : ""}>{a}</div>
+                  })
+                }</h1>
               {/* <h1 className="flex-1 truncate">{pastCall.id}</h1> */}
               {/* <h1 className="flex-1 font-semibold">{pastCall.time}</h1> */}
-              <h1 className="flex-1">{call.agent.username}</h1>
+              <h1 className="flex-1 text-SCJ-primary">@{call.agent.username}</h1>
               <div
                 className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center  ${getResultStatus(
                   call.result
