@@ -1,9 +1,9 @@
-// components/ConnectCCP.js
 'use client'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Wait from '../wait/page'
 import ChatBot from '@/components/chat/chatBot'
+import 'amazon-connect-streams'
 
 const ConnectCCP = () => {
   const [agent, setAgent] = useState<connect.Agent | null>(null)
@@ -11,26 +11,20 @@ const ConnectCCP = () => {
   const [incomingCall, setIncomingCall] = useState<boolean>(false)
   const [callAccepted, setCallAccepted] = useState<boolean>(false)
   const [currentContact, setCurrentContact] = useState<connect.Contact | null>(null)
-  useEffect(() => {
-    // Ensure the script is loaded
-    const script = document.createElement('script')
-    script.src = 'https://sdk.amazonaws.com/js/amazon-connect-streams/1.6.1/amazon-connect-streams-min.js'
-    script.async = true
-    document.body.appendChild(script)
 
-    script.onload = () => {
+  useEffect(() => {
+    const initCCP = () => {
       const containerDiv = document?.getElementById('container-div') as HTMLDivElement
-      // Inicializar el CCP
+      // Inicializar el CCP de Amazon Connect
       connect.core.initCCP(containerDiv, {
         ccpUrl: 'https://adventure-architects-dev.my.connect.aws/ccp-v2/',
         loginPopup: true,
         loginOptions: {
-          // optional, if provided opens login in new window
-          autoClose: true, // optional, defaults to `false`
-          height: 600, // optional, defaults to 578
-          width: 400, // optional, defaults to 433
-          top: 0, // optional, defaults to 0
-          left: 0, // optional, defaults to 0
+          autoClose: true,
+          height: 600,
+          width: 400,
+          top: 0,
+          left: 0,
         },
         softphone: {
           allowFramedSoftphone: true,
@@ -40,44 +34,32 @@ const ConnectCCP = () => {
       // Suscribirse a eventos del agente
       connect.agent((agent) => {
         setAgent(agent)
-
-        // Suscribirse a los cambios de estado del agente
         agent.onStateChange((agentStateChange) => {
           console.log('Agent state changed:', agentStateChange)
           setCurrentState(agentStateChange.newState)
         })
-
-        // Establecer el estado inicial del agente
         setCurrentState(agent.getState().name)
       })
 
       // Suscribirse a eventos de contacto
       connect.contact((contact) => {
         console.log('New contact detected')
-
-        // Detectar llamada entrante
         contact.onIncoming(() => {
           console.log('Incoming call detected')
           setIncomingCall(true)
           setCurrentContact(contact)
         })
-
-        // Detectar cuando el contacto se está conectando
         contact.onConnecting(() => {
           console.log('Call is connecting')
           setIncomingCall(true)
           setCurrentContact(contact)
         })
-
-        // Detectar cuando la llamada es aceptada
         contact.onAccepted(() => {
           console.log('Call accepted')
           setIncomingCall(false)
           setCallAccepted(true)
           setCurrentContact(contact)
         })
-
-        // Detectar cuando la llamada termina
         contact.onEnded(() => {
           console.log('Call ended')
           setIncomingCall(false)
@@ -86,6 +68,8 @@ const ConnectCCP = () => {
         })
       })
     }
+
+    initCCP()
   }, [])
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
