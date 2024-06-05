@@ -33,6 +33,7 @@ const ChatBot: React.FC = () => {
   const ws = useRef<WebSocket | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [copilotMessage, setCopilotMessage] = useState<any>([])
+  const [tempMessage, setTempMessage] = useState<Message | null>(null)
 
   const [profileID, setProfileID] = useState<any>('')
 
@@ -58,15 +59,13 @@ const ChatBot: React.FC = () => {
       console.log('Connected to server')
     }
     ws.current.onmessage = (event) => {
-      console.log('Received message:', event.data)
       const chunk = JSON.parse(event.data) as Message
       if (chunk.message_id) {
+        setTempMessage(null)
         setMessages((prev) => {
           if (!prev.some((msg) => msg.message_id === chunk.message_id)) {
-            console.log('Adding new message:', chunk)
             return [...prev, chunk]
           }
-          console.log('Message already exists:', chunk)
           return prev
         })
       } else {
@@ -79,6 +78,7 @@ const ChatBot: React.FC = () => {
   }, [isOpen, profileID])
 
   const handleCopilotMessage = (chunk: Message) => {
+    if (chunk.output === 'Processing Results\n') return
     setCopilotMessage((prev: Message[]) => {
       return [...prev, chunk.output]
     })
@@ -105,7 +105,8 @@ const ChatBot: React.FC = () => {
         },
         ...newMessage,
       }
-      setMessages([...messages, message])
+      setTempMessage(message)
+
       setCopilotMessage([])
       ws.current?.send(JSON.stringify(newMessage))
       setInput('')
@@ -162,6 +163,18 @@ const ChatBot: React.FC = () => {
                   <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
                 </div>
               ))}
+            {tempMessage && (
+              <div
+                className={`flex flex-col max-w-52 justify-between ${tempMessage.sender === 'agent' ? 'self-end' : 'self-start'}`}
+              >
+                <div
+                  className={`p-2 rounded ${tempMessage.sender === 'agent' ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}
+                >
+                  {tempMessage.message}
+                </div>
+                <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(tempMessage.timestamp)}</span>
+              </div>
+            )}
             {copilotMessage.length > 0 && (
               <div className="flex flex-col max-w-52 justify-between self-start">
                 <div className="p-2 rounded bg-gray-200 text-black">{copilotMessage}</div>
