@@ -48,7 +48,7 @@ export const listTranscripts = async () => {
   try {
     const params = {
       Bucket: process.env.S3_BUCKET_NAME,
-      Prefix: 'Analysis/Voice',
+      Prefix: 'Analysis/Voice/2024',
     }
     const data: any = {}
 
