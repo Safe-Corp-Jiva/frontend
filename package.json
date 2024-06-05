@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "stable": "npm install && npm run build && npm run start",
     "generate-map": "npx safetest generate-import-map src/app/Bootstrap.tsx src > src/app/imports.tsx",
     "safetest": "cross-env OPT_URL=http://localhost:3000/ vitest --config vite.safetest.config.mts",
     "safetest:jest": "cross-env OPT_URL=${OPT_URL:-http://localhost:3000/} jest --runInBand --testMatch '**/*.safetest.{j,t}s{,x}' --setupFilesAfterEnv ./setup-safetest.ts",
