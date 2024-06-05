@@ -18,14 +18,7 @@ const ConnectCCP = () => {
       // Inicializar el CCP de Amazon Connect
       connect.core.initCCP(containerDiv, {
         ccpUrl: 'https://adventure-architects-dev.my.connect.aws/ccp-v2/',
-        loginPopup: true,
-        loginOptions: {
-          autoClose: true,
-          height: 600,
-          width: 400,
-          top: 0,
-          left: 0,
-        },
+        loginPopup: false,
         softphone: {
           allowFramedSoftphone: true,
         },
