@@ -1,9 +1,10 @@
 'use client'
-import React from 'react'
+import React, { Suspense, useState } from 'react'
 import './keybindings.js'
 import { fetchAuthSession } from 'aws-amplify/auth'
 import { useRouter } from 'next/navigation'
 import LoaderFull from '@/components/loading/loading-full'
+import Loading from './loading'
 
 const CheckUserRole = async (router: any) => {
   try {
@@ -15,6 +16,7 @@ const CheckUserRole = async (router: any) => {
   }
   return null
 }
+
 
 export default function Layout({ agent, supervisor }: { agent: React.ReactNode; supervisor: React.ReactNode }) {
   const [role, setRole] = React.useState<string | null>(null)
@@ -32,10 +34,14 @@ export default function Layout({ agent, supervisor }: { agent: React.ReactNode; 
     return (
       <div className="w-screen h-screen bg-SCJ-gray flex justify-center items-center flex-col">
         <LoaderFull />
-        <div className="mt-2 text-4xl"> Loading... </div>
+        <div className="mt-10 text-4xl text-SCJ-dark-primary"> Loading... </div>
       </div>
     )
   }
 
-  return <div className="h-screen w-screen bg-SCJ-gray">{role === 'supervisor' ? supervisor : agent}</div>
+  return (
+    <Suspense fallback={<Loading />}>
+      <div className="h-screen w-screen bg-SCJ-gray">{role === 'supervisor' ? supervisor : agent}</div>
+    </Suspense>
+  )
 }
