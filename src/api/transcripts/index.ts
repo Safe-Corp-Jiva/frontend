@@ -48,10 +48,9 @@ export const listTranscripts = async () => {
   try {
     const params = {
       Bucket: process.env.S3_BUCKET_NAME,
-      Prefix: 'Analysis/Voice/2024',
+      Prefix: 'Analysis/Voice',
     }
     const data: any = {}
-
     const calls = await getPastCalls()
 
     // Add keys to data object as long as they exist in dynamoDB

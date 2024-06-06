@@ -1,9 +1,10 @@
 'use client'
 import Image from 'next/image'
-import React, { useState } from 'react'
-import Circle from 'rc-progress/es/Circle';
-import Line from 'rc-progress/es/Line';
-import { useRouter } from 'next/navigation';
+import Circle from 'rc-progress/es/Circle'
+import Line from 'rc-progress/es/Line'
+import { getMetrics } from '@/api/connect'
+import { useEffect, useState } from 'react'
+import { useOngoingCalls } from '../onGoingCallsCard/hooks'
 
 interface Props {
   maximize: () => void
@@ -20,9 +21,9 @@ interface ProgressBarProps {
 }
 
 const ProgressBar = ({ percent, title, _strokeColor, _trailColor, isMaximized }: ProgressBarProps) => {
-  const sizeClass = isMaximized ? 'w-36 h-36' : 'w-24 h-24';
-  const titleClass = isMaximized ? 'text-xl' : 'text-sm';
-  const textSizeClass = isMaximized ? 'text-2xl' : 'text-xl';
+  const sizeClass = isMaximized ? 'w-36 h-36' : 'w-24 h-24'
+  const titleClass = isMaximized ? 'text-xl' : 'text-sm'
+  const textSizeClass = isMaximized ? 'text-2xl' : 'text-xl'
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
@@ -35,9 +36,8 @@ const ProgressBar = ({ percent, title, _strokeColor, _trailColor, isMaximized }:
   )
 }
 
-
 interface ChangeLineProps {
-  percent: number
+  percent: number | string
   title: string
   _strokeColor: string
   _trailColor: string
@@ -45,22 +45,77 @@ interface ChangeLineProps {
 }
 
 const ChangeLine = ({ percent, title, _strokeColor, _trailColor, isMaximized }: ChangeLineProps) => {
-  const titleClass = isMaximized ? 'text-lg' : 'text-sm';
-  const percentClass = isMaximized ? 'text-lg' : 'text-sm';
-
+  const titleClass = isMaximized ? 'text-lg' : 'text-sm'
+  const percentClass = isMaximized ? 'text-lg' : 'text-sm'
   return (
     <div className="flex flex-col items-start justify-start w-full h-full">
       <div className={`mb-2 ${titleClass}`}>{title}</div>
       <div className="relative w-full">
-        <Line percent={percent} strokeWidth={1.5} trailWidth={1.5} strokeColor={_strokeColor} trailColor={_trailColor} />
-        <div className={`absolute right-0 -ml-4 flex items-center justify-center ${percentClass}`} style={{ top: '-27px' }}>{percent}</div>
+        <Line
+          percent={Number(percent)}
+          strokeWidth={1.5}
+          trailWidth={1.5}
+          strokeColor={_strokeColor}
+          trailColor={_trailColor}
+        />
+        <div
+          className={`absolute right-0 -ml-4 flex items-center justify-center ${percentClass}`}
+          style={{ top: '-27px' }}
+        >
+          {percent}
+        </div>
       </div>
     </div>
   )
 }
 
 export default function MetricsCard({ maximize, minimize, isMaximized }: Props) {
-  const router = useRouter()
+  const [metrics, setMetrics] = useState([] as any[])
+  const res = getMetrics()
+  const OnGoingCalls = useOngoingCalls()
+
+  useEffect(() => {
+    // change request every 30 seconds for it not to be that expensive
+    setInterval(() => {
+      res.then((data: any) => {
+        setMetrics(data)
+      })
+    }, 30000)
+
+    res.then((data: any) => {
+      setMetrics(data)
+    })
+  }, [])
+
+  // Turn occupancy into a percentage with 2 decimal places
+  const occupancy = (metrics.find((metric) => metric.Metric.Name === 'AGENT_OCCUPANCY')?.Value * 100).toFixed(2) as any
+  const avgContactDuration = metrics.find((metric) => metric.Metric.Name === 'AVG_CONTACT_DURATION')?.Value.toFixed(0)
+  const avgQueueAnswerTime = metrics.find((metric) => metric.Metric.Name === 'AVG_QUEUE_ANSWER_TIME')?.Value.toFixed(0)
+  const abandonmentRate = (metrics.find((metric) => metric.Metric.Name === 'ABANDONMENT_RATE')?.Value * 100).toFixed(2)
+  const avgNonTalkTime = metrics.find((metric) => metric.Metric.Name === 'AVG_NON_TALK_TIME')?.Value.toFixed(0)
+  const ongoingCalls = OnGoingCalls.length
+
+  const textMetrics = [
+    {
+      value: ongoingCalls,
+      name: 'Ongoing Calls',
+    },
+    {
+      value: avgContactDuration,
+      name: 'Average Contact Duration',
+      unit: 's',
+    },
+    {
+      value: avgQueueAnswerTime,
+      name: 'Average Queue Answer Time',
+      unit: 's',
+    },
+    {
+      value: avgNonTalkTime,
+      name: 'Average Non-Talk Time',
+      unit: 's',
+    },
+  ]
 
   return (
     <div className={`w-full h-full bg-white rounded-xl flex flex-col p-4 ${isMaximized ? 'maximized' : ''}`}>
@@ -78,20 +133,33 @@ export default function MetricsCard({ maximize, minimize, isMaximized }: Props) 
       </div>
       <div className="bg-white rounded-xl p-5 max-w-full max-h-full">
         <div className={`flex justify-center font-semibold ${isMaximized ? 'gap-20' : 'gap-16'}`}>
-          <ProgressBar percent={68} title="Satisfied Calls" _strokeColor="#34B53A" _trailColor="#E2FBD7" isMaximized={isMaximized} />
-          <ProgressBar percent={42} title="Neutral Calls" _strokeColor="#FFEA2F" _trailColor="rgba(255, 234, 47, 0.3)" isMaximized={isMaximized} />
-          <ProgressBar percent={13} title="Unsatisfied Calls" _strokeColor="#FF4646" _trailColor="rgba(255, 70, 70, 0.3)" isMaximized={isMaximized} />
+          <ProgressBar
+            percent={Number(occupancy) || 0}
+            title="Agent occupancy"
+            _strokeColor="#34B53A"
+            _trailColor="#E2FBD7"
+            isMaximized={isMaximized}
+          />
+          <ProgressBar
+            percent={Number(abandonmentRate) || 0}
+            title="Abandonment Rate"
+            _strokeColor="#FFEA2F"
+            _trailColor="rgba(255, 234, 47, 0.3)"
+            isMaximized={isMaximized}
+          />
         </div>
-        <div className={`${isMaximized ? 'mt-10' : 'mt-5'}`}>
-          <div className="w-full mb-4">
-            <ChangeLine percent={5} title="Agents Available" _strokeColor="#869AE9" _trailColor="rgba(134, 154, 233, 0.5)" isMaximized={isMaximized} />
-          </div>
-          <div className="w-full">
-            <ChangeLine percent={10} title="Ongoing Calls" _strokeColor="#27E2D3" _trailColor="rgba(39, 226, 211, 0.5)" isMaximized={isMaximized} />
-          </div>
+        <div className={`${isMaximized ? 'mt-10' : 'mt-5'} grid grid-cols-2 gap-4`}>
+          {textMetrics.map((metric, index) => (
+            <p key={index} className="text-gray-500">
+              {metric.name}:{' '}
+              <span className="font-bold text-black text-lg">
+                {metric.value || '...'}
+                {metric.unit}
+              </span>
+            </p>
+          ))}
         </div>
       </div>
     </div>
   )
 }
-
