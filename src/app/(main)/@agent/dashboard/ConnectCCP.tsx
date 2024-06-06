@@ -11,8 +11,10 @@ const ConnectCCP = () => {
   const [incomingCall, setIncomingCall] = useState<boolean>(false)
   const [callAccepted, setCallAccepted] = useState<boolean>(false)
   const [currentContact, setCurrentContact] = useState<connect.Contact | null>(null)
+  const [currentConnection, setCurrentConnection] = useState<connect.BaseConnection | null>(null)
   const [isMuted, setIsMuted] = useState<boolean>(false)
-
+  const [startTimestamp, setStartTimestamp] = useState<number | null>()
+  const [currentTimestamp, setCurrentTimestamp] = useState<number | null>()
 
   useEffect(() => {
     const initCCP = () => {
@@ -56,12 +58,21 @@ const ConnectCCP = () => {
           setIncomingCall(false)
           setCallAccepted(true)
           setCurrentContact(contact)
+
+          // get Connection (for contactId)
+          setCurrentConnection(contact.getAgentConnection())
+
+          // save the timestamp when the call was accepted
+          setStartTimestamp(Date.now())
+
+          console.warn("Attributes", contact?.getAttributes())
         })
         contact.onEnded(() => {
           console.log('Call ended')
           setIncomingCall(false)
           setCallAccepted(false)
           setCurrentContact(null)
+          setStartTimestamp(null)          
           contact.clear({
             success: () => {
               console.log('Contact destroyed successfully')
@@ -73,9 +84,18 @@ const ConnectCCP = () => {
         })
       })
     }
-
     initCCP()
   }, [])
+
+  // Get timestamp each second (to compute the call duration)
+  useEffect(() => {
+    if (startTimestamp) {
+      const interval = setInterval(() => {
+        setCurrentTimestamp(Date.now())
+      }, 1000)
+      return () => clearInterval(interval)
+    }
+  }, [startTimestamp])
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedState = event.target.value as 'Available' | 'Offline'
@@ -169,6 +189,22 @@ const ConnectCCP = () => {
     }
   }
 
+  // Function to format the call duration in HH:MM:SS or MM:SS format
+  const formatTimestampDifference = (start: number, end: number) => {
+    // Function to transform single digit numbers into two digit strings
+    const twoDigits = (num: number) => (num > 9 ? num : `0${num}`)
+    const difference = end - start
+    const seconds = Math.floor(difference / 1000)
+    const minutes = Math.floor(seconds / 60)
+    const hours = Math.floor(minutes / 60)
+    const remainingSeconds = seconds % 60
+    const remainingMinutes = minutes % 60
+    if (hours > 0)
+      return `${hours}:${twoDigits(remainingMinutes)}:${twoDigits(remainingSeconds)}`
+    else
+      return `${twoDigits(minutes)}:${twoDigits(remainingSeconds)}`
+  }
+
   return (
     <>
       <div
@@ -199,8 +235,13 @@ const ConnectCCP = () => {
               <div className="flex flex-col items-center justify-center">
                 <Image src="/icons/User_d.svg" alt="user" width={110} height={110} />
                 <h1 className="mt-4 font-bold text-xl">Contact Id</h1>
+                { currentConnection?.contactId && (
+                  <p className="mt-4 text-SCJ-primary/80 text-md"> { currentConnection.contactId?.slice(0, 8) }... </p>
+                )}
                 
-                <h4 className="font-bold text-sm">0:00</h4>
+                <h4 className="font-bold text-sm">
+                  {startTimestamp && currentTimestamp ? formatTimestampDifference(startTimestamp, currentTimestamp) : '00:00'}
+                </h4>
               </div>
               <div className="flex flex-row p-3 space-x-5">
                 <button
