@@ -1,34 +1,10 @@
 'use client'
 import React from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { Headset, Icon } from 'lucide-react'
-import { UsersRound } from 'lucide-react'
 
 import IconWithTool from '../iconwithtool'
 
 const NavBar = () => {
-  const router = useRouter()
-
-  const handleProfile = () => {
-    router.push('/profile')
-  }
-  const handleDash = () => {
-    router.push('/dashboard')
-  }
-  const handleChat = () => {
-    router.push('/chat')
-  }
-  const handleDocuments = () => {
-    router.push('/documents')
-  }
-  const handleMockCall = () => {
-    router.push('/mockcall')
-  }
-  const handleDndAgents = () => {
-    router.push('/mockdndagents')
-  }
-
   return (
     <div className="w-20 bg-white h-full flex flex-col rounded-r-xl justify-between py-5 drop-shadow-[1px_0px_5px_rgba(0,0,0,0.25)]">
       <div className="flex flex-col content-center gap-8">

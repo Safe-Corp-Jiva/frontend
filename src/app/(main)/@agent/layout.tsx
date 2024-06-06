@@ -1,22 +1,12 @@
 'use client'
 import { NavBar } from '@/components/nav'
-import { NavBarDoc } from '@/components/nav'
-import { usePathname } from 'next/navigation'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 const layout = ({ children }: { children: React.ReactNode }) => {
-  const pathname = usePathname()
-  const navBarHandler = () => {
-    if (pathname === '/documents') {
-      return <NavBarDoc />
-    } else {
-      return <NavBar />
-    }
-  }
   return (
     <div className="w-full h-full flex">
-      {navBarHandler()}
-      {children}
+      <NavBar />
+      <Suspense>{children}</Suspense>
     </div>
   )
 }

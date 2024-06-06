@@ -3,8 +3,8 @@ import React, { Suspense, useState } from 'react'
 import './keybindings.js'
 import { fetchAuthSession } from 'aws-amplify/auth'
 import { useRouter } from 'next/navigation'
+
 import LoaderFull from '@/components/loading/loading-full'
-import Loading from './loading'
 
 const CheckUserRole = async (router: any) => {
   try {
@@ -40,8 +40,6 @@ export default function Layout({ agent, supervisor }: { agent: React.ReactNode; 
   }
 
   return (
-    <Suspense fallback={<Loading />}>
       <div className="h-screen w-screen bg-SCJ-gray">{role === 'supervisor' ? supervisor : agent}</div>
-    </Suspense>
   )
 }

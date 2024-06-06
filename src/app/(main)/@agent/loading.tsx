@@ -7,7 +7,7 @@ const LoaderFull = dynamic(() => import('@/components/loading/loading-full'))
 const LoadingLayout = () => (
   <div className="w-screen h-screen bg-SCJ-gray flex justify-center items-center flex-col">
     <LoaderFull />
-    <div className="mt-10 text-4xl"> Loading... </div>
+    <div className="mt-10 text-4xl"> Compiling... </div>
   </div>
 )
 
