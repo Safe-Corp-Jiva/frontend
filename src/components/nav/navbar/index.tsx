@@ -4,15 +4,12 @@ import Image from 'next/image'
 import { Notifications, NotificationModal } from '@/components/alerts/notifications'
 
 import IconWithTool from '../iconwithtool'
-import { generateClient } from 'aws-amplify/api'
-import { listContactLensEvents } from '@/graphql/queries'
 
 const NavBar = () => {
   const [modalOpen, setModalOpen] = React.useState(false)
-  
+
   const handleModal = () => {
     setModalOpen(!modalOpen)
-    console.log('clicked')
   }
 
   return (
@@ -35,7 +32,7 @@ const NavBar = () => {
             <IconWithTool icon="Book" path="/documents" text="Documents" />
           </button>
           <button className="flex items-center justify-center">
-            <IconWithTool icon="Users" path="/mockdndagents" text="Queue Agents" />
+            <IconWithTool icon="Users" path="/queues" text="Queue Agents" />
           </button>
         </div>
         <button className="flex items-center justify-center">

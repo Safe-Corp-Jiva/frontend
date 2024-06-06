@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -6,7 +6,7 @@ import { formatDateFromString } from '@/utils/'
 import { customOnUpdateCall, listPastCalls } from '@/graphql/custom'
 import { generateClient } from 'aws-amplify/api'
 
-const client = generateClient();
+const client = generateClient()
 
 interface Props {
   maximize: () => void
@@ -29,12 +29,14 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
 
   useEffect(() => {
     if (!pastCalls?.length) {
-      client.graphql({
-        query: listPastCalls,
-        variables: { filter: { status: { eq: 'FINALIZED' } } },
-      }).then(({ data }) => {
-        setPastCalls(data?.listCalls?.items ?? [])
-      });
+      client
+        .graphql({
+          query: listPastCalls,
+          variables: { filter: { status: { eq: 'FINALIZED' } } },
+        })
+        .then(({ data }) => {
+          setPastCalls(data?.listCalls?.items ?? [])
+        })
     }
 
     const subscription = client
@@ -43,18 +45,18 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
       })
       .subscribe({
         next: (value: any) => {
-          const updatedCall = value?.data?.onUpdateCall;
+          const updatedCall = value?.data?.onUpdateCall
           const updatedCalls = pastCalls.map((call) => {
             if (call.id && call.id === updatedCall?.id) {
-              return {...call, result: updatedCall?.result}
+              return { ...call, result: updatedCall?.result }
             }
             return call
-          });
+          })
           setPastCalls(updatedCalls)
         },
         error: (error: any) => {
           console.error(error)
-        }
+        },
       })
 
     return () => subscription.unsubscribe()
@@ -122,11 +124,11 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
               {/* <h1 className="flex-1 truncate">{pastCall.id}</h1> */}
               {/* <h1 className="flex-1 font-semibold">{calculateDuration(call.createdAt, call.updatedAt)}</h1> */}
               <div
-                className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center  ${getResultStatus(
-                  call.result ?? "UNDETERMINED"
+                className={`flex-1 rounded-full h-8 flex justify-center items-center px-2 truncate ${getResultStatus(
+                  call.result ?? 'UNDETERMINED'
                 )}`}
               >
-                <span>{call.result ?? "UNDETERMINED"}</span>
+                <span>{call.result ?? 'N/D'}</span>
               </div>
             </div>
           ))}
