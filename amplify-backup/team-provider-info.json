@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-jiva-dev-68e67-authRole",
+      "UnauthRoleArn": "arn:aws:iam::767398119914:role/amplify-jiva-dev-68e67-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::767398119914:role/amplify-jiva-dev-68e67-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-jiva-dev-68e67-deployment",
+      "UnauthRoleName": "amplify-jiva-dev-68e67-unauthRole",
+      "StackName": "amplify-jiva-dev-68e67",
+      "StackId": "arn:aws:cloudformation:us-east-1:767398119914:stack/amplify-jiva-dev-68e67/832eb4f0-feeb-11ee-8454-0ee50bcfdbad",
+      "AmplifyAppId": "d23o3c6dlhehlz"
+    },
+    "categories": {
+      "auth": {
+        "jiva": {}
+      },
+      "storage": {
+        "jiva9f71586b": {
+          "bucketName": "amazon-connect-37ad28d502f0",
+          "region": "us-east-1"
+        }
+      }
+    }
+  }
+}
