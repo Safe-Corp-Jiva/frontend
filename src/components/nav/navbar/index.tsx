@@ -8,6 +8,13 @@ import { generateClient } from 'aws-amplify/api'
 import { listContactLensEvents } from '@/graphql/queries'
 
 const NavBar = () => {
+  const [modalOpen, setModalOpen] = React.useState(false)
+  
+  const handleModal = () => {
+    setModalOpen(!modalOpen)
+    console.log('clicked')
+  }
+
   return (
     <div className="flex flex-row">
       <div className="w-20 bg-white h-full flex flex-col rounded-r-xl z-20 justify-between py-5 drop-shadow-[1px_0px_5px_rgba(0,0,0,0.25)]">
