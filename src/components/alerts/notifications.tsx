@@ -1,6 +1,6 @@
 import { ContactLensEvent } from '@/API'
 import { listContactLensEvents } from '@/graphql/queries'
-import { contactLensEventSubFactory } from '@/utils/gql'
+import { createContactLensSubFactory } from '@/utils/gql'
 import { BellIcon } from '@heroicons/react/24/solid'
 import { generateClient } from 'aws-amplify/api'
 import { useEffect, useState } from 'react'
@@ -34,7 +34,13 @@ export const NotificationModal: React.FC<NotificationProps> = ({ isOpen, setModa
 
   const eventCallback = (event: ContactLensEvent) => {
     console.log('New ContactLensEvent received:', event)
-    setNotifications((prev: any) => [...prev, event])
+    setNotifications((prev: any[]) => {
+      const updatedNotifications = [...prev, event]
+      updatedNotifications.sort((a, b) => {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      })
+      return updatedNotifications
+    })
   }
 
   const fallback = (error: Error) => {
@@ -58,14 +64,14 @@ export const NotificationModal: React.FC<NotificationProps> = ({ isOpen, setModa
       setIsLoading(false)
     }
 
-    const { sub } = contactLensEventSubFactory()
+    const { sub } = createContactLensSubFactory()
 
-    const formatter = (data?: ContactLensEvent) => (data ? [data] : [])
+    const formatter = (data?: any) => (data ? [data] : [])
 
     const subscriber = sub.subscribe({
-      next: (value: { data: { onContactLensEvent: ContactLensEvent } }) => {
+      next: (value: { data: { onCreateContactLensEvent: ContactLensEvent } }) => {
         console.log('Subscription value received:', value)
-        const event = formatter(value?.data?.onContactLensEvent)[0]
+        const event = formatter(value?.data?.onCreateContactLensEvent)[0]
         if (event) {
           eventCallback(event)
         } else {
