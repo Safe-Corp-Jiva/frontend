@@ -38,7 +38,7 @@ export const getMetrics = async () => {
     }
     const command = new GetMetricDataV2Command(params)
     const response = await CONNECT.send(command)
-    return response?.MetricResults[0]?.Collections
+    return response?.MetricResults?.[0]?.Collections
   } catch (error) {
     console.error('Error getting metrics:', error)
     return null

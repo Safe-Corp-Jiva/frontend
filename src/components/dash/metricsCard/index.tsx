@@ -88,12 +88,20 @@ export default function MetricsCard({ maximize, minimize, isMaximized }: Props) 
   }, [])
 
   // Turn occupancy into a percentage with 2 decimal places
-  const occupancy = (metrics.find((metric) => metric.Metric.Name === 'AGENT_OCCUPANCY')?.Value * 100).toFixed(2) as any
-  const avgContactDuration = metrics.find((metric) => metric.Metric.Name === 'AVG_CONTACT_DURATION')?.Value.toFixed(0)
-  const avgQueueAnswerTime = metrics.find((metric) => metric.Metric.Name === 'AVG_QUEUE_ANSWER_TIME')?.Value.toFixed(0)
-  const abandonmentRate = (metrics.find((metric) => metric.Metric.Name === 'ABANDONMENT_RATE')?.Value * 100).toFixed(2)
-  const avgNonTalkTime = metrics.find((metric) => metric.Metric.Name === 'AVG_NON_TALK_TIME')?.Value.toFixed(0)
-  const ongoingCalls = OnGoingCalls.length
+  const occupancy = (metrics?.find((metric) => metric?.Metric?.Name === 'AGENT_OCCUPANCY')?.Value * 100).toFixed(
+    2
+  ) as any
+  const avgContactDuration = metrics
+    ?.find((metric) => metric?.Metric?.Name === 'AVG_CONTACT_DURATION')
+    ?.Value.toFixed(0)
+  const avgQueueAnswerTime = metrics
+    ?.find((metric) => metric?.Metric?.Name === 'AVG_QUEUE_ANSWER_TIME')
+    ?.Value.toFixed(0)
+  const abandonmentRate = (metrics?.find((metric) => metric?.Metric?.Name === 'ABANDONMENT_RATE')?.Value * 100).toFixed(
+    2
+  )
+  const avgNonTalkTime = metrics?.find((metric) => metric?.Metric?.Name === 'AVG_NON_TALK_TIME')?.Value.toFixed(0)
+  const ongoingCalls = OnGoingCalls?.length
 
   const textMetrics = [
     {
@@ -133,20 +141,24 @@ export default function MetricsCard({ maximize, minimize, isMaximized }: Props) 
       </div>
       <div className="bg-white rounded-xl p-5 max-w-full max-h-full">
         <div className={`flex justify-center font-semibold ${isMaximized ? 'gap-20' : 'gap-16'}`}>
-          <ProgressBar
-            percent={Number(occupancy) || 0}
-            title="Agent occupancy"
-            _strokeColor="#34B53A"
-            _trailColor="#E2FBD7"
-            isMaximized={isMaximized}
-          />
-          <ProgressBar
-            percent={Number(abandonmentRate) || 0}
-            title="Abandonment Rate"
-            _strokeColor="#FFEA2F"
-            _trailColor="rgba(255, 234, 47, 0.3)"
-            isMaximized={isMaximized}
-          />
+          {occupancy && (
+            <ProgressBar
+              percent={Number(occupancy) || 0}
+              title="Agent occupancy"
+              _strokeColor="#34B53A"
+              _trailColor="#E2FBD7"
+              isMaximized={isMaximized}
+            />
+          )}
+          {abandonmentRate && (
+            <ProgressBar
+              percent={Number(abandonmentRate) || 0}
+              title="Abandonment Rate"
+              _strokeColor="#FFEA2F"
+              _trailColor="rgba(255, 234, 47, 0.3)"
+              isMaximized={isMaximized}
+            />
+          )}
         </div>
         <div className={`${isMaximized ? 'mt-10' : 'mt-5'} grid grid-cols-2 gap-4`}>
           {textMetrics.map((metric, index) => (
