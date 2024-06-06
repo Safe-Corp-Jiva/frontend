@@ -40,17 +40,26 @@ export function useOngoingCalls() {
     const formatter = (data?: any) => (data ? [data] : [])
 
     const createSubscriber = createSub.subscribe({
-      next: (value) => createCallback(formatter(value?.data?.onCreateCall as Call)),
+      next: (value) => {
+        console.log(value?.data?.onCreateCall)
+        createCallback(formatter(value?.data?.onCreateCall))
+      },
       error: (error) => fallback(error),
     })
 
     const updateSubscriber = updateSub.subscribe({
-      next: (value) => updateCallback(value?.data?.onUpdateCall as Call),
+      next: (value) => {
+        console.log(value?.data?.onUpdateCall)
+        updateCallback(value?.data?.onUpdateCall)
+      },
       error: (error) => fallback(error),
     })
 
     const deleteSubscriber = deleteSub.subscribe({
-      next: (value) => deleteCallback(value?.data?.onDeleteCall as Call),
+      next: (value) => {
+        console.log(value?.data?.onDeleteCall)
+        deleteCallback(value?.data?.onDeleteCall)
+      },
       error: (error) => fallback(error),
     })
 

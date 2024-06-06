@@ -1,8 +1,8 @@
 import { generateClient } from 'aws-amplify/api'
-import { onChunkByCallId, onCreateCall, onUpdateCall, onDeleteCall, onContactLensEvent, onUpdateTopics } from '@/graphql/subscriptions'
-import { chunksByCallId, listCalls, listTopics } from '@/graphql/queries'
+import { onChunkByCallId, onContactLensEvent, onUpdateTopics } from '@/graphql/subscriptions'
+import { chunksByCallId, listTopics } from '@/graphql/queries'
 import { CallStatus } from '@/API'
-import { onCreateContactLensEventWithCreatedAt } from '../graphql/custom'
+import { onCreateContactLensEventWithCreatedAt, customOnCreateCall, customOnDeleteCall, customOnUpdateCall, customListCalls } from '../graphql/custom'
 
 const client = generateClient()
 
@@ -27,29 +27,35 @@ export const chunkSubFactory = (callId: string) => ({
 })
 
 export const callSubFactory = () => ({
-  getter: async () =>
-    client
-      .graphql({
-        query: listCalls,
-        variables: {
-          filter: {
-            status: {
-              eq: CallStatus.STARTED,
+  getter: async () => {
+    return (
+      client
+        .graphql({
+          query: customListCalls,
+          variables: {
+            filter: {
+              status: {
+                eq: CallStatus.STARTED,
+              },
             },
           },
-        },
-      })
-      .then(({ data }) => {
-        return data?.listCalls?.items ?? []
-      }),
-  createSub: client.graphql({
-    query: onCreateCall,
-  }),
-  updateSub: client.graphql({
-    query: onUpdateCall,
-  }),
+        })
+        .then(({ data }) => {
+          return data?.listCalls?.items ?? []
+        })
+    );
+  },
+
   deleteSub: client.graphql({
-    query: onDeleteCall,
+    query: customOnDeleteCall,
+  }),
+
+  createSub: client.graphql({
+    query: customOnCreateCall,
+  }),
+  
+  updateSub: client.graphql({
+    query: customOnUpdateCall,
   }),
 })
 
