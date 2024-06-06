@@ -302,10 +302,7 @@ export const listMetrics = /* GraphQL */ `query ListMetrics(
     __typename
   }
 }
-` as GeneratedQuery<
-  APITypes.ListMetricsQueryVariables,
-  APITypes.ListMetricsQuery
->;
+` as GeneratedQuery<APITypes.ListMetricsQueryVariables, APITypes.ListMetricsQuery>
 export const getContactLensEvent = /* GraphQL */ `query GetContactLensEvent($id: ID!) {
   getContactLensEvent(id: $id) {
     id
@@ -321,10 +318,7 @@ export const getContactLensEvent = /* GraphQL */ `query GetContactLensEvent($id:
     __typename
   }
 }
-` as GeneratedQuery<
-  APITypes.GetContactLensEventQueryVariables,
-  APITypes.GetContactLensEventQuery
->;
+` as GeneratedQuery<APITypes.GetContactLensEventQueryVariables, APITypes.GetContactLensEventQuery>
 export const listContactLensEvents = /* GraphQL */ `query ListContactLensEvents(
   $filter: ModelContactLensEventFilterInput
   $limit: Int
@@ -348,77 +342,4 @@ export const listContactLensEvents = /* GraphQL */ `query ListContactLensEvents(
     __typename
   }
 }
-` as GeneratedQuery<
-  APITypes.ListContactLensEventsQueryVariables,
-  APITypes.ListContactLensEventsQuery
->;
-export const getTopics = /* GraphQL */ `query GetTopics($id: ID!) {
-  getTopics(id: $id) {
-    id
-    name
-    description
-    calls {
-      nextToken
-      __typename
-    }
-    count
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedQuery<APITypes.GetTopicsQueryVariables, APITypes.GetTopicsQuery>;
-export const listTopics = /* GraphQL */ `query ListTopics(
-  $filter: ModelTopicsFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listTopics(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      name
-      description
-      count
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListTopicsQueryVariables,
-  APITypes.ListTopicsQuery
->;
-export const topicsByName = /* GraphQL */ `query TopicsByName(
-  $name: String!
-  $sortDirection: ModelSortDirection
-  $filter: ModelTopicsFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  topicsByName(
-    name: $name
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      name
-      description
-      count
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.TopicsByNameQueryVariables,
-  APITypes.TopicsByNameQuery
->;
+` as GeneratedQuery<APITypes.ListContactLensEventsQueryVariables, APITypes.ListContactLensEventsQuery>

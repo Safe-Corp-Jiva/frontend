@@ -60,13 +60,7 @@ const IconWithTool = ({ icon, path, text }: any) => {
   })
 
   // Merge all the interactions into prop getters
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    hover,
-    focus,
-    dismiss,
-    role,
-    click,
-  ])
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, dismiss, role, click])
 
   const pathname = usePathname()
   const isActive = (path: any) => {
@@ -86,9 +80,7 @@ const IconWithTool = ({ icon, path, text }: any) => {
       case 'Users':
         return <UsersIcon className={`${isActive(path)} `} />
       case 'UserRound':
-        return (
-          <UserCircleIcon className={`${isActive(path)} `} />
-        )
+        return <UserCircleIcon className={`${isActive(path)} `} />
       default:
         return <HomeIcon className={`${isActive(path)} `} />
     }
