@@ -1,8 +1,8 @@
 import { generateClient } from 'aws-amplify/api'
-import { onChunkByCallId, onCreateCall, onUpdateCall, onDeleteCall, onContactLensEvent } from '@/graphql/subscriptions'
-import { chunksByCallId, listCalls } from '@/graphql/queries'
+import { onChunkByCallId, onCreateCall, onUpdateCall, onDeleteCall, onContactLensEvent, onUpdateTopics } from '@/graphql/subscriptions'
+import { chunksByCallId, listCalls, listTopics } from '@/graphql/queries'
 import { CallStatus } from '@/API'
-import { onCreateContactLensEventWithCreatedAt } from '@/graphql/custom'
+import { onCreateContactLensEventWithCreatedAt } from '../graphql/custom'
 
 const client = generateClient()
 
@@ -64,3 +64,16 @@ export const createContactLensSubFactory = () => ({
     query: onCreateContactLensEventWithCreatedAt,
   }),
 })
+
+export const topicSubFactory = () => ({
+  getter: async () => (
+    client.graphql({
+      query: listTopics
+    }).then(({ data }) => {
+      return data?.listTopics?.items ?? [];
+    })
+  ),
+  updateSub: client.graphql({
+    query: onUpdateTopics
+  }),
+});

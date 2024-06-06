@@ -1,4 +1,20 @@
 // Constants for the application
+export const CONNECT_ROUTING_PROFILES = [
+  '21e47565-3477-44bb-a804-a903e1e777e1',
+  'b521514c-d75e-4bdb-be78-59bb5f08b193',
+  'b79b2b5c-1690-415c-b7ee-98481e2804e8',
+  'bddc2518-45df-407e-9fae-770fc89058a9',
+  'f68ed474-cc59-43e1-b915-b9602a9dd4cb',
+]
+
+export const CONNECT_METRICS = [
+  'ABANDONMENT_RATE',
+  'AGENT_OCCUPANCY',
+  'AVG_CONTACT_DURATION',
+  'AVG_CONVERSATION_DURATION',
+  'AVG_NON_TALK_TIME',
+  'AVG_QUEUE_ANSWER_TIME',
+]
 
 // Set of keywords to alert the supervisor of potential issues
 export const KEYWORDS: Set<string> = new Set([

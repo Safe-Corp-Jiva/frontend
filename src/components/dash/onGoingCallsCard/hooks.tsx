@@ -2,19 +2,14 @@ import { useEffect, useState } from 'react'
 import { Call, CallStatus } from '@/API'
 import { callSubFactory } from '@/utils/gql'
 
-interface CustomCall extends Call {
-  help?: number
-  topic?: string
-}
-
 export function useOngoingCalls() {
-  const [OnGoingCalls, setOnGoingCalls] = useState<CustomCall[]>([])
+  const [OnGoingCalls, setOnGoingCalls] = useState<any[]>([])
 
-  const createCallback = (calls: Call[]) => {
+  const createCallback = (calls: any[]) => {
     setOnGoingCalls((prev) => [...prev, ...calls])
   }
 
-  const updateCallback = (call?: Call) => {
+  const updateCallback = (call?: any) => {
     if (!call) return
 
     if (call.status === CallStatus.FINALIZED) {
@@ -24,7 +19,7 @@ export function useOngoingCalls() {
     }
   }
 
-  const deleteCallback = (call: Call) => {
+  const deleteCallback = (call: any) => {
     setOnGoingCalls((prev) => prev.filter((prevCall) => prevCall.id !== call.id))
   }
 
@@ -42,7 +37,7 @@ export function useOngoingCalls() {
 
     fetchCalls()
 
-    const formatter = (data?: Call) => (data ? [data] : [])
+    const formatter = (data?: any) => (data ? [data] : [])
 
     const createSubscriber = createSub.subscribe({
       next: (value) => createCallback(formatter(value?.data?.onCreateCall as Call)),
