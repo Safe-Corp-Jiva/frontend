@@ -1,5 +1,5 @@
 import { AMPLIFY_CLIENT } from './config'
-import { listPastCalls } from '@/graphql/custom'
+import { listPastCalls } from '../graphql/custom'
 import { CallStatus } from '@/API'
 
 export const getPastCalls = async () => {

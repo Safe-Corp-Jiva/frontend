@@ -2,7 +2,7 @@ import { generateClient } from 'aws-amplify/api'
 import { onChunkByCallId, onCreateCall, onUpdateCall, onDeleteCall, onContactLensEvent, onUpdateTopics } from '@/graphql/subscriptions'
 import { chunksByCallId, listCalls, listTopics } from '@/graphql/queries'
 import { CallStatus } from '@/API'
-import { onCreateContactLensEventWithCreatedAt } from '@/graphql/custom'
+import { onCreateContactLensEventWithCreatedAt } from '../graphql/custom'
 
 const client = generateClient()
 
