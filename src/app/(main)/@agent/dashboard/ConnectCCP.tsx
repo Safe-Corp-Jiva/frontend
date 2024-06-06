@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Wait from '../wait/page'
 import ChatBot from '@/components/chat/chatBot'
 import 'amazon-connect-streams'
+import { HelpButton } from './HelpButton'
 
 const ConnectCCP = () => {
   const [agent, setAgent] = useState<connect.Agent | null>(null)
@@ -245,14 +246,14 @@ const ConnectCCP = () => {
               </div>
               <div className="flex flex-row p-3 space-x-5">
                 <button
-                  className="bg-red-500 rounded-full w-10 h-10 flex justify-center items-center"
+                  className="bg-red-500 hover:bg-red-400 rounded-full w-10 h-10 flex justify-center items-center"
                   onClick={handleEndCall}
                 >
                   <Image src="/icons/telephone.svg" alt="telephone" width={20} height={20} />
                 </button>
                 {!isMuted && (
                 <button 
-                  className="bg-blue-400 rounded-full w-10 h-10 flex justify-center items-center mic-icon" 
+                  className="bg-blue-400 hover:bg-blue-300 rounded-full w-10 h-10 flex justify-center items-center mic-icon" 
                   onClick={handleMute}
                 >
                   <Image src="/icons/microphone.svg" alt="microphone" width={20} height={20} />
@@ -260,15 +261,13 @@ const ConnectCCP = () => {
               )}
               {isMuted && (
                 <button 
-                  className="bg-blue-400 rounded-full w-10 h-10 flex justify-center items-center mic-icon muted" 
+                  className="bg-blue-400 hover:bg-blue-300 rounded-full w-10 h-10 flex justify-center items-center mic-icon muted" 
                   onClick={handleUnmute}
                 >
                   <Image src="/icons/micMute.svg" alt="microphone" width={20} height={20} />
                 </button>
               )}
-                <button className="bg-yellow-400 rounded-full w-10 h-10 flex justify-center items-center">
-                  <Image src="/icons/exclamation-triangle.svg" alt="triangle" width={20} height={20} />
-                </button>
+                <HelpButton callId={currentConnection?.contactId ?? null} />
               </div>
             </div>
           </div>

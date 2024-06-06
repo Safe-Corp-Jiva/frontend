@@ -4,14 +4,14 @@ import { onHelpClick } from './hooks'
 import { TriangleAlert } from 'lucide-react'
 
 interface HelpButtonProps {
-  callId: string
+  callId: string | null
 }
 export const HelpButton = ({ callId }: HelpButtonProps) => (
   <button
-   onClick={onHelpClick(callId, true)}
-   className="size-16 bg-SCJ-primary rounded-full flex justify-center items-center hover:bg-SCJ-primary/80 cursor-pointer"
+   onClick={callId ? onHelpClick(callId, true) : () => null}
+   className={`size-20 bg-yellow-400 rounded-full w-10 h-10 flex justify-center items-center hover:bg-yellow-300 cursor-pointer ${callId ? '' : 'disabled'}`}
   >
-    <TriangleAlert size={32} color="white" />
+    <TriangleAlert size={24} color="white" />
   </button>
 )
 
