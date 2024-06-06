@@ -91,7 +91,7 @@ const MessageBody = ({ text }: { text: string | null | undefined }) => {
   const words = text?.split(' ')
 
   return (
-    <p>
+    <p className="flex flex-wrap text-wrap max-w-[80%]">
       {words?.map((word) => {
         if (KEYWORDS.has(word.toLowerCase())) {
           return (
