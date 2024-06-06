@@ -32,7 +32,6 @@ export default function Dashboard() {
         isMaximized={false}
       />
       <MetricsCard maximize={() => handleExpand('MetricsCard')} minimize={() => handleMinimize()} isMaximized={false} />
-      <RealTimeTranscript />
     </div>
   )
 }
