@@ -39,7 +39,7 @@ function Chat() {
 
   return (
     <div
-      className="flex w-11/12 bg-gray-100 rounded-2xl overflow-hidden pt-[1%] pr-[1%]"
+      className="flex w-11/12 bg-gray-100 rounded-2xl overflow-hidden pt-[1%] px-[2%]"
       style={{ height: 'calc(100% - 2rem)' }}
     >
       <div className="border rounded-xl border-gray-300 w-80 bg-white overflow-y-auto mr-[1%]">

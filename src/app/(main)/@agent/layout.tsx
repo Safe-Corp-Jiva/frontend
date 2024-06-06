@@ -1,11 +1,11 @@
 'use client'
-import { NavBar } from '@/components/nav'
+import { NavBarAgent } from '@/components/nav'
 import React, { Suspense } from 'react'
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="w-full h-full flex">
-      <NavBar />
+      <NavBarAgent />
       <Suspense>{children}</Suspense>
     </div>
   )

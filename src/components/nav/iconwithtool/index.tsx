@@ -16,7 +16,7 @@ import {
   useTransitionStyles,
   useClick,
 } from '@floating-ui/react'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import {
   HomeIcon,
   BellIcon,
@@ -29,7 +29,6 @@ import {
 import Link from 'next/link'
 
 const IconWithTool = ({ icon, path, text }: any) => {
-  const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const arrowRef = useRef(null)
 
