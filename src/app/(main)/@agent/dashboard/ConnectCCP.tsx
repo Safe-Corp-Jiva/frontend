@@ -58,6 +58,14 @@ const ConnectCCP = () => {
           setIncomingCall(false)
           setCallAccepted(false)
           setCurrentContact(null)
+          contact.clear({
+            success: () => {
+              console.log('Contact destroyed successfully')
+            },
+            failure: (error) => {
+              console.error('Error destroying contact', error)
+            }
+          })
         })
       })
     }
