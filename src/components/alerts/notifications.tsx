@@ -59,7 +59,7 @@ export const NotificationModal: React.FC<NotificationProps> = ({ isOpen, setModa
           return (
             <div
               key={notification.id}
-              className="p-3 mb-2 h-48 bg-SCJ-dark-primary/70 hover:bg-SCJ-dark-primary hover:scale-[1.01] text-SCJ-gray border border-gray-300 rounded-lg shadow-sm"
+              className="p-3 mb-2 h-48 bg-SCJ-dark-primary/70 hover:bg-SCJ-dark-primary text-SCJ-gray border border-gray-300 rounded-lg shadow-sm"
             >
               <div className="flex justify-between">
                 <p className="text-md font-bold">{notification.ruleName}</p>
@@ -72,7 +72,7 @@ export const NotificationModal: React.FC<NotificationProps> = ({ isOpen, setModa
         })}
         {isLoading && (
           <>
-            <div className="p-3 mb-2 h-40 bg-SCJ-dark-primary/70 hover:bg-SCJ-dark-primary hover:scale-[1.01] text-SCJ-gray border border-gray-300 rounded-lg shadow-sm animate-pulse">
+            <div className="p-3 mb-2 h-40 bg-SCJ-dark-primary/70 hover:bg-SCJ-dark-primary text-SCJ-gray border border-gray-300 rounded-lg shadow-sm animate-pulse">
               <div className="flex justify-between items-center">
                 <div className="h-6 bg-gray-400 rounded w-1/3"></div>
                 <div className="h-4 bg-gray-300 rounded w-16"></div>
@@ -80,7 +80,7 @@ export const NotificationModal: React.FC<NotificationProps> = ({ isOpen, setModa
               <div className="mt-4 h-4 bg-gray-400 rounded w-2/3"></div>
               <div className="mt-4 h-4 bg-gray-300 rounded w-1/4"></div>
             </div>
-            <div className="p-3 mb-2 h-40 bg-SCJ-dark-primary/70 hover:bg-SCJ-dark-primary hover:scale-[1.01] text-SCJ-gray border border-gray-300 rounded-lg shadow-sm animate-pulse">
+            <div className="p-3 mb-2 h-40 bg-SCJ-dark-primary/70 hover:bg-SCJ-dark-primary text-SCJ-gray border border-gray-300 rounded-lg shadow-sm animate-pulse">
               <div className="flex justify-between items-center">
                 <div className="h-6 bg-gray-400 rounded w-1/3"></div>
                 <div className="h-4 bg-gray-300 rounded w-16"></div>
@@ -88,7 +88,7 @@ export const NotificationModal: React.FC<NotificationProps> = ({ isOpen, setModa
               <div className="mt-4 h-4 bg-gray-400 rounded w-2/3"></div>
               <div className="mt-4 h-4 bg-gray-300 rounded w-1/4"></div>
             </div>
-            <div className="p-3 mb-2 h-40 bg-SCJ-dark-primary/70 hover:bg-SCJ-dark-primary hover:scale-[1.01] text-SCJ-gray border border-gray-300 rounded-lg shadow-sm animate-pulse">
+            <div className="p-3 mb-2 h-40 bg-SCJ-dark-primary/70 hover:bg-SCJ-dark-primary text-SCJ-gray border border-gray-300 rounded-lg shadow-sm animate-pulse">
               <div className="flex justify-between items-center">
                 <div className="h-6 bg-gray-400 rounded w-1/3"></div>
                 <div className="h-4 bg-gray-300 rounded w-16"></div>
