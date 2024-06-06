@@ -15,6 +15,9 @@ export const createAgent = /* GraphQL */ `mutation CreateAgent(
   createAgent(input: $input, condition: $condition) {
     id
     username
+    lastName
+    firstName
+    email
     createdAt
     updatedAt
     __typename
@@ -31,6 +34,9 @@ export const updateAgent = /* GraphQL */ `mutation UpdateAgent(
   updateAgent(input: $input, condition: $condition) {
     id
     username
+    lastName
+    firstName
+    email
     createdAt
     updatedAt
     __typename
@@ -47,6 +53,9 @@ export const deleteAgent = /* GraphQL */ `mutation DeleteAgent(
   deleteAgent(input: $input, condition: $condition) {
     id
     username
+    lastName
+    firstName
+    email
     createdAt
     updatedAt
     __typename
@@ -240,6 +249,9 @@ export const createCall = /* GraphQL */ `mutation CreateCall(
     agent {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -273,7 +285,18 @@ export const createCall = /* GraphQL */ `mutation CreateCall(
       nextToken
       __typename
     }
+    topic {
+      id
+      name
+      description
+      count
+      createdAt
+      updatedAt
+      __typename
+    }
+    help
     updatedAt
+    topicsCallsId
     callAgentId
     callQueueId
     callMetricsId
@@ -304,6 +327,9 @@ export const updateCall = /* GraphQL */ `mutation UpdateCall(
     agent {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -337,7 +363,18 @@ export const updateCall = /* GraphQL */ `mutation UpdateCall(
       nextToken
       __typename
     }
+    topic {
+      id
+      name
+      description
+      count
+      createdAt
+      updatedAt
+      __typename
+    }
+    help
     updatedAt
+    topicsCallsId
     callAgentId
     callQueueId
     callMetricsId
@@ -368,6 +405,9 @@ export const deleteCall = /* GraphQL */ `mutation DeleteCall(
     agent {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -401,7 +441,18 @@ export const deleteCall = /* GraphQL */ `mutation DeleteCall(
       nextToken
       __typename
     }
+    topic {
+      id
+      name
+      description
+      count
+      createdAt
+      updatedAt
+      __typename
+    }
+    help
     updatedAt
+    topicsCallsId
     callAgentId
     callQueueId
     callMetricsId
@@ -463,4 +514,136 @@ export const deleteMetric = /* GraphQL */ `mutation DeleteMetric(
 ` as GeneratedMutation<
   APITypes.DeleteMetricMutationVariables,
   APITypes.DeleteMetricMutation
+>;
+export const createContactLensEvent = /* GraphQL */ `mutation CreateContactLensEvent(
+  $input: CreateContactLensEventInput!
+  $condition: ModelContactLensEventConditionInput
+) {
+  createContactLensEvent(input: $input, condition: $condition) {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateContactLensEventMutationVariables,
+  APITypes.CreateContactLensEventMutation
+>;
+export const updateContactLensEvent = /* GraphQL */ `mutation UpdateContactLensEvent(
+  $input: UpdateContactLensEventInput!
+  $condition: ModelContactLensEventConditionInput
+) {
+  updateContactLensEvent(input: $input, condition: $condition) {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateContactLensEventMutationVariables,
+  APITypes.UpdateContactLensEventMutation
+>;
+export const deleteContactLensEvent = /* GraphQL */ `mutation DeleteContactLensEvent(
+  $input: DeleteContactLensEventInput!
+  $condition: ModelContactLensEventConditionInput
+) {
+  deleteContactLensEvent(input: $input, condition: $condition) {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteContactLensEventMutationVariables,
+  APITypes.DeleteContactLensEventMutation
+>;
+export const createTopics = /* GraphQL */ `mutation CreateTopics(
+  $input: CreateTopicsInput!
+  $condition: ModelTopicsConditionInput
+) {
+  createTopics(input: $input, condition: $condition) {
+    id
+    name
+    description
+    calls {
+      nextToken
+      __typename
+    }
+    count
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateTopicsMutationVariables,
+  APITypes.CreateTopicsMutation
+>;
+export const updateTopics = /* GraphQL */ `mutation UpdateTopics(
+  $input: UpdateTopicsInput!
+  $condition: ModelTopicsConditionInput
+) {
+  updateTopics(input: $input, condition: $condition) {
+    id
+    name
+    description
+    calls {
+      nextToken
+      __typename
+    }
+    count
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateTopicsMutationVariables,
+  APITypes.UpdateTopicsMutation
+>;
+export const deleteTopics = /* GraphQL */ `mutation DeleteTopics(
+  $input: DeleteTopicsInput!
+  $condition: ModelTopicsConditionInput
+) {
+  deleteTopics(input: $input, condition: $condition) {
+    id
+    name
+    description
+    calls {
+      nextToken
+      __typename
+    }
+    count
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteTopicsMutationVariables,
+  APITypes.DeleteTopicsMutation
 >;

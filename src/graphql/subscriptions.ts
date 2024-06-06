@@ -27,10 +27,32 @@ export const onChunkByCallId = /* GraphQL */ `subscription OnChunkByCallId($call
   APITypes.OnChunkByCallIdSubscriptionVariables,
   APITypes.OnChunkByCallIdSubscription
 >;
+export const onContactLensEvent = /* GraphQL */ `subscription OnContactLensEvent {
+  onContactLensEvent {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnContactLensEventSubscriptionVariables,
+  APITypes.OnContactLensEventSubscription
+>;
 export const onCreateAgent = /* GraphQL */ `subscription OnCreateAgent($filter: ModelSubscriptionAgentFilterInput) {
   onCreateAgent(filter: $filter) {
     id
     username
+    lastName
+    firstName
+    email
     createdAt
     updatedAt
     __typename
@@ -44,6 +66,9 @@ export const onUpdateAgent = /* GraphQL */ `subscription OnUpdateAgent($filter: 
   onUpdateAgent(filter: $filter) {
     id
     username
+    lastName
+    firstName
+    email
     createdAt
     updatedAt
     __typename
@@ -57,6 +82,9 @@ export const onDeleteAgent = /* GraphQL */ `subscription OnDeleteAgent($filter: 
   onDeleteAgent(filter: $filter) {
     id
     username
+    lastName
+    firstName
+    email
     createdAt
     updatedAt
     __typename
@@ -220,6 +248,9 @@ export const onCreateCall = /* GraphQL */ `subscription OnCreateCall($filter: Mo
     agent {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -253,7 +284,18 @@ export const onCreateCall = /* GraphQL */ `subscription OnCreateCall($filter: Mo
       nextToken
       __typename
     }
+    topic {
+      id
+      name
+      description
+      count
+      createdAt
+      updatedAt
+      __typename
+    }
+    help
     updatedAt
+    topicsCallsId
     callAgentId
     callQueueId
     callMetricsId
@@ -281,6 +323,9 @@ export const onUpdateCall = /* GraphQL */ `subscription OnUpdateCall($filter: Mo
     agent {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -314,7 +359,18 @@ export const onUpdateCall = /* GraphQL */ `subscription OnUpdateCall($filter: Mo
       nextToken
       __typename
     }
+    topic {
+      id
+      name
+      description
+      count
+      createdAt
+      updatedAt
+      __typename
+    }
+    help
     updatedAt
+    topicsCallsId
     callAgentId
     callQueueId
     callMetricsId
@@ -342,6 +398,9 @@ export const onDeleteCall = /* GraphQL */ `subscription OnDeleteCall($filter: Mo
     agent {
       id
       username
+      lastName
+      firstName
+      email
       createdAt
       updatedAt
       __typename
@@ -375,7 +434,18 @@ export const onDeleteCall = /* GraphQL */ `subscription OnDeleteCall($filter: Mo
       nextToken
       __typename
     }
+    topic {
+      id
+      name
+      description
+      count
+      createdAt
+      updatedAt
+      __typename
+    }
+    help
     updatedAt
+    topicsCallsId
     callAgentId
     callQueueId
     callMetricsId
@@ -428,4 +498,124 @@ export const onDeleteMetric = /* GraphQL */ `subscription OnDeleteMetric($filter
 ` as GeneratedSubscription<
   APITypes.OnDeleteMetricSubscriptionVariables,
   APITypes.OnDeleteMetricSubscription
+>;
+export const onCreateContactLensEvent = /* GraphQL */ `subscription OnCreateContactLensEvent(
+  $filter: ModelSubscriptionContactLensEventFilterInput
+) {
+  onCreateContactLensEvent(filter: $filter) {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateContactLensEventSubscriptionVariables,
+  APITypes.OnCreateContactLensEventSubscription
+>;
+export const onUpdateContactLensEvent = /* GraphQL */ `subscription OnUpdateContactLensEvent(
+  $filter: ModelSubscriptionContactLensEventFilterInput
+) {
+  onUpdateContactLensEvent(filter: $filter) {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateContactLensEventSubscriptionVariables,
+  APITypes.OnUpdateContactLensEventSubscription
+>;
+export const onDeleteContactLensEvent = /* GraphQL */ `subscription OnDeleteContactLensEvent(
+  $filter: ModelSubscriptionContactLensEventFilterInput
+) {
+  onDeleteContactLensEvent(filter: $filter) {
+    id
+    ruleName
+    actionName
+    instanceArn
+    contactArn
+    agentArn
+    queueArn
+    timestamp
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteContactLensEventSubscriptionVariables,
+  APITypes.OnDeleteContactLensEventSubscription
+>;
+export const onCreateTopics = /* GraphQL */ `subscription OnCreateTopics($filter: ModelSubscriptionTopicsFilterInput) {
+  onCreateTopics(filter: $filter) {
+    id
+    name
+    description
+    calls {
+      nextToken
+      __typename
+    }
+    count
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateTopicsSubscriptionVariables,
+  APITypes.OnCreateTopicsSubscription
+>;
+export const onUpdateTopics = /* GraphQL */ `subscription OnUpdateTopics($filter: ModelSubscriptionTopicsFilterInput) {
+  onUpdateTopics(filter: $filter) {
+    id
+    name
+    description
+    calls {
+      nextToken
+      __typename
+    }
+    count
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateTopicsSubscriptionVariables,
+  APITypes.OnUpdateTopicsSubscription
+>;
+export const onDeleteTopics = /* GraphQL */ `subscription OnDeleteTopics($filter: ModelSubscriptionTopicsFilterInput) {
+  onDeleteTopics(filter: $filter) {
+    id
+    name
+    description
+    calls {
+      nextToken
+      __typename
+    }
+    count
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteTopicsSubscriptionVariables,
+  APITypes.OnDeleteTopicsSubscription
 >;
