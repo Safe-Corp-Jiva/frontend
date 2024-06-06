@@ -134,12 +134,12 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
               className={activeButtonClass('date')}
               classNameIcon={activeButtonClassIcon('date')}
             />
-            <SearchButtons
+            {/* <SearchButtons
               text="Id"
               fn={() => handleFilterChange('id')}
               className={activeButtonClass('id')}
               classNameIcon={activeButtonClassIcon('id')}
-            />
+            /> */}
             {/* <SearchButtons text="Flag" fn={() => handleFilterChange('flag')} className={activeButtonClass('flag')} classNameIcon={activeButtonClassIcon('flag')}/> */}
           </div>
           <Tab.List className="w-full h-full overflow-auto px-2">
@@ -154,21 +154,21 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
                     }
                   >
                     <td className="px-2 py-4 flex flex-col justify-center">
-                      <span className="font-bold text-lg">{transcript.id.slice(0, 8)}...</span>
+                      {/* <span className="font-bold text-lg">{transcript.id.slice(0, 8)}...</span> */}
                       <span className="text-black/60">{transcript.date}</span>
                     </td>
                     <td className="px-2 py-4 text-black/85">{transcript.name + ' ' + transcript.lastName}</td>
                     <td className="px-2 py-4 text-SCJ-primary">@{transcript.agent}</td>
-                    <td className="px-2 py-4">
+                    {/* <td className="px-2 py-4">
                       <div
                         className={`h-3 w-3 rounded-full ${sentimentColor(
-                          -100 /* transcript.sentiment */
+                          -100
                         )} inline-block`}
                       ></div>
                     </td>
                     <td className="px-2 py-4">
                       <FlagIcon className={`w-6 h-6 ${flagColor(transcript.flagged)}`} />
-                    </td>
+                    </td> */}
                   </Tab>
                 ))}
               </tbody>
@@ -185,9 +185,9 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
                       <span className="font-bold text-3xl">{transcript.name + ' ' + transcript.lastName}</span>
                       <span className="text-lg text-black/40">{transcript.date}</span>
                     </div>
-                    <div className=" flex flex-col space-y-2 items-end">
-                      <span className="font-medium text-2Ixl">{transcript.id}</span>
-                    </div>
+                    {/* <div className=" flex flex-col space-y-2 items-end">
+                      <span className="font-medium text-2Ixl">{transcript.date}</span>
+                    </div> */}
                   </div>
                   {/* Render de los chunks */}
                   <div className="rounded-b-xl size-full px-10 py-5 overflow-auto">

@@ -1,9 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
-import { Column, initialData } from '@/components/mockdndagents'
-import { InitialData } from '@/components/mockdndagents/types'
-import { CONNECT_ROUTING_PROFILES } from '@/constants'
+import { Column, initialData } from '@/components/queues'
 
 interface Agents {
   [key: string]: {
@@ -141,9 +139,9 @@ export default function Page() {
 
     // Poll every 10 seconds
     const interval = setInterval(() => {
-      console.log("Triggered get queues")
+      console.log('Triggered get queues')
       getQueues()
-    }, 10000);
+    }, 10000)
 
     return () => clearInterval(interval)
   }, [])
