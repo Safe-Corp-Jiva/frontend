@@ -16,7 +16,7 @@ import {
   useTransitionStyles,
   useClick,
 } from '@floating-ui/react'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import {
   HomeIcon,
   BellIcon,
@@ -26,14 +26,11 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/solid'
 
+import Link from 'next/link'
+
 const IconWithTool = ({ icon, path, text }: any) => {
-  const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const arrowRef = useRef(null)
-
-  const handleRouting = (path: any) => {
-    router.push(path)
-  }
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
@@ -60,13 +57,7 @@ const IconWithTool = ({ icon, path, text }: any) => {
   })
 
   // Merge all the interactions into prop getters
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    hover,
-    focus,
-    dismiss,
-    role,
-    click,
-  ])
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, dismiss, role, click])
 
   const pathname = usePathname()
   const isActive = (path: any) => {
@@ -76,21 +67,47 @@ const IconWithTool = ({ icon, path, text }: any) => {
   const getIcon = (icon: any) => {
     switch (icon) {
       case 'Home':
-        return <HomeIcon className={`${isActive(path)} `} />
+        return (
+          <Link href={path}>
+            <HomeIcon className={`${isActive(path)} `} />
+          </Link>
+        )
       case 'Bell':
-        return <BellIcon className={`${isActive(path)} `} />
+        return (
+          <Link href={path}>
+            <BellIcon className={`${isActive(path)} `} />
+          </Link>
+        )
       case 'Chat':
-        return <ChatBubbleLeftRightIcon className={`${isActive(path)} `} />
+        return (
+          <Link href={path}>
+            <ChatBubbleLeftRightIcon className={`${isActive(path)} `} />
+          </Link>
+        )
       case 'Book':
-        return <BookOpenIcon className={`${isActive(path)} `} />
+        return (
+          <Link href={path}>
+            <BookOpenIcon className={`${isActive(path)} `} />
+          </Link>
+        )
       case 'Users':
-        return <UsersIcon className={`${isActive(path)} `} />
+        return (
+          <Link href={path}>
+            <UsersIcon className={`${isActive(path)} `} />
+          </Link>
+        )
       case 'UserRound':
         return (
-          <UserCircleIcon className={`${isActive(path)} `} />
+          <Link href={path}>
+            <UserCircleIcon className={`${isActive(path)} `} />
+          </Link>
         )
       default:
-        return <HomeIcon className={`${isActive(path)} `} />
+        return (
+          <Link href={path}>
+            <HomeIcon className={`${isActive(path)} `} />
+          </Link>
+        )
     }
   }
   return (
@@ -98,12 +115,7 @@ const IconWithTool = ({ icon, path, text }: any) => {
       <div
         className="w-11 h-11 hover:bg-black/10 rounded-lg p-1.5 cursor-pointer"
         ref={refs.setReference}
-        {...getReferenceProps({
-          onClick: (e: any) => {
-            e.preventDefault()
-            handleRouting(path)
-          },
-        })}
+        {...getReferenceProps()}
       >
         {getIcon(icon)}
       </div>

@@ -35,7 +35,7 @@ export default function SlugPage() {
 
   return (
     <div className="w-full h-full bg-white rounded-xl flex flex-col p-5">
-      <div className="w-full flex justify-between border-b-2 border-black/20 pb-2">
+      <div className="w-full flex justify-start gap-20 border-b-2 border-black/20 pb-2">
         <div className="flex flex-col">
           <span className="text-2xl font-bold">{transcript.agent}</span>
           <span className="text-black/50">{transcript.date}</span>
@@ -48,10 +48,10 @@ export default function SlugPage() {
           <span className="text-2xl">Duration</span>
           <span className="text-black/50">{transcript.duration}</span>
         </div> */}
-        <div className="flex flex-col text-end">
-          <span className="text-2xl font-bold">{transcript.id}</span>
-          {/* {sentimentColorText(transcript.sentiment)} */}
-        </div>
+        {/* <div className="flex flex-col text-end">
+          <span className="text-2xl font-bold">{transcript.id}</span> */}
+        {/* {sentimentColorText(transcript.sentiment)} */}
+        {/* </div> */}
       </div>
       {/* Render de los chunks */}
       <div className="rounded-b-xl size-full px-10 py-5 overflow-auto">

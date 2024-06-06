@@ -12,14 +12,14 @@
       "AmplifyAppId": "d23o3c6dlhehlz"
     },
     "categories": {
-      "auth": {
-        "jiva": {}
-      },
       "storage": {
         "jiva9f71586b": {
           "bucketName": "amazon-connect-37ad28d502f0",
           "region": "us-east-1"
         }
+      },
+      "auth": {
+        "jiva": {}
       }
     }
   }

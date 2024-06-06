@@ -1,6 +1,7 @@
 'use client'
 import { MetricsCard, OnGoingCallsCard, PastCallsCard, TrendingCard } from '@/components/dash'
 import { useRouter } from 'next/navigation'
+import RealTimeTranscript from '@/components/alerts'
 
 export default function Dashboard() {
   const router = useRouter()
