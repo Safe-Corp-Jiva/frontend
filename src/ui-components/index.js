@@ -14,4 +14,6 @@ export { default as MetricCreateForm } from "./MetricCreateForm";
 export { default as MetricUpdateForm } from "./MetricUpdateForm";
 export { default as QueueCreateForm } from "./QueueCreateForm";
 export { default as QueueUpdateForm } from "./QueueUpdateForm";
+export { default as TopicsCreateForm } from "./TopicsCreateForm";
+export { default as TopicsUpdateForm } from "./TopicsUpdateForm";
 export { default as studioTheme } from "./studioTheme";

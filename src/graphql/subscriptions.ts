@@ -37,6 +37,8 @@ export const onContactLensEvent = /* GraphQL */ `subscription OnContactLensEvent
     agentArn
     queueArn
     timestamp
+    createdAt
+    updatedAt
     __typename
   }
 }
@@ -282,7 +284,19 @@ export const onCreateCall = /* GraphQL */ `subscription OnCreateCall($filter: Mo
       nextToken
       __typename
     }
+    topic {
+      id
+      name
+      description
+      count
+      createdAt
+      updatedAt
+      __typename
+    }
+    help
+    result
     updatedAt
+    topicsCallsId
     callAgentId
     callQueueId
     callMetricsId
@@ -346,7 +360,19 @@ export const onUpdateCall = /* GraphQL */ `subscription OnUpdateCall($filter: Mo
       nextToken
       __typename
     }
+    topic {
+      id
+      name
+      description
+      count
+      createdAt
+      updatedAt
+      __typename
+    }
+    help
+    result
     updatedAt
+    topicsCallsId
     callAgentId
     callQueueId
     callMetricsId
@@ -410,7 +436,19 @@ export const onDeleteCall = /* GraphQL */ `subscription OnDeleteCall($filter: Mo
       nextToken
       __typename
     }
+    topic {
+      id
+      name
+      description
+      count
+      createdAt
+      updatedAt
+      __typename
+    }
+    help
+    result
     updatedAt
+    topicsCallsId
     callAgentId
     callQueueId
     callMetricsId
@@ -476,6 +514,8 @@ export const onCreateContactLensEvent = /* GraphQL */ `subscription OnCreateCont
     agentArn
     queueArn
     timestamp
+    createdAt
+    updatedAt
     __typename
   }
 }
@@ -495,6 +535,8 @@ export const onUpdateContactLensEvent = /* GraphQL */ `subscription OnUpdateCont
     agentArn
     queueArn
     timestamp
+    createdAt
+    updatedAt
     __typename
   }
 }
@@ -514,10 +556,69 @@ export const onDeleteContactLensEvent = /* GraphQL */ `subscription OnDeleteCont
     agentArn
     queueArn
     timestamp
+    createdAt
+    updatedAt
     __typename
   }
 }
 ` as GeneratedSubscription<
   APITypes.OnDeleteContactLensEventSubscriptionVariables,
   APITypes.OnDeleteContactLensEventSubscription
+>;
+export const onCreateTopics = /* GraphQL */ `subscription OnCreateTopics($filter: ModelSubscriptionTopicsFilterInput) {
+  onCreateTopics(filter: $filter) {
+    id
+    name
+    description
+    calls {
+      nextToken
+      __typename
+    }
+    count
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateTopicsSubscriptionVariables,
+  APITypes.OnCreateTopicsSubscription
+>;
+export const onUpdateTopics = /* GraphQL */ `subscription OnUpdateTopics($filter: ModelSubscriptionTopicsFilterInput) {
+  onUpdateTopics(filter: $filter) {
+    id
+    name
+    description
+    calls {
+      nextToken
+      __typename
+    }
+    count
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateTopicsSubscriptionVariables,
+  APITypes.OnUpdateTopicsSubscription
+>;
+export const onDeleteTopics = /* GraphQL */ `subscription OnDeleteTopics($filter: ModelSubscriptionTopicsFilterInput) {
+  onDeleteTopics(filter: $filter) {
+    id
+    name
+    description
+    calls {
+      nextToken
+      __typename
+    }
+    count
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteTopicsSubscriptionVariables,
+  APITypes.OnDeleteTopicsSubscription
 >;
