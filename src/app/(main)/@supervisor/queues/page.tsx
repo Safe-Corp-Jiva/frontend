@@ -137,10 +137,8 @@ export default function Page() {
       })
     }
 
-    // Get queues every 3 seconds
     getQueues()
-
-    const interval = setInterval(() => getQueues(), 3000)
+    const interval = setInterval(() => getQueues(), 10000)
 
     return () => clearInterval(interval)
   }, [])
