@@ -2,11 +2,11 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from "../API";
+import * as APITypes from '../API'
 type GeneratedSubscription<InputType, OutputType> = string & {
-  __generatedSubscriptionInput: InputType;
-  __generatedSubscriptionOutput: OutputType;
-};
+  __generatedSubscriptionInput: InputType
+  __generatedSubscriptionOutput: OutputType
+}
 
 export const onChunkByCallId = /* GraphQL */ `subscription OnChunkByCallId($callId: ID!) {
   onChunkByCallId(callId: $callId) {
@@ -23,10 +23,7 @@ export const onChunkByCallId = /* GraphQL */ `subscription OnChunkByCallId($call
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnChunkByCallIdSubscriptionVariables,
-  APITypes.OnChunkByCallIdSubscription
->;
+` as GeneratedSubscription<APITypes.OnChunkByCallIdSubscriptionVariables, APITypes.OnChunkByCallIdSubscription>
 export const onContactLensEvent = /* GraphQL */ `subscription OnContactLensEvent {
   onContactLensEvent {
     id
@@ -40,10 +37,7 @@ export const onContactLensEvent = /* GraphQL */ `subscription OnContactLensEvent
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnContactLensEventSubscriptionVariables,
-  APITypes.OnContactLensEventSubscription
->;
+` as GeneratedSubscription<APITypes.OnContactLensEventSubscriptionVariables, APITypes.OnContactLensEventSubscription>
 export const onCreateAgent = /* GraphQL */ `subscription OnCreateAgent($filter: ModelSubscriptionAgentFilterInput) {
   onCreateAgent(filter: $filter) {
     id
@@ -56,10 +50,7 @@ export const onCreateAgent = /* GraphQL */ `subscription OnCreateAgent($filter: 
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnCreateAgentSubscriptionVariables,
-  APITypes.OnCreateAgentSubscription
->;
+` as GeneratedSubscription<APITypes.OnCreateAgentSubscriptionVariables, APITypes.OnCreateAgentSubscription>
 export const onUpdateAgent = /* GraphQL */ `subscription OnUpdateAgent($filter: ModelSubscriptionAgentFilterInput) {
   onUpdateAgent(filter: $filter) {
     id
@@ -72,10 +63,7 @@ export const onUpdateAgent = /* GraphQL */ `subscription OnUpdateAgent($filter: 
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnUpdateAgentSubscriptionVariables,
-  APITypes.OnUpdateAgentSubscription
->;
+` as GeneratedSubscription<APITypes.OnUpdateAgentSubscriptionVariables, APITypes.OnUpdateAgentSubscription>
 export const onDeleteAgent = /* GraphQL */ `subscription OnDeleteAgent($filter: ModelSubscriptionAgentFilterInput) {
   onDeleteAgent(filter: $filter) {
     id
@@ -88,10 +76,7 @@ export const onDeleteAgent = /* GraphQL */ `subscription OnDeleteAgent($filter: 
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnDeleteAgentSubscriptionVariables,
-  APITypes.OnDeleteAgentSubscription
->;
+` as GeneratedSubscription<APITypes.OnDeleteAgentSubscriptionVariables, APITypes.OnDeleteAgentSubscription>
 export const onCreateQueue = /* GraphQL */ `subscription OnCreateQueue($filter: ModelSubscriptionQueueFilterInput) {
   onCreateQueue(filter: $filter) {
     id
@@ -101,10 +86,7 @@ export const onCreateQueue = /* GraphQL */ `subscription OnCreateQueue($filter: 
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnCreateQueueSubscriptionVariables,
-  APITypes.OnCreateQueueSubscription
->;
+` as GeneratedSubscription<APITypes.OnCreateQueueSubscriptionVariables, APITypes.OnCreateQueueSubscription>
 export const onUpdateQueue = /* GraphQL */ `subscription OnUpdateQueue($filter: ModelSubscriptionQueueFilterInput) {
   onUpdateQueue(filter: $filter) {
     id
@@ -114,10 +96,7 @@ export const onUpdateQueue = /* GraphQL */ `subscription OnUpdateQueue($filter: 
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnUpdateQueueSubscriptionVariables,
-  APITypes.OnUpdateQueueSubscription
->;
+` as GeneratedSubscription<APITypes.OnUpdateQueueSubscriptionVariables, APITypes.OnUpdateQueueSubscription>
 export const onDeleteQueue = /* GraphQL */ `subscription OnDeleteQueue($filter: ModelSubscriptionQueueFilterInput) {
   onDeleteQueue(filter: $filter) {
     id
@@ -127,10 +106,7 @@ export const onDeleteQueue = /* GraphQL */ `subscription OnDeleteQueue($filter: 
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnDeleteQueueSubscriptionVariables,
-  APITypes.OnDeleteQueueSubscription
->;
+` as GeneratedSubscription<APITypes.OnDeleteQueueSubscriptionVariables, APITypes.OnDeleteQueueSubscription>
 export const onCreateChunk = /* GraphQL */ `subscription OnCreateChunk($filter: ModelSubscriptionChunkFilterInput) {
   onCreateChunk(filter: $filter) {
     id
@@ -146,10 +122,7 @@ export const onCreateChunk = /* GraphQL */ `subscription OnCreateChunk($filter: 
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnCreateChunkSubscriptionVariables,
-  APITypes.OnCreateChunkSubscription
->;
+` as GeneratedSubscription<APITypes.OnCreateChunkSubscriptionVariables, APITypes.OnCreateChunkSubscription>
 export const onUpdateChunk = /* GraphQL */ `subscription OnUpdateChunk($filter: ModelSubscriptionChunkFilterInput) {
   onUpdateChunk(filter: $filter) {
     id
@@ -165,10 +138,7 @@ export const onUpdateChunk = /* GraphQL */ `subscription OnUpdateChunk($filter: 
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnUpdateChunkSubscriptionVariables,
-  APITypes.OnUpdateChunkSubscription
->;
+` as GeneratedSubscription<APITypes.OnUpdateChunkSubscriptionVariables, APITypes.OnUpdateChunkSubscription>
 export const onDeleteChunk = /* GraphQL */ `subscription OnDeleteChunk($filter: ModelSubscriptionChunkFilterInput) {
   onDeleteChunk(filter: $filter) {
     id
@@ -184,10 +154,7 @@ export const onDeleteChunk = /* GraphQL */ `subscription OnDeleteChunk($filter: 
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnDeleteChunkSubscriptionVariables,
-  APITypes.OnDeleteChunkSubscription
->;
+` as GeneratedSubscription<APITypes.OnDeleteChunkSubscriptionVariables, APITypes.OnDeleteChunkSubscription>
 export const onCreateCaller = /* GraphQL */ `subscription OnCreateCaller($filter: ModelSubscriptionCallerFilterInput) {
   onCreateCaller(filter: $filter) {
     id
@@ -198,10 +165,7 @@ export const onCreateCaller = /* GraphQL */ `subscription OnCreateCaller($filter
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnCreateCallerSubscriptionVariables,
-  APITypes.OnCreateCallerSubscription
->;
+` as GeneratedSubscription<APITypes.OnCreateCallerSubscriptionVariables, APITypes.OnCreateCallerSubscription>
 export const onUpdateCaller = /* GraphQL */ `subscription OnUpdateCaller($filter: ModelSubscriptionCallerFilterInput) {
   onUpdateCaller(filter: $filter) {
     id
@@ -212,10 +176,7 @@ export const onUpdateCaller = /* GraphQL */ `subscription OnUpdateCaller($filter
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnUpdateCallerSubscriptionVariables,
-  APITypes.OnUpdateCallerSubscription
->;
+` as GeneratedSubscription<APITypes.OnUpdateCallerSubscriptionVariables, APITypes.OnUpdateCallerSubscription>
 export const onDeleteCaller = /* GraphQL */ `subscription OnDeleteCaller($filter: ModelSubscriptionCallerFilterInput) {
   onDeleteCaller(filter: $filter) {
     id
@@ -226,10 +187,7 @@ export const onDeleteCaller = /* GraphQL */ `subscription OnDeleteCaller($filter
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnDeleteCallerSubscriptionVariables,
-  APITypes.OnDeleteCallerSubscription
->;
+` as GeneratedSubscription<APITypes.OnDeleteCallerSubscriptionVariables, APITypes.OnDeleteCallerSubscription>
 export const onCreateCall = /* GraphQL */ `subscription OnCreateCall($filter: ModelSubscriptionCallFilterInput) {
   onCreateCall(filter: $filter) {
     id
@@ -290,10 +248,7 @@ export const onCreateCall = /* GraphQL */ `subscription OnCreateCall($filter: Mo
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnCreateCallSubscriptionVariables,
-  APITypes.OnCreateCallSubscription
->;
+` as GeneratedSubscription<APITypes.OnCreateCallSubscriptionVariables, APITypes.OnCreateCallSubscription>
 export const onUpdateCall = /* GraphQL */ `subscription OnUpdateCall($filter: ModelSubscriptionCallFilterInput) {
   onUpdateCall(filter: $filter) {
     id
@@ -354,10 +309,7 @@ export const onUpdateCall = /* GraphQL */ `subscription OnUpdateCall($filter: Mo
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnUpdateCallSubscriptionVariables,
-  APITypes.OnUpdateCallSubscription
->;
+` as GeneratedSubscription<APITypes.OnUpdateCallSubscriptionVariables, APITypes.OnUpdateCallSubscription>
 export const onDeleteCall = /* GraphQL */ `subscription OnDeleteCall($filter: ModelSubscriptionCallFilterInput) {
   onDeleteCall(filter: $filter) {
     id
@@ -418,10 +370,7 @@ export const onDeleteCall = /* GraphQL */ `subscription OnDeleteCall($filter: Mo
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnDeleteCallSubscriptionVariables,
-  APITypes.OnDeleteCallSubscription
->;
+` as GeneratedSubscription<APITypes.OnDeleteCallSubscriptionVariables, APITypes.OnDeleteCallSubscription>
 export const onCreateMetric = /* GraphQL */ `subscription OnCreateMetric($filter: ModelSubscriptionMetricFilterInput) {
   onCreateMetric(filter: $filter) {
     id
@@ -432,10 +381,7 @@ export const onCreateMetric = /* GraphQL */ `subscription OnCreateMetric($filter
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnCreateMetricSubscriptionVariables,
-  APITypes.OnCreateMetricSubscription
->;
+` as GeneratedSubscription<APITypes.OnCreateMetricSubscriptionVariables, APITypes.OnCreateMetricSubscription>
 export const onUpdateMetric = /* GraphQL */ `subscription OnUpdateMetric($filter: ModelSubscriptionMetricFilterInput) {
   onUpdateMetric(filter: $filter) {
     id
@@ -446,10 +392,7 @@ export const onUpdateMetric = /* GraphQL */ `subscription OnUpdateMetric($filter
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnUpdateMetricSubscriptionVariables,
-  APITypes.OnUpdateMetricSubscription
->;
+` as GeneratedSubscription<APITypes.OnUpdateMetricSubscriptionVariables, APITypes.OnUpdateMetricSubscription>
 export const onDeleteMetric = /* GraphQL */ `subscription OnDeleteMetric($filter: ModelSubscriptionMetricFilterInput) {
   onDeleteMetric(filter: $filter) {
     id
@@ -460,10 +403,7 @@ export const onDeleteMetric = /* GraphQL */ `subscription OnDeleteMetric($filter
     __typename
   }
 }
-` as GeneratedSubscription<
-  APITypes.OnDeleteMetricSubscriptionVariables,
-  APITypes.OnDeleteMetricSubscription
->;
+` as GeneratedSubscription<APITypes.OnDeleteMetricSubscriptionVariables, APITypes.OnDeleteMetricSubscription>
 export const onCreateContactLensEvent = /* GraphQL */ `subscription OnCreateContactLensEvent(
   $filter: ModelSubscriptionContactLensEventFilterInput
 ) {
@@ -482,7 +422,7 @@ export const onCreateContactLensEvent = /* GraphQL */ `subscription OnCreateCont
 ` as GeneratedSubscription<
   APITypes.OnCreateContactLensEventSubscriptionVariables,
   APITypes.OnCreateContactLensEventSubscription
->;
+>
 export const onUpdateContactLensEvent = /* GraphQL */ `subscription OnUpdateContactLensEvent(
   $filter: ModelSubscriptionContactLensEventFilterInput
 ) {
@@ -501,7 +441,7 @@ export const onUpdateContactLensEvent = /* GraphQL */ `subscription OnUpdateCont
 ` as GeneratedSubscription<
   APITypes.OnUpdateContactLensEventSubscriptionVariables,
   APITypes.OnUpdateContactLensEventSubscription
->;
+>
 export const onDeleteContactLensEvent = /* GraphQL */ `subscription OnDeleteContactLensEvent(
   $filter: ModelSubscriptionContactLensEventFilterInput
 ) {
@@ -520,4 +460,4 @@ export const onDeleteContactLensEvent = /* GraphQL */ `subscription OnDeleteCont
 ` as GeneratedSubscription<
   APITypes.OnDeleteContactLensEventSubscriptionVariables,
   APITypes.OnDeleteContactLensEventSubscription
->;
+>
