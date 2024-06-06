@@ -1,7 +1,6 @@
 'use client'
 import React, { useEffect } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import { Notifications, NotificationModal } from '@/components/alerts/notifications'
 
 import IconWithTool from '../iconwithtool'
@@ -9,31 +8,11 @@ import { generateClient } from 'aws-amplify/api'
 import { listContactLensEvents } from '@/graphql/queries'
 
 const NavBar = () => {
-  const router = useRouter()
   const [modalOpen, setModalOpen] = React.useState(false)
-
+  
   const handleModal = () => {
     setModalOpen(!modalOpen)
     console.log('clicked')
-  }
-
-  const handleProfile = () => {
-    router.push('/profile')
-  }
-  const handleDash = () => {
-    router.push('/dashboard')
-  }
-  const handleChat = () => {
-    router.push('/chat')
-  }
-  const handleDocuments = () => {
-    router.push('/documents')
-  }
-  const handleMockCall = () => {
-    router.push('/mockcall')
-  }
-  const handleDndAgents = () => {
-    router.push('/mockdndagents')
   }
 
   return (
