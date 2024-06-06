@@ -1,0 +1,106 @@
+enum Sentiment {
+  NEGATIVE
+  NEUTRAL
+  POSITIVE
+  UNDEFINED
+}
+
+enum CallResult {
+  UNSATISFIED
+  NEUTRAL
+  SATISFIED
+}
+
+type ChunkContent {
+  role: TranscriptRole
+  text: String
+}
+
+enum TranscriptRole {
+  AGENT
+  CUSTOMER
+}
+
+enum CallStatus {
+  STARTED
+  FINALIZED
+}
+
+type Agent @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  username: String
+  lastName: String
+  firstName: String
+  email: String
+}
+
+type Queue @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+}
+
+type Chunk @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  sentiment: Sentiment
+  content: ChunkContent
+  callId: ID! @index(name: "byCall")
+}
+
+type Caller @model @auth(rules: [{allow: public}]) {
+  id: AWSPhone!
+  name: String
+  email: String 
+}
+
+type S3Object {
+  key: String
+  bucketId: String
+}
+
+type Call @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  transcript: S3Object
+  audio: S3Object
+  agent: Agent @hasOne
+  queue: Queue @hasOne
+  metrics: Metric! @hasOne
+  createdAt: AWSDateTime!
+  caller: Caller @hasOne
+  status: CallStatus!
+  chunks: [Chunk] @hasMany(indexName: "byCall", fields: ["id"])
+  topic: Topics @belongsTo
+  help: Boolean @default(value: "false")
+  result: CallResult
+}
+
+type Metric @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  length: Float
+  waittime: Float
+}
+
+type ContactLensEvent @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  ruleName: String!
+  actionName: String!
+  instanceArn: String!
+  contactArn: String!
+  agentArn: String!
+  queueArn: String!
+  timestamp: AWSDateTime!
+}
+
+type Subscription {
+  onChunkByCallId(callId: ID!): Chunk
+    @aws_subscribe(mutations: ["createChunk"])
+  onContactLensEvent: ContactLensEvent 
+    @aws_subscribe(mutations: ["createContactLensEvent"])
+}
+
+type Topics @model @auth(rules: [{allow: public}]){
+  id: ID!
+  name: String! @index(name: "byName")
+  description: String
+  calls: [Call] @hasMany
+  count: Int
+}
