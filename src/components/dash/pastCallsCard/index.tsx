@@ -1,7 +1,12 @@
+"use client"
+
 import Image from 'next/image'
-import { getPastCalls } from '@/api/calls'
 import { useEffect, useState } from 'react'
 import { formatDateFromString } from '@/utils/'
+import { customOnUpdateCall, listPastCalls } from '@/graphql/custom'
+import { generateClient } from 'aws-amplify/api'
+
+const client = generateClient();
 
 interface Props {
   maximize: () => void
@@ -21,24 +26,49 @@ type PastCall = {
 
 export default function PastCallsCard({ maximize, minimize, isMaximized }: Props) {
   const [pastCalls, setPastCalls] = useState([] as PastCall[])
-  const res = getPastCalls()
 
   useEffect(() => {
-    if (pastCalls.length > 0) return
-    res.then((data) => {
-      setPastCalls(data)
-    })
-  }, [])
+    if (!pastCalls?.length) {
+      client.graphql({
+        query: listPastCalls,
+        variables: { filter: { status: { eq: 'FINALIZED' } } },
+      }).then(({ data }) => {
+        setPastCalls(data?.listCalls?.items ?? [])
+      });
+    }
+
+    const subscription = client
+      .graphql({
+        query: customOnUpdateCall,
+      })
+      .subscribe({
+        next: (value: any) => {
+          const updatedCall = value?.data?.onUpdateCall;
+          const updatedCalls = pastCalls.map((call) => {
+            if (call.id && call.id === updatedCall?.id) {
+              return {...call, result: updatedCall?.result}
+            }
+            return call
+          });
+          setPastCalls(updatedCalls)
+        },
+        error: (error: any) => {
+          console.error(error)
+        }
+      })
+
+    return () => subscription.unsubscribe()
+  }, [pastCalls])
 
   function getResultStatus(result: string) {
     switch (result) {
-      case 'Satisfied':
+      case 'SATISFIED':
         return 'bg-green-400/40 text-green-600 border border-green-600 border-2 font-light'
-      case 'Unsatisfied':
+      case 'UNSATISFIED':
         return 'bg-red-400/40 text-red-600 border border-red-600 border-2 font-light'
-      case 'Neutral':
+      case 'NEUTRAL':
         return 'bg-yellow-400/40 text-yellow-600 border border-yellow-600 border-2 font-light'
-      case 'Unknown':
+      default:
         return 'bg-gray-400/40 text-gray-600 border border-gray-600 border-2 font-light'
     }
   }
@@ -93,10 +123,10 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
               {/* <h1 className="flex-1 font-semibold">{calculateDuration(call.createdAt, call.updatedAt)}</h1> */}
               <div
                 className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center  ${getResultStatus(
-                  call.result
+                  call.result ?? "UNDETERMINED"
                 )}`}
               >
-                <span>{call.result}</span>
+                <span>{call.result ?? "UNDETERMINED"}</span>
               </div>
             </div>
           ))}
