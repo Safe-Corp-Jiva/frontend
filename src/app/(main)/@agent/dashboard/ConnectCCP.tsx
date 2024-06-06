@@ -1,10 +1,11 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import Wait from '../wait/page'
 import ChatBot from '@/components/chat/chatBot'
 import 'amazon-connect-streams'
 import { HelpButton } from './HelpButton'
+import RealTimeTranscript from '@/components/transcpt/realtime'
 
 const ConnectCCP = () => {
   const [agent, setAgent] = useState<connect.Agent | null>(null)
@@ -12,10 +13,18 @@ const ConnectCCP = () => {
   const [incomingCall, setIncomingCall] = useState<boolean>(false)
   const [callAccepted, setCallAccepted] = useState<boolean>(false)
   const [currentContact, setCurrentContact] = useState<connect.Contact | null>(null)
-  const [currentConnection, setCurrentConnection] = useState<connect.BaseConnection | null>(null)
   const [isMuted, setIsMuted] = useState<boolean>(false)
-  const [startTimestamp, setStartTimestamp] = useState<number | null>()
-  const [currentTimestamp, setCurrentTimestamp] = useState<number | null>()
+  const [askedForHelp, setAskedForHelp] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
+  const [currentTimestamp, setCurrentTimestamp] = useState<number | null>(null)
+    
+  const currentConnection = useMemo(() => {
+    return currentContact?.getAgentConnection()
+  }, [currentContact]);
+
+  const startTimestamp = useMemo(() => {
+    return Date.now();
+  }, [currentContact]);
 
   useEffect(() => {
     const initCCP = () => {
@@ -59,21 +68,15 @@ const ConnectCCP = () => {
           setIncomingCall(false)
           setCallAccepted(true)
           setCurrentContact(contact)
-
-          // get Connection (for contactId)
-          setCurrentConnection(contact.getAgentConnection())
-
-          // save the timestamp when the call was accepted
-          setStartTimestamp(Date.now())
-
-          console.warn("Attributes", contact?.getAttributes())
         })
         contact.onEnded(() => {
           console.log('Call ended')
           setIncomingCall(false)
           setCallAccepted(false)
           setCurrentContact(null)
-          setStartTimestamp(null)          
+          setAskedForHelp(false)
+          setError(null)
+                   
           contact.clear({
             success: () => {
               console.log('Contact destroyed successfully')
@@ -235,7 +238,7 @@ const ConnectCCP = () => {
             <div className="p-3 flex flex-col justify-evenly items-center flex-1">
               <div className="flex flex-col items-center justify-center">
                 <Image src="/icons/User_d.svg" alt="user" width={110} height={110} />
-                <h1 className="mt-4 font-bold text-xl">Contact Id</h1>
+                <h1 className="mt-4 font-bold text-xl">Contact</h1>
                 { currentConnection?.contactId && (
                   <p className="mt-4 text-SCJ-primary/80 text-md"> { currentConnection.contactId?.slice(0, 8) }... </p>
                 )}
@@ -243,6 +246,11 @@ const ConnectCCP = () => {
                 <h4 className="font-bold text-sm">
                   {startTimestamp && currentTimestamp ? formatTimestampDifference(startTimestamp, currentTimestamp) : '00:00'}
                 </h4>
+              </div>
+              <div className="flex flex-row justify-center items-center p-1">
+                { askedForHelp ? <p className="text-SCJ-primary">Supervisor notified</p> :
+                  error ? <p className="text-red-500">{error}</p> : null
+                }
               </div>
               <div className="flex flex-row p-3 space-x-5">
                 <button
@@ -267,14 +275,32 @@ const ConnectCCP = () => {
                   <Image src="/icons/micMute.svg" alt="microphone" width={20} height={20} />
                 </button>
               )}
-                <HelpButton callId={currentConnection?.contactId ?? null} />
+                <HelpButton
+                  callId={currentConnection?.contactId ?? null}
+                  callback={() => {
+                    setError(null)
+                    setAskedForHelp(true)
+                    
+                    setTimeout(() => {
+                      setAskedForHelp(false)
+                    }, 5000);
+                  }}
+                  fallback={() => {
+                    setError("Please try again later")
+
+                    setTimeout(() => {
+                      setError(null)
+                    }, 5000);
+                  }}
+                  disabled={askedForHelp}
+                />
               </div>
             </div>
           </div>
           <div className="bg-white flex flex-col justify-center items-center rounded-xl font-sans w-2/3 h-5/6 mx-4">
-            <h1 className="font-bold text-xl">Live Transcript</h1>
-            <div className="flex flex-col justify-center items-center w-3/4 h-3/4 m-4">
-              <h1>Transcript goes here</h1>
+            <h1 className="font-bold text-xl p-4">Live Transcript</h1>
+            <div className="overflow-hidden overflow-y-scroll h-[75%] w-full m-4">
+              { currentConnection?.contactId && <RealTimeTranscript callId={currentConnection.contactId} /> }
             </div>
           </div>
         </div>

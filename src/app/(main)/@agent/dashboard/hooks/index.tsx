@@ -1,29 +1,27 @@
-import { updateCall } from "@/graphql/mutations";
-import { generateClient } from "aws-amplify/api";
+import { updateCall } from '@/graphql/mutations'
+import { generateClient } from 'aws-amplify/api'
 
-const client = generateClient();
+const client = generateClient()
 
-export const onHelpClick = (id: string, help: boolean) => async () => {
+export const onHelpClick = async (id: string, help: boolean) => {
+  let res;
   try {
-    const res = await client.graphql({
+    res = await client.graphql({
       query: updateCall,
       variables: {
         input: {
           id,
           help,
         },
-      },
+      }
     });
 
-    if(res?.data?.updateCall?.id) {
-      console.log("Successfully updated call:", res.data.updateCall.id);
-    } else {
-      console.error("Failed to update call:", res);
-    }
-
   } catch (error) {
-    console.error("Error updating call:", error);
+    console.error('Error updating call:', error)
+    return null
   }
+  const callId = res?.data?.updateCall?.id;
+  return callId ? callId : null
 }
 
 /* Usage Example:
