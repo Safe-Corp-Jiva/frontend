@@ -285,7 +285,19 @@ export const createCall = /* GraphQL */ `mutation CreateCall(
       nextToken
       __typename
     }
+    topic {
+      id
+      name
+      description
+      count
+      createdAt
+      updatedAt
+      __typename
+    }
+    help
+    result
     updatedAt
+    topicsCallsId
     callAgentId
     callQueueId
     callMetricsId
@@ -352,7 +364,19 @@ export const updateCall = /* GraphQL */ `mutation UpdateCall(
       nextToken
       __typename
     }
+    topic {
+      id
+      name
+      description
+      count
+      createdAt
+      updatedAt
+      __typename
+    }
+    help
+    result
     updatedAt
+    topicsCallsId
     callAgentId
     callQueueId
     callMetricsId
@@ -419,7 +443,19 @@ export const deleteCall = /* GraphQL */ `mutation DeleteCall(
       nextToken
       __typename
     }
+    topic {
+      id
+      name
+      description
+      count
+      createdAt
+      updatedAt
+      __typename
+    }
+    help
+    result
     updatedAt
+    topicsCallsId
     callAgentId
     callQueueId
     callMetricsId
@@ -547,4 +583,70 @@ export const deleteContactLensEvent = /* GraphQL */ `mutation DeleteContactLensE
 ` as GeneratedMutation<
   APITypes.DeleteContactLensEventMutationVariables,
   APITypes.DeleteContactLensEventMutation
+>;
+export const createTopics = /* GraphQL */ `mutation CreateTopics(
+  $input: CreateTopicsInput!
+  $condition: ModelTopicsConditionInput
+) {
+  createTopics(input: $input, condition: $condition) {
+    id
+    name
+    description
+    calls {
+      nextToken
+      __typename
+    }
+    count
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateTopicsMutationVariables,
+  APITypes.CreateTopicsMutation
+>;
+export const updateTopics = /* GraphQL */ `mutation UpdateTopics(
+  $input: UpdateTopicsInput!
+  $condition: ModelTopicsConditionInput
+) {
+  updateTopics(input: $input, condition: $condition) {
+    id
+    name
+    description
+    calls {
+      nextToken
+      __typename
+    }
+    count
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateTopicsMutationVariables,
+  APITypes.UpdateTopicsMutation
+>;
+export const deleteTopics = /* GraphQL */ `mutation DeleteTopics(
+  $input: DeleteTopicsInput!
+  $condition: ModelTopicsConditionInput
+) {
+  deleteTopics(input: $input, condition: $condition) {
+    id
+    name
+    description
+    calls {
+      nextToken
+      __typename
+    }
+    count
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteTopicsMutationVariables,
+  APITypes.DeleteTopicsMutation
 >;

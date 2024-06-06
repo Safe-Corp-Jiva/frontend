@@ -2,7 +2,6 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 import '@aws-amplify/ui-react/styles.css'
-import { Bootstrap } from './Bootstrap'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,7 +19,7 @@ export default function RootLayout({
     <html lang="en" className="">
       <body className={inter.className}>
         <Authenticator.Provider>
-          <Bootstrap>{children}</Bootstrap>
+          {children}
         </Authenticator.Provider>
       </body>
     </html>

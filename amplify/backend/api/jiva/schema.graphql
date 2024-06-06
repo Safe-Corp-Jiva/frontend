@@ -5,6 +5,12 @@ enum Sentiment {
   UNDEFINED
 }
 
+enum CallResult {
+  UNSATISFIED
+  NEUTRAL
+  SATISFIED
+}
+
 type ChunkContent {
   role: TranscriptRole
   text: String
@@ -62,6 +68,9 @@ type Call @model @auth(rules: [{allow: public}]) {
   caller: Caller @hasOne
   status: CallStatus!
   chunks: [Chunk] @hasMany(indexName: "byCall", fields: ["id"])
+  topic: Topics @belongsTo
+  help: Boolean @default(value: "false")
+  result: CallResult
 }
 
 type Metric @model @auth(rules: [{allow: public}]) {
@@ -86,4 +95,12 @@ type Subscription {
     @aws_subscribe(mutations: ["createChunk"])
   onContactLensEvent: ContactLensEvent 
     @aws_subscribe(mutations: ["createContactLensEvent"])
+}
+
+type Topics @model @auth(rules: [{allow: public}]){
+  id: ID!
+  name: String! @index(name: "byName")
+  description: String
+  calls: [Call] @hasMany
+  count: Int
 }
