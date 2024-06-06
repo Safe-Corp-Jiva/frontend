@@ -11,6 +11,8 @@ declare namespace connect {
       },
       callbacks: { success: () => void; failure: (error: any) => void }
     ): void
+    mute(callbacks: { success: () => void; failure: (error: any) => void }): void
+    unmute(callbacks: { success: () => void; failure: (error: any) => void }): void
   }
 
   interface AgentStateChange {
@@ -24,7 +26,9 @@ declare namespace connect {
     onConnecting(callback: () => void): void
     onAccepted(callback: () => void): void
     accept(callbacks: { success: () => void; failure: (error: any) => void }): void
+    clear(callbacks: { success: () => void; failure: (error: any) => void }): void
     getAgentConnection(): any
+    getAttributes(): any
   }
 
   interface InitCCPOptions {

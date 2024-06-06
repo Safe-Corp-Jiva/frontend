@@ -11,6 +11,8 @@ const ConnectCCP = () => {
   const [incomingCall, setIncomingCall] = useState<boolean>(false)
   const [callAccepted, setCallAccepted] = useState<boolean>(false)
   const [currentContact, setCurrentContact] = useState<connect.Contact | null>(null)
+  const [isMuted, setIsMuted] = useState<boolean>(false)
+
 
   useEffect(() => {
     const initCCP = () => {
@@ -46,6 +48,8 @@ const ConnectCCP = () => {
           console.log('Call is connecting')
           setIncomingCall(true)
           setCurrentContact(contact)
+          const attributes = contact.getAttributes()
+          const callerNumber = attributes['contactId']?.value || 'Unknown'
         })
         contact.onAccepted(() => {
           console.log('Call accepted')
@@ -58,6 +62,14 @@ const ConnectCCP = () => {
           setIncomingCall(false)
           setCallAccepted(false)
           setCurrentContact(null)
+          contact.clear({
+            success: () => {
+              console.log('Contact destroyed successfully')
+            },
+            failure: (error) => {
+              console.error('Error destroying contact', error)
+            }
+          })
         })
       })
     }
@@ -129,6 +141,34 @@ const ConnectCCP = () => {
     }
   }
 
+  const handleMute = () => {
+    setIsMuted(true)
+    if (agent) {
+      agent.mute({
+        success: () => {
+          console.log('Agent muted successfully')
+        },
+        failure: (error) => {
+          console.error('Error muting agent', error)
+        },
+      })
+    }
+  }
+  
+  const handleUnmute = () => {
+    setIsMuted(false)
+    if (agent) {
+      agent.unmute({
+        success: () => {
+          console.log('Agent unmuted successfully')
+        },
+        failure: (error) => {
+          console.error('Error unmuting agent', error)
+        },
+      })
+    }
+  }
+
   return (
     <>
       <div
@@ -158,8 +198,9 @@ const ConnectCCP = () => {
             <div className="p-3 flex flex-col justify-evenly items-center flex-1">
               <div className="flex flex-col items-center justify-center">
                 <Image src="/icons/User_d.svg" alt="user" width={110} height={110} />
-                <h1 className="mt-4 font-bold text-xl">5533486343</h1>
-                <h4 className="font-bold text-sm">5:37</h4>
+                <h1 className="mt-4 font-bold text-xl">Contact Id</h1>
+                
+                <h4 className="font-bold text-sm">0:00</h4>
               </div>
               <div className="flex flex-row p-3 space-x-5">
                 <button
@@ -168,9 +209,22 @@ const ConnectCCP = () => {
                 >
                   <Image src="/icons/telephone.svg" alt="telephone" width={20} height={20} />
                 </button>
-                <button className="bg-blue-400 rounded-full w-10 h-10 flex justify-center items-center">
+                {!isMuted && (
+                <button 
+                  className="bg-blue-400 rounded-full w-10 h-10 flex justify-center items-center mic-icon" 
+                  onClick={handleMute}
+                >
                   <Image src="/icons/microphone.svg" alt="microphone" width={20} height={20} />
                 </button>
+              )}
+              {isMuted && (
+                <button 
+                  className="bg-blue-400 rounded-full w-10 h-10 flex justify-center items-center mic-icon muted" 
+                  onClick={handleUnmute}
+                >
+                  <Image src="/icons/micMute.svg" alt="microphone" width={20} height={20} />
+                </button>
+              )}
                 <button className="bg-yellow-400 rounded-full w-10 h-10 flex justify-center items-center">
                   <Image src="/icons/exclamation-triangle.svg" alt="triangle" width={20} height={20} />
                 </button>
