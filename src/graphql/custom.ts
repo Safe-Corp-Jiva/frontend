@@ -47,3 +47,140 @@ export const onCreateContactLensEventWithCreatedAt = /* GraphQL */ `subscription
   APITypes.OnCreateContactLensEventSubscriptionVariables,
   APITypes.OnCreateContactLensEventSubscription
 >
+
+export const customOnCreateCall = /* GraphQL */ `subscription OnCreateCall {
+  onCreateCall {
+    id
+    createdAt
+    status
+    help
+    result
+    updatedAt
+    callCallerId
+    agent {
+      id
+      username
+      lastName
+      firstName
+      email
+    }
+    queue {
+      id
+      name
+    }
+    topic {
+      id
+      name
+      count
+    }
+    metrics {
+      id
+      length
+      waittime
+    }
+  }
+}` as GeneratedSubscription<any,any>;
+
+export const customOnUpdateCall = /* GraphQL */ `subscription OnUpdateCall {
+  onUpdateCall {
+    id
+    createdAt
+    status
+    help
+    result
+    updatedAt
+    callCallerId
+    agent {
+      id
+      username
+      lastName
+      firstName
+      email
+    }
+    queue {
+      id
+      name
+    }
+    topic {
+      id
+      name
+      count
+    }
+    metrics {
+      id
+      length
+      waittime
+    }
+  }
+}` as GeneratedSubscription<any,any>;
+
+export const customOnDeleteCall = /* GraphQL */ `subscription OnDeleteCall {
+  onDeleteCall {
+    id
+    createdAt
+    status
+    help
+    result
+    updatedAt
+    callCallerId
+    agent {
+      id
+      username
+      lastName
+      firstName
+      email
+    }
+    queue {
+      id
+      name
+    }
+    topic {
+      id
+      name
+      count
+    }
+    metrics {
+      id
+      length
+      waittime
+    }
+  }
+}` as GeneratedSubscription<any,any>;
+
+export const customListCalls = /* GraphQL */ `query ListCalls(
+  $filter: ModelCallFilterInput
+) {
+  listCalls(filter: $filter) {
+    items {
+      id
+      createdAt
+      status
+      help
+      result
+      updatedAt
+      callCallerId
+      agent {
+        id
+        username
+        lastName
+        firstName
+        email
+      }
+      queue {
+        id
+        name
+      }
+      topic {
+        id
+        name
+        count
+      }
+      metrics {
+        id
+        length
+        waittime
+      }
+    }
+  }
+}
+` as GeneratedQuery<any, any>;
