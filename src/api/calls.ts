@@ -6,7 +6,7 @@ export const getPastCalls = async () => {
   // List calls and add to data object, which should be finalized
   const calls = await AMPLIFY_CLIENT.graphql({
     query: listPastCalls,
-    // variables: { filter: { status: { eq: CallStatus.FINALIZED } } },
+    variables: { filter: { status: { eq: CallStatus.FINALIZED } } },
   }).then(({ data }) => data?.listCalls?.items ?? [])
   return calls
 }

@@ -58,11 +58,11 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
         )}
       </div>
       <div className="flex flex-row justify-between space-x-8 items-center text-center text-gray-400 ">
+        <h1 className="flex-1">Agent</h1>
         <h1 className="flex-1">Started</h1>
         <h1 className="flex-1">Ended</h1>
         {/* <h1 className="flex-1">Id</h1> */}
         {/* <h1 className="flex-1">Time</h1> */}
-        <h1 className="flex-1">Agent</h1>
         <h1 className="flex-1">Result</h1>
       </div>
       <div className="h-full overflow-y-auto">
@@ -74,22 +74,23 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
               }`}
               key={index}
             >
+              <h1 className="flex-1 text-SCJ-primary">@{call.agent.username}</h1>
               <h1 className="flex-1">
-                {
-                  formatDateFromString(call.createdAt).split(",")?.map((a, i) => {
-                    return <div className={i == 1 ? "text-xs" : ""}>{a}</div>
-                  })
-                }
+                {formatDateFromString(call.createdAt)
+                  .split(',')
+                  ?.map((a, i) => {
+                    return <div className={i == 1 ? 'text-xs' : ''}>{a}</div>
+                  })}
               </h1>
               <h1 className="flex-1">
-                {
-                  formatDateFromString(call.updatedAt).split(",")?.map((a, i) => {
-                    return <div className={i == 1 ? "text-xs" : ""}>{a}</div>
-                  })
-                }</h1>
+                {formatDateFromString(call.updatedAt)
+                  .split(',')
+                  ?.map((a, i) => {
+                    return <div className={i == 1 ? 'text-xs' : ''}>{a}</div>
+                  })}
+              </h1>
               {/* <h1 className="flex-1 truncate">{pastCall.id}</h1> */}
-              {/* <h1 className="flex-1 font-semibold">{pastCall.time}</h1> */}
-              <h1 className="flex-1 text-SCJ-primary">@{call.agent.username}</h1>
+              {/* <h1 className="flex-1 font-semibold">{calculateDuration(call.createdAt, call.updatedAt)}</h1> */}
               <div
                 className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center  ${getResultStatus(
                   call.result
