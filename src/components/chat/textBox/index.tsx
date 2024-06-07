@@ -29,9 +29,9 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
         return
       }
       if (isAgent) {
-        ws.current = new WebSocket(`ws://${WEBSOCKET_ENDPOINT}?agentID=${agentID}&secondaryID=supervisor`)
+        ws.current = new WebSocket(`${WEBSOCKET_ENDPOINT}?agentID=${agentID}&secondaryID=supervisor`)
       } else {
-        ws.current = new WebSocket(`ws://${WEBSOCKET_ENDPOINT}?agentID=${selectedAgent.id}&secondaryID=supervisor`)
+        ws.current = new WebSocket(`${WEBSOCKET_ENDPOINT}?agentID=${selectedAgent.id}&secondaryID=supervisor`)
       }
       if (ws.current === null) {
         return
@@ -107,7 +107,9 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
                   .map((msg, index) => (
                     <div
                       key={index}
-                      className={`flex flex-col max-w-50 max-h-24 ${msg.sender === 'agent' ? 'self-end' : 'self-start'}`}
+                      className={`flex flex-col max-w-50 max-h-24 ${
+                        msg.sender === 'agent' ? 'self-end' : 'self-start'
+                      }`}
                     >
                       <div
                         className={`p-2 rounded ${msg.sender === 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}
@@ -126,7 +128,9 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
                   .map((msg, index) => (
                     <div
                       key={index}
-                      className={`flex flex-col max-w-50 max-h-24 ${msg.sender === 'agent' ? 'self-start' : 'self-end'}`}
+                      className={`flex flex-col max-w-50 max-h-24 ${
+                        msg.sender === 'agent' ? 'self-start' : 'self-end'
+                      }`}
                     >
                       <div
                         className={`p-2 rounded ${msg.sender !== 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}
