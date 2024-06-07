@@ -55,7 +55,7 @@ const ChatBot: React.FC = () => {
     if (!isOpen) return
     if (!profileID) return
     const WEBSOCKET_ENDPOINT = process.env.NEXT_PUBLIC_WEBSOCKET_ENDPOINT
-    ws.current = new WebSocket(`ws://${WEBSOCKET_ENDPOINT}?agentID=${profileID}&secondaryID=copilot`)
+    ws.current = new WebSocket(`wss://${WEBSOCKET_ENDPOINT}?agentID=${profileID}&secondaryID=copilot`)
     ws.current.onopen = () => {
       console.log('Connected to server')
     }
@@ -184,7 +184,9 @@ const ChatBot: React.FC = () => {
                   }`}
                 >
                   <div
-                    className={`p-2 rounded ${msg.sender === 'agent' ? 'bg-SCJ-dark-primary/90 text-white' : 'bg-gray-200'}`}
+                    className={`p-2 rounded ${
+                      msg.sender === 'agent' ? 'bg-SCJ-dark-primary/90 text-white' : 'bg-gray-200'
+                    }`}
                   >
                     {msg.output ? msg.output : msg.message}
                   </div>
@@ -193,10 +195,14 @@ const ChatBot: React.FC = () => {
               ))}
             {tempMessage && (
               <div
-                className={`flex flex-col max-w-52 justify-between ${tempMessage.sender === 'agent' ? 'self-end' : 'self-start'}`}
+                className={`flex flex-col max-w-52 justify-between ${
+                  tempMessage.sender === 'agent' ? 'self-end' : 'self-start'
+                }`}
               >
                 <div
-                  className={`p-2 rounded ${tempMessage.sender === 'agent' ? 'bg-SCJ-dark-primary text-white' : 'bg-gray-200'}`}
+                  className={`p-2 rounded ${
+                    tempMessage.sender === 'agent' ? 'bg-SCJ-dark-primary text-white' : 'bg-gray-200'
+                  }`}
                 >
                   {tempMessage.message}
                 </div>
