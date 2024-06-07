@@ -55,7 +55,7 @@ const ChatBot: React.FC = () => {
     if (!isOpen) return
     if (!profileID) return
     const WEBSOCKET_ENDPOINT = process.env.NEXT_PUBLIC_WEBSOCKET_ENDPOINT
-    ws.current = new WebSocket(`${WEBSOCKET_ENDPOINT}?agentID=${profileID}&secondaryID=copilot`)
+    ws.current = new WebSocket(`wss://${WEBSOCKET_ENDPOINT}?agentID=${profileID}&secondaryID=copilot`)
     ws.current.onopen = () => {
       console.log('Connected to server')
     }

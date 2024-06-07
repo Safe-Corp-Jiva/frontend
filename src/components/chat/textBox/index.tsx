@@ -29,9 +29,9 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
         return
       }
       if (isAgent) {
-        ws.current = new WebSocket(`${WEBSOCKET_ENDPOINT}?agentID=${agentID}&secondaryID=supervisor`)
+        ws.current = new WebSocket(`wss://${WEBSOCKET_ENDPOINT}?agentID=${agentID}&secondaryID=supervisor`)
       } else {
-        ws.current = new WebSocket(`${WEBSOCKET_ENDPOINT}?agentID=${selectedAgent.id}&secondaryID=supervisor`)
+        ws.current = new WebSocket(`wss://${WEBSOCKET_ENDPOINT}?agentID=${selectedAgent.id}&secondaryID=supervisor`)
       }
       if (ws.current === null) {
         return
