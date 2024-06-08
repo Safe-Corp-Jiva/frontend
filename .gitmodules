@@ -1,0 +1,24 @@
+[submodule "backend/lambda/Post-Confirmation"]
+	path = backend/lambda/Post-Confirmation
+	url = git@github.com:Safe-Corp-Jiva/register.git
+[submodule "backend/lambda/Process-Call-Results"]
+	path = backend/lambda/Process-Call-Results
+	url = git@github.com:Safe-Corp-Jiva/sentimental_chunks.git
+[submodule "backend/lambda/Process-Call-Stream"]
+	path = backend/lambda/Process-Call-Stream
+	url = git@github.com:Safe-Corp-Jiva/chunks_to_dynamo.git
+[submodule "backend/wiki"]
+	path = backend/wiki
+	url = git@github.com:Safe-Corp-Jiva/Safe-Corp-Jiva.github.io.git
+[submodule "backend/chatting"]
+	path = backend/chatting
+	url = git@github.com:Safe-Corp-Jiva/chatting.git
+[submodule "backend/rest-apis/FlightsAPI"]
+	path = backend/rest-apis/FlightsAPI
+	url = git@github.com:Safe-Corp-Jiva/FlightsAPI.git
+[submodule "backend/rest-apis/TicketsAPI"]
+	path = backend/rest-apis/TicketsAPI
+	url = git@github.com:Safe-Corp-Jiva/tickets-api.git
+[submodule "backend/rest-apis/CopilotAPI"]
+	path = backend/rest-apis/CopilotAPI
+	url = git@github.com:Safe-Corp-Jiva/connect-copilot.git
