@@ -22,3 +22,6 @@
 [submodule "backend/rest-apis/CopilotAPI"]
 	path = backend/rest-apis/CopilotAPI
 	url = git@github.com:Safe-Corp-Jiva/connect-copilot.git
+[submodule "backend/iac/ContactLensStreams"]
+	path = backend/iac/ContactLensStreams
+	url = https://github.com/Safe-Corp-Jiva/ContactLensStreams
