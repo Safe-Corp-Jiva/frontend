@@ -26,7 +26,6 @@ type PastCall = {
 
 export default function PastCallsCard({ maximize, minimize, isMaximized }: Props) {
   const [pastCalls, setPastCalls] = useState([] as PastCall[])
-
   useEffect(() => {
     if (!pastCalls?.length) {
       client

@@ -277,27 +277,23 @@ const ConnectCCP = () => {
                     <Image src="/icons/micMute.svg" alt="microphone" width={20} height={20} />
                   </button>
                 )}
-                {!askedForHelp && (
-                  <HelpButton
-                    callId={currentConnection?.contactId ?? null}
-                    callback={() => {
+                <HelpButton
+                  callId={currentConnection?.contactId ?? null}
+                  callback={() => {
+                    setError(null)
+                    setAskedForHelp(true)
+                    setTimeout(() => {
+                      setAskedForHelp(false)
+                    }, 5000)
+                  }}
+                  fallback={() => {
+                    setError('Please try again later')
+                    setTimeout(() => {
                       setError(null)
-                      setAskedForHelp(true)
-
-                      setTimeout(() => {
-                        setAskedForHelp(false)
-                      }, 5000)
-                    }}
-                    fallback={() => {
-                      setError('Please try again later')
-
-                      setTimeout(() => {
-                        setError(null)
-                      }, 5000)
-                    }}
-                    disabled={askedForHelp}
-                  />
-                )}
+                    }, 5000)
+                  }}
+                  disabled={askedForHelp}
+                />
               </div>
             </div>
           </div>
