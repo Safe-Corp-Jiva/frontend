@@ -107,8 +107,8 @@ export const listUnreadNotifications = async () => ({
     variables: {
       limit: null,
       filter: {
-        eq: {
-          read: false,
+        read: {
+          eq: false,
         },
       },
     },

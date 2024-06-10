@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { updateNotification } from '@/graphql/mutations'
 import { notificationSubFactory } from '@/utils/gql'
 import { fetchUserAttributes } from 'aws-amplify/auth'
+import { NotificationType } from '@/API'
 
 function Chat() {
   const [agent, setAgent] = useState<any>(null)
@@ -24,7 +25,7 @@ function Chat() {
         query: listNotifications,
         variables: {
           filter: {
-            notification_type: { eq: 'HUMAN' },
+            notification_type: { eq: NotificationType.HUMAN },
             read: { eq: false },
           },
         },

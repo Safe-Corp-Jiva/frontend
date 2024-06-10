@@ -9,7 +9,7 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType
 }
 
-export const listPastCalls = /* GraphQL */ `query ListPastCalls {
+export const listPastCalls = /* GraphQL */ `query CustomListPastCalls {
   listCalls {
       nextToken
       items {
@@ -28,7 +28,7 @@ export const listPastCalls = /* GraphQL */ `query ListPastCalls {
 }
 ` as GeneratedQuery<any, any>
 
-export const onCreateContactLensEventWithCreatedAt = /* GraphQL */ `subscription OnCreateContactLensEvent(
+export const onCreateContactLensEventWithCreatedAt = /* GraphQL */ `subscription CustomOnCreateContactLensEvent(
   $filter: ModelSubscriptionContactLensEventFilterInput
 ) {
   onCreateContactLensEvent(filter: $filter) {
@@ -49,7 +49,7 @@ export const onCreateContactLensEventWithCreatedAt = /* GraphQL */ `subscription
   APITypes.OnCreateContactLensEventSubscription
 >
 
-export const customOnCreateCall = /* GraphQL */ `subscription OnCreateCall {
+export const customOnCreateCall = /* GraphQL */ `subscription CustomOnCreateCall {
   onCreateCall {
     id
     createdAt
@@ -82,7 +82,7 @@ export const customOnCreateCall = /* GraphQL */ `subscription OnCreateCall {
   }
 }` as GeneratedSubscription<any, any>
 
-export const customOnUpdateCall = /* GraphQL */ `subscription OnUpdateCall {
+export const customOnUpdateCall = /* GraphQL */ `subscription CustomOnUpdateCall {
   onUpdateCall {
     id
     createdAt
@@ -115,7 +115,7 @@ export const customOnUpdateCall = /* GraphQL */ `subscription OnUpdateCall {
   }
 }` as GeneratedSubscription<any, any>
 
-export const customOnDeleteCall = /* GraphQL */ `subscription OnDeleteCall {
+export const customOnDeleteCall = /* GraphQL */ `subscription CustomOnDeleteCall {
   onDeleteCall {
     id
     createdAt
@@ -148,7 +148,7 @@ export const customOnDeleteCall = /* GraphQL */ `subscription OnDeleteCall {
   }
 }` as GeneratedSubscription<any, any>
 
-export const customListCalls = /* GraphQL */ `query ListCalls(
+export const customListCalls = /* GraphQL */ `query CustomListCalls(
   $filter: ModelCallFilterInput
 ) {
   listCalls(filter: $filter) {
@@ -185,4 +185,3 @@ export const customListCalls = /* GraphQL */ `query ListCalls(
   }
 }
 ` as GeneratedQuery<any, any>
-
