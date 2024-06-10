@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { formatDateFromString } from '@/utils/'
 import { customOnUpdateCall, listPastCalls } from '@/graphql/custom'
 import { generateClient } from 'aws-amplify/api'
+import Link from 'next/link'
 
 const client = generateClient()
 
@@ -26,7 +27,6 @@ type PastCall = {
 
 export default function PastCallsCard({ maximize, minimize, isMaximized }: Props) {
   const [pastCalls, setPastCalls] = useState([] as PastCall[])
-
   useEffect(() => {
     if (!pastCalls?.length) {
       client
@@ -75,6 +75,8 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
     }
   }
 
+  const transcriptsExist = localStorage.getItem('transcripts')
+
   return (
     <div className="w-full h-full bg-white rounded-xl flex flex-col p-4">
       <div className="flex justify-between mb-4">
@@ -100,7 +102,8 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
       <div className="h-full overflow-y-auto">
         {pastCalls &&
           pastCalls.map((call, index) => (
-            <div
+            <Link
+              href={transcriptsExist ? `/transcripts/${call.id}` : '/transcripts'}
               className={`flex flex-row justify-between space-x-8 items-center text-center border-b-2 border-gray-200   ${
                 isMaximized ? 'h-[12.5%]' : 'h-1/4'
               }`}
@@ -130,7 +133,7 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
               >
                 <span>{call.result ?? 'N/D'}</span>
               </div>
-            </div>
+            </Link>
           ))}
       </div>
     </div>

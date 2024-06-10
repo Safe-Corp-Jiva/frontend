@@ -16,7 +16,7 @@ export default function OnGoingCallsCard({ maximize, minimize, isMaximized }: Pr
   const router = useRouter()
 
   const handleCallClick = (id: string) => () => {
-    router.push(`/mockcall/${id}`)
+    router.push(`/call/${id}`)
   }
 
   return (
