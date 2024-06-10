@@ -1,0 +1,281 @@
+/***************************************************************************
+ * The contents of this file were generated with Amplify Studio.           *
+ * Please refrain from making any modifications to this file.              *
+ * Any changes to this file will be overwritten when running amplify pull. *
+ **************************************************************************/
+
+/* eslint-disable */
+import * as React from "react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
+import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import { generateClient } from "aws-amplify/api";
+import { getNotification } from "../graphql/queries";
+import { updateNotification } from "../graphql/mutations";
+const client = generateClient();
+export default function NotificationUpdateForm(props) {
+  const {
+    id: idProp,
+    notification: notificationModelProp,
+    onSuccess,
+    onError,
+    onSubmit,
+    onValidate,
+    onChange,
+    overrides,
+    ...rest
+  } = props;
+  const initialValues = {
+    primaryID: "",
+    secondaryID: "",
+    notification_type: "",
+  };
+  const [primaryID, setPrimaryID] = React.useState(initialValues.primaryID);
+  const [secondaryID, setSecondaryID] = React.useState(
+    initialValues.secondaryID
+  );
+  const [notification_type, setNotification_type] = React.useState(
+    initialValues.notification_type
+  );
+  const [errors, setErrors] = React.useState({});
+  const resetStateValues = () => {
+    const cleanValues = notificationRecord
+      ? { ...initialValues, ...notificationRecord }
+      : initialValues;
+    setPrimaryID(cleanValues.primaryID);
+    setSecondaryID(cleanValues.secondaryID);
+    setNotification_type(cleanValues.notification_type);
+    setErrors({});
+  };
+  const [notificationRecord, setNotificationRecord] = React.useState(
+    notificationModelProp
+  );
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? (
+            await client.graphql({
+              query: getNotification.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getNotification
+        : notificationModelProp;
+      setNotificationRecord(record);
+    };
+    queryData();
+  }, [idProp, notificationModelProp]);
+  React.useEffect(resetStateValues, [notificationRecord]);
+  const validations = {
+    primaryID: [{ type: "Required" }],
+    secondaryID: [{ type: "Required" }],
+    notification_type: [],
+  };
+  const runValidationTasks = async (
+    fieldName,
+    currentValue,
+    getDisplayValue
+  ) => {
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
+    let validationResponse = validateField(value, validations[fieldName]);
+    const customValidator = fetchByPath(onValidate, fieldName);
+    if (customValidator) {
+      validationResponse = await customValidator(value, validationResponse);
+    }
+    setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
+    return validationResponse;
+  };
+  return (
+    <Grid
+      as="form"
+      rowGap="15px"
+      columnGap="15px"
+      padding="20px"
+      onSubmit={async (event) => {
+        event.preventDefault();
+        let modelFields = {
+          primaryID,
+          secondaryID,
+          notification_type: notification_type ?? null,
+        };
+        const validationResponses = await Promise.all(
+          Object.keys(validations).reduce((promises, fieldName) => {
+            if (Array.isArray(modelFields[fieldName])) {
+              promises.push(
+                ...modelFields[fieldName].map((item) =>
+                  runValidationTasks(fieldName, item)
+                )
+              );
+              return promises;
+            }
+            promises.push(
+              runValidationTasks(fieldName, modelFields[fieldName])
+            );
+            return promises;
+          }, [])
+        );
+        if (validationResponses.some((r) => r.hasError)) {
+          return;
+        }
+        if (onSubmit) {
+          modelFields = onSubmit(modelFields);
+        }
+        try {
+          Object.entries(modelFields).forEach(([key, value]) => {
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
+            }
+          });
+          await client.graphql({
+            query: updateNotification.replaceAll("__typename", ""),
+            variables: {
+              input: {
+                id: notificationRecord.id,
+                ...modelFields,
+              },
+            },
+          });
+          if (onSuccess) {
+            onSuccess(modelFields);
+          }
+        } catch (err) {
+          if (onError) {
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
+          }
+        }
+      }}
+      {...getOverrideProps(overrides, "NotificationUpdateForm")}
+      {...rest}
+    >
+      <TextField
+        label="Primary id"
+        isRequired={true}
+        isReadOnly={false}
+        value={primaryID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              primaryID: value,
+              secondaryID,
+              notification_type,
+            };
+            const result = onChange(modelFields);
+            value = result?.primaryID ?? value;
+          }
+          if (errors.primaryID?.hasError) {
+            runValidationTasks("primaryID", value);
+          }
+          setPrimaryID(value);
+        }}
+        onBlur={() => runValidationTasks("primaryID", primaryID)}
+        errorMessage={errors.primaryID?.errorMessage}
+        hasError={errors.primaryID?.hasError}
+        {...getOverrideProps(overrides, "primaryID")}
+      ></TextField>
+      <TextField
+        label="Secondary id"
+        isRequired={true}
+        isReadOnly={false}
+        value={secondaryID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              primaryID,
+              secondaryID: value,
+              notification_type,
+            };
+            const result = onChange(modelFields);
+            value = result?.secondaryID ?? value;
+          }
+          if (errors.secondaryID?.hasError) {
+            runValidationTasks("secondaryID", value);
+          }
+          setSecondaryID(value);
+        }}
+        onBlur={() => runValidationTasks("secondaryID", secondaryID)}
+        errorMessage={errors.secondaryID?.errorMessage}
+        hasError={errors.secondaryID?.hasError}
+        {...getOverrideProps(overrides, "secondaryID")}
+      ></TextField>
+      <SelectField
+        label="Notification type"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={notification_type}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              primaryID,
+              secondaryID,
+              notification_type: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.notification_type ?? value;
+          }
+          if (errors.notification_type?.hasError) {
+            runValidationTasks("notification_type", value);
+          }
+          setNotification_type(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("notification_type", notification_type)
+        }
+        errorMessage={errors.notification_type?.errorMessage}
+        hasError={errors.notification_type?.hasError}
+        {...getOverrideProps(overrides, "notification_type")}
+      >
+        <option
+          children="Copilot"
+          value="COPILOT"
+          {...getOverrideProps(overrides, "notification_typeoption0")}
+        ></option>
+        <option
+          children="Human"
+          value="HUMAN"
+          {...getOverrideProps(overrides, "notification_typeoption1")}
+        ></option>
+      </SelectField>
+      <Flex
+        justifyContent="space-between"
+        {...getOverrideProps(overrides, "CTAFlex")}
+      >
+        <Button
+          children="Reset"
+          type="reset"
+          onClick={(event) => {
+            event.preventDefault();
+            resetStateValues();
+          }}
+          isDisabled={!(idProp || notificationModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
+        ></Button>
+        <Flex
+          gap="15px"
+          {...getOverrideProps(overrides, "RightAlignCTASubFlex")}
+        >
+          <Button
+            children="Submit"
+            type="submit"
+            variation="primary"
+            isDisabled={
+              !(idProp || notificationModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
+            {...getOverrideProps(overrides, "SubmitButton")}
+          ></Button>
+        </Flex>
+      </Flex>
+    </Grid>
+  );
+}

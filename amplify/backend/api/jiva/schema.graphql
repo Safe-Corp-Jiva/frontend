@@ -26,6 +26,11 @@ enum CallStatus {
   FINALIZED
 }
 
+enum NotificationType {
+  COPILOT
+  HUMAN
+}
+
 type Agent @model @auth(rules: [{allow: public}]) {
   id: ID!
   username: String
@@ -90,11 +95,20 @@ type ContactLensEvent @model @auth(rules: [{allow: public}]) {
   timestamp: AWSDateTime!
 }
 
+type Notification @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  primaryID: String!
+  secondaryID: String!
+  notification_type: NotificationType
+}
+
 type Subscription {
   onChunkByCallId(callId: ID!): Chunk
     @aws_subscribe(mutations: ["createChunk"])
   onContactLensEvent: ContactLensEvent 
     @aws_subscribe(mutations: ["createContactLensEvent"])
+  onNotification: Notification
+    @aws_subscribe(mutations: ["createNotification"])
 }
 
 type Topics @model @auth(rules: [{allow: public}]){

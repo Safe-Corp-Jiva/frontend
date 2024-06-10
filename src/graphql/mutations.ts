@@ -584,6 +584,60 @@ export const deleteContactLensEvent = /* GraphQL */ `mutation DeleteContactLensE
   APITypes.DeleteContactLensEventMutationVariables,
   APITypes.DeleteContactLensEventMutation
 >;
+export const createNotification = /* GraphQL */ `mutation CreateNotification(
+  $input: CreateNotificationInput!
+  $condition: ModelNotificationConditionInput
+) {
+  createNotification(input: $input, condition: $condition) {
+    id
+    primaryID
+    secondaryID
+    notification_type
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateNotificationMutationVariables,
+  APITypes.CreateNotificationMutation
+>;
+export const updateNotification = /* GraphQL */ `mutation UpdateNotification(
+  $input: UpdateNotificationInput!
+  $condition: ModelNotificationConditionInput
+) {
+  updateNotification(input: $input, condition: $condition) {
+    id
+    primaryID
+    secondaryID
+    notification_type
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateNotificationMutationVariables,
+  APITypes.UpdateNotificationMutation
+>;
+export const deleteNotification = /* GraphQL */ `mutation DeleteNotification(
+  $input: DeleteNotificationInput!
+  $condition: ModelNotificationConditionInput
+) {
+  deleteNotification(input: $input, condition: $condition) {
+    id
+    primaryID
+    secondaryID
+    notification_type
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteNotificationMutationVariables,
+  APITypes.DeleteNotificationMutation
+>;
 export const createTopics = /* GraphQL */ `mutation CreateTopics(
   $input: CreateTopicsInput!
   $condition: ModelTopicsConditionInput

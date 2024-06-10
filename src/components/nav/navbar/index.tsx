@@ -4,9 +4,34 @@ import Image from 'next/image'
 import { Notifications, NotificationModal } from '@/components/alerts/notifications'
 
 import IconWithTool from '../iconwithtool'
+import { notificationSubFactory } from '@/utils/gql'
 
 const NavBar = () => {
   const [modalOpen, setModalOpen] = React.useState(false)
+  const [hasNotifications, setHasNotifications] = React.useState(false)
+
+  useEffect(() => {
+    const { sub } = notificationSubFactory()
+    const formatter = (data?: any) => (data ? [data] : [])
+
+    const subscriber = sub.subscribe({
+      next: (value: { data: { onCreateNotification: any } }) => {
+        console.log('Subscription value received:', value)
+        const notification = formatter(value?.data?.onCreateNotification)[0]
+        if (notification) {
+          setHasNotifications(true)
+          console.log('Notificatons: ', hasNotifications)
+          notification.primaryID = notification.id
+          notification.secondaryID = notification.primaryID
+          notification.notification_type = notification.notification_type
+        }
+      },
+      error: (error: any) => console.log('Subscription error:', error),
+    })
+    return () => {
+      subscriber.unsubscribe()
+    }
+  }, [])
 
   const handleModal = () => {
     setModalOpen(!modalOpen)
@@ -27,6 +52,10 @@ const NavBar = () => {
           </button>
           <button className="flex items-center justify-center">
             <IconWithTool icon="Chat" path="/chat" text="Chat" />
+            {hasNotifications && (
+              // add a little red dot here
+              <div className="mt-4 h-4 bg-red-400 rounded w-1/4"></div>
+            )}
           </button>
           <button className="flex items-center justify-center">
             <IconWithTool icon="Book" path="/documents" text="Documents" />

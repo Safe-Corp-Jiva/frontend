@@ -1,8 +1,14 @@
 import { generateClient } from 'aws-amplify/api'
-import { onChunkByCallId, onContactLensEvent, onUpdateTopics } from '@/graphql/subscriptions'
+import { onChunkByCallId, onContactLensEvent, onNotification, onUpdateTopics } from '@/graphql/subscriptions'
 import { chunksByCallId, listTopics } from '@/graphql/queries'
 import { CallStatus } from '@/API'
-import { onCreateContactLensEventWithCreatedAt, customOnCreateCall, customOnDeleteCall, customOnUpdateCall, customListCalls } from '../graphql/custom'
+import {
+  onCreateContactLensEventWithCreatedAt,
+  customOnCreateCall,
+  customOnDeleteCall,
+  customOnUpdateCall,
+  customListCalls,
+} from '../graphql/custom'
 
 const client = generateClient()
 
@@ -28,22 +34,20 @@ export const chunkSubFactory = (callId: string) => ({
 
 export const callSubFactory = () => ({
   getter: async () => {
-    return (
-      client
-        .graphql({
-          query: customListCalls,
-          variables: {
-            filter: {
-              status: {
-                eq: CallStatus.STARTED,
-              },
+    return client
+      .graphql({
+        query: customListCalls,
+        variables: {
+          filter: {
+            status: {
+              eq: CallStatus.STARTED,
             },
           },
-        })
-        .then(({ data }) => {
-          return data?.listCalls?.items ?? []
-        })
-    );
+        },
+      })
+      .then(({ data }) => {
+        return data?.listCalls?.items ?? []
+      })
   },
 
   deleteSub: client.graphql({
@@ -53,7 +57,7 @@ export const callSubFactory = () => ({
   createSub: client.graphql({
     query: customOnCreateCall,
   }),
-  
+
   updateSub: client.graphql({
     query: customOnUpdateCall,
   }),
@@ -72,14 +76,21 @@ export const createContactLensSubFactory = () => ({
 })
 
 export const topicSubFactory = () => ({
-  getter: async () => (
-    client.graphql({
-      query: listTopics
-    }).then(({ data }) => {
-      return data?.listTopics?.items ?? [];
-    })
-  ),
+  getter: async () =>
+    client
+      .graphql({
+        query: listTopics,
+      })
+      .then(({ data }) => {
+        return data?.listTopics?.items ?? []
+      }),
   updateSub: client.graphql({
-    query: onUpdateTopics
+    query: onUpdateTopics,
   }),
-});
+})
+
+export const notificationSubFactory = () => ({
+  sub: client.graphql({
+    query: onNotification,
+  }),
+})

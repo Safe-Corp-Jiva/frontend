@@ -46,6 +46,21 @@ export const onContactLensEvent = /* GraphQL */ `subscription OnContactLensEvent
   APITypes.OnContactLensEventSubscriptionVariables,
   APITypes.OnContactLensEventSubscription
 >;
+export const onNotification = /* GraphQL */ `subscription OnNotification {
+  onNotification {
+    id
+    primaryID
+    secondaryID
+    notification_type
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnNotificationSubscriptionVariables,
+  APITypes.OnNotificationSubscription
+>;
 export const onCreateAgent = /* GraphQL */ `subscription OnCreateAgent($filter: ModelSubscriptionAgentFilterInput) {
   onCreateAgent(filter: $filter) {
     id
@@ -564,6 +579,57 @@ export const onDeleteContactLensEvent = /* GraphQL */ `subscription OnDeleteCont
 ` as GeneratedSubscription<
   APITypes.OnDeleteContactLensEventSubscriptionVariables,
   APITypes.OnDeleteContactLensEventSubscription
+>;
+export const onCreateNotification = /* GraphQL */ `subscription OnCreateNotification(
+  $filter: ModelSubscriptionNotificationFilterInput
+) {
+  onCreateNotification(filter: $filter) {
+    id
+    primaryID
+    secondaryID
+    notification_type
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateNotificationSubscriptionVariables,
+  APITypes.OnCreateNotificationSubscription
+>;
+export const onUpdateNotification = /* GraphQL */ `subscription OnUpdateNotification(
+  $filter: ModelSubscriptionNotificationFilterInput
+) {
+  onUpdateNotification(filter: $filter) {
+    id
+    primaryID
+    secondaryID
+    notification_type
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateNotificationSubscriptionVariables,
+  APITypes.OnUpdateNotificationSubscription
+>;
+export const onDeleteNotification = /* GraphQL */ `subscription OnDeleteNotification(
+  $filter: ModelSubscriptionNotificationFilterInput
+) {
+  onDeleteNotification(filter: $filter) {
+    id
+    primaryID
+    secondaryID
+    notification_type
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteNotificationSubscriptionVariables,
+  APITypes.OnDeleteNotificationSubscription
 >;
 export const onCreateTopics = /* GraphQL */ `subscription OnCreateTopics($filter: ModelSubscriptionTopicsFilterInput) {
   onCreateTopics(filter: $filter) {

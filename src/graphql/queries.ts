@@ -354,6 +354,44 @@ export const listContactLensEvents = /* GraphQL */ `query ListContactLensEvents(
   APITypes.ListContactLensEventsQueryVariables,
   APITypes.ListContactLensEventsQuery
 >;
+export const getNotification = /* GraphQL */ `query GetNotification($id: ID!) {
+  getNotification(id: $id) {
+    id
+    primaryID
+    secondaryID
+    notification_type
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetNotificationQueryVariables,
+  APITypes.GetNotificationQuery
+>;
+export const listNotifications = /* GraphQL */ `query ListNotifications(
+  $filter: ModelNotificationFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listNotifications(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      primaryID
+      secondaryID
+      notification_type
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListNotificationsQueryVariables,
+  APITypes.ListNotificationsQuery
+>;
 export const getTopics = /* GraphQL */ `query GetTopics($id: ID!) {
   getTopics(id: $id) {
     id
