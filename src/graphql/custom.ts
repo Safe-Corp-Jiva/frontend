@@ -80,7 +80,7 @@ export const customOnCreateCall = /* GraphQL */ `subscription OnCreateCall {
       waittime
     }
   }
-}` as GeneratedSubscription<any,any>;
+}` as GeneratedSubscription<any, any>
 
 export const customOnUpdateCall = /* GraphQL */ `subscription OnUpdateCall {
   onUpdateCall {
@@ -113,7 +113,7 @@ export const customOnUpdateCall = /* GraphQL */ `subscription OnUpdateCall {
       waittime
     }
   }
-}` as GeneratedSubscription<any,any>;
+}` as GeneratedSubscription<any, any>
 
 export const customOnDeleteCall = /* GraphQL */ `subscription OnDeleteCall {
   onDeleteCall {
@@ -146,7 +146,7 @@ export const customOnDeleteCall = /* GraphQL */ `subscription OnDeleteCall {
       waittime
     }
   }
-}` as GeneratedSubscription<any,any>;
+}` as GeneratedSubscription<any, any>
 
 export const customListCalls = /* GraphQL */ `query ListCalls(
   $filter: ModelCallFilterInput
@@ -184,4 +184,5 @@ export const customListCalls = /* GraphQL */ `query ListCalls(
     }
   }
 }
-` as GeneratedQuery<any, any>;
+` as GeneratedQuery<any, any>
+

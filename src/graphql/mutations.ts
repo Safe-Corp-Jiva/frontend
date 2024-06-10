@@ -593,6 +593,7 @@ export const createNotification = /* GraphQL */ `mutation CreateNotification(
     primaryID
     secondaryID
     notification_type
+    read
     createdAt
     updatedAt
     __typename
@@ -611,6 +612,7 @@ export const updateNotification = /* GraphQL */ `mutation UpdateNotification(
     primaryID
     secondaryID
     notification_type
+    read
     createdAt
     updatedAt
     __typename
@@ -629,6 +631,7 @@ export const deleteNotification = /* GraphQL */ `mutation DeleteNotification(
     primaryID
     secondaryID
     notification_type
+    read
     createdAt
     updatedAt
     __typename

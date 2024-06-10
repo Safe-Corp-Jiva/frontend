@@ -52,6 +52,7 @@ export const onNotification = /* GraphQL */ `subscription OnNotification {
     primaryID
     secondaryID
     notification_type
+    read
     createdAt
     updatedAt
     __typename
@@ -588,6 +589,7 @@ export const onCreateNotification = /* GraphQL */ `subscription OnCreateNotifica
     primaryID
     secondaryID
     notification_type
+    read
     createdAt
     updatedAt
     __typename
@@ -605,6 +607,7 @@ export const onUpdateNotification = /* GraphQL */ `subscription OnUpdateNotifica
     primaryID
     secondaryID
     notification_type
+    read
     createdAt
     updatedAt
     __typename
@@ -622,6 +625,7 @@ export const onDeleteNotification = /* GraphQL */ `subscription OnDeleteNotifica
     primaryID
     secondaryID
     notification_type
+    read
     createdAt
     updatedAt
     __typename

@@ -11,6 +11,7 @@ import {
   Flex,
   Grid,
   SelectField,
+  SwitchField,
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
@@ -34,6 +35,7 @@ export default function NotificationUpdateForm(props) {
     primaryID: "",
     secondaryID: "",
     notification_type: "",
+    read: false,
   };
   const [primaryID, setPrimaryID] = React.useState(initialValues.primaryID);
   const [secondaryID, setSecondaryID] = React.useState(
@@ -42,6 +44,7 @@ export default function NotificationUpdateForm(props) {
   const [notification_type, setNotification_type] = React.useState(
     initialValues.notification_type
   );
+  const [read, setRead] = React.useState(initialValues.read);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = notificationRecord
@@ -50,6 +53,7 @@ export default function NotificationUpdateForm(props) {
     setPrimaryID(cleanValues.primaryID);
     setSecondaryID(cleanValues.secondaryID);
     setNotification_type(cleanValues.notification_type);
+    setRead(cleanValues.read);
     setErrors({});
   };
   const [notificationRecord, setNotificationRecord] = React.useState(
@@ -74,6 +78,7 @@ export default function NotificationUpdateForm(props) {
     primaryID: [{ type: "Required" }],
     secondaryID: [{ type: "Required" }],
     notification_type: [],
+    read: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -104,6 +109,7 @@ export default function NotificationUpdateForm(props) {
           primaryID,
           secondaryID,
           notification_type: notification_type ?? null,
+          read: read ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -167,6 +173,7 @@ export default function NotificationUpdateForm(props) {
               primaryID: value,
               secondaryID,
               notification_type,
+              read,
             };
             const result = onChange(modelFields);
             value = result?.primaryID ?? value;
@@ -193,6 +200,7 @@ export default function NotificationUpdateForm(props) {
               primaryID,
               secondaryID: value,
               notification_type,
+              read,
             };
             const result = onChange(modelFields);
             value = result?.secondaryID ?? value;
@@ -219,6 +227,7 @@ export default function NotificationUpdateForm(props) {
               primaryID,
               secondaryID,
               notification_type: value,
+              read,
             };
             const result = onChange(modelFields);
             value = result?.notification_type ?? value;
@@ -246,6 +255,33 @@ export default function NotificationUpdateForm(props) {
           {...getOverrideProps(overrides, "notification_typeoption1")}
         ></option>
       </SelectField>
+      <SwitchField
+        label="Read"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={read}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              primaryID,
+              secondaryID,
+              notification_type,
+              read: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.read ?? value;
+          }
+          if (errors.read?.hasError) {
+            runValidationTasks("read", value);
+          }
+          setRead(value);
+        }}
+        onBlur={() => runValidationTasks("read", read)}
+        errorMessage={errors.read?.errorMessage}
+        hasError={errors.read?.hasError}
+        {...getOverrideProps(overrides, "read")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

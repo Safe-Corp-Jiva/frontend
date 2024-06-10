@@ -360,6 +360,7 @@ export const getNotification = /* GraphQL */ `query GetNotification($id: ID!) {
     primaryID
     secondaryID
     notification_type
+    read
     createdAt
     updatedAt
     __typename
@@ -380,6 +381,7 @@ export const listNotifications = /* GraphQL */ `query ListNotifications(
       primaryID
       secondaryID
       notification_type
+      read
       createdAt
       updatedAt
       __typename

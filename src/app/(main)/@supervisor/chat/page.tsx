@@ -2,41 +2,119 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { TextBox } from '@/components/chat'
 import { generateClient } from 'aws-amplify/api'
-import { listAgents } from '@/graphql/queries'
+import { listAgents, listNotifications } from '@/graphql/queries'
 import Image from 'next/image'
-import { fetchUserAttributes } from 'aws-amplify/auth'
+import { updateNotification } from '@/graphql/mutations'
+import { notificationSubFactory } from '@/utils/gql'
 
 function Chat() {
   const [agent, setAgent] = useState<any>(null)
   const [agents, setAgents] = useState<any>([])
-  useMemo(() => {
-    const getAgents = async () => {
-      try {
-        const client = generateClient()
-        const res = await client.graphql({ query: listAgents })
-        const users = res.data.listAgents.items
-        const user = await fetchUserAttributes()
-        users.forEach((u: any) => {
-          if (u.id !== user['custom:profileId']) {
-            setAgents((prev: any) => [...prev, u])
-          }
-        })
-      } catch (error) {
-        console.log('Error fetching agents: ', error)
-      }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const client = generateClient()
+
+      const agentsRes = await client.graphql({ query: listAgents })
+      const agents = agentsRes.data.listAgents.items
+
+      const notificationsRes = await client.graphql({
+        query: listNotifications,
+        variables: {
+          filter: {
+            notification_type: { eq: 'HUMAN' },
+            read: { eq: false },
+          },
+        },
+      })
+      const notifications = notificationsRes.data.listNotifications.items
+
+      const processedAgents = agents.map((agent) => ({
+        ...agent,
+        unreadNotifications: notifications.filter(
+          (notification: any) => notification.primaryID === agent.id.split('-')[0]
+        ),
+      }))
+
+      setAgents(processedAgents)
     }
-    getAgents()
+
+    const { sub } = notificationSubFactory()
+    const formatter = (data?: any) => (data ? [data] : [])
+
+    const subscriber = sub.subscribe({
+      next: (value) => {
+        const newNotification = formatter(value?.data?.onNotification)[0]
+        if (newNotification && newNotification.notification_type === 'HUMAN') {
+          setAgents((prevAgents: any) =>
+            prevAgents.map((agent: any) => {
+              const agentId = agent.id.split('-')[0]
+              if (agentId === newNotification.primaryID) {
+                const isExisting = agent.unreadNotifications.find((n) => n.id === newNotification.id)
+                const updatedNotifications = isExisting
+                  ? agent.unreadNotifications.map((n: any) =>
+                      n.id === newNotification.id ? { ...n, ...newNotification } : n
+                    )
+                  : [...agent.unreadNotifications, newNotification]
+                return { ...agent, unreadNotifications: updatedNotifications }
+              }
+              return agent
+            })
+          )
+        }
+      },
+      error: (error) => console.log('Subscription error:', error),
+    })
+
+    fetchData()
+    return () => {
+      subscriber.unsubscribe()
+    }
   }, [])
 
   const handleClick = (e: any) => {
     e.preventDefault()
-    const text = e.target.innerText
-    const agent_to_chat = agents.find((user: any) => user.username === text)
-    if (agent_to_chat) {
-      setAgent(agent_to_chat)
+    const agentId = e.currentTarget.getAttribute('data-agent-id')
+    const agentToChat = agents.find((agent: any) => agent.id === agentId)
+
+    if (agentToChat) {
+      setAgent(agentToChat)
+
+      agentToChat.unreadNotifications.forEach((notification: any) => {
+        markNotificationAsRead(notification.id, agentId)
+      })
     }
   }
 
+  const markNotificationAsRead = async (notificationId: any, agentId: any) => {
+    const client = generateClient()
+    try {
+      const res = await client.graphql({
+        query: updateNotification,
+        variables: {
+          input: {
+            id: notificationId,
+            read: true,
+          },
+        },
+      })
+      if (res.data.updateNotification) {
+        setAgents((prevAgents: any) =>
+          prevAgents.map((agent: any) => {
+            if (agent.id === agentId) {
+              const filteredNotifications = agent.unreadNotifications.filter(
+                (notification: any) => notification.id !== notificationId
+              )
+              return { ...agent, unreadNotifications: filteredNotifications }
+            }
+            return agent
+          })
+        )
+      }
+    } catch (error) {
+      console.error('Failed to mark notification as read:', error)
+    }
+  }
   return (
     <div
       className="flex w-11/12 bg-gray-100 rounded-2xl overflow-hidden pt-[1%] px-[2%]"
@@ -45,10 +123,16 @@ function Chat() {
       <div className="border rounded-xl border-gray-300 w-80 bg-white overflow-y-auto mr-[1%]">
         <div className="overflow-auto">
           {agents &&
-            agents?.map((user: any, index: any) => (
-              <div onClick={handleClick} key={index} className="flex items-center p-4 hover:bg-gray-200 cursor-pointer">
+            agents.map((agent: any) => (
+              <div
+                key={agent.id}
+                data-agent-id={agent.id}
+                onClick={handleClick}
+                className={`flex items-center p-4 hover:bg-gray-200 cursor-pointer ${agent.unreadNotifications.length > 0 ? 'bg-red-200' : ''}`}
+              >
                 <Image src="/icons/User.svg" alt="User" width={32} height={32} />
-                <p className="ml-3">{user.username}</p>
+                <p className="ml-3">{agent.username}</p>
+                <p className="ml-3 text-xs">{agent.unreadNotifications.length > 0 ? 'Unread' : ''}</p>
               </div>
             ))}
         </div>

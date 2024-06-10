@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import { fetchUserAttributes } from 'aws-amplify/auth'
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid'
+import { notificationSubFactory } from '@/utils/gql'
 
 // Define the Message type
 type Timestamp = {
@@ -35,6 +36,7 @@ const ChatBot: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [copilotMessage, setCopilotMessage] = useState<any>([])
   const [tempMessage, setTempMessage] = useState<Message | null>(null)
+  const [hasNotifications, setHasNotifications] = useState(false)
 
   const [profileID, setProfileID] = useState<any>('')
 
@@ -47,7 +49,33 @@ const ChatBot: React.FC = () => {
     getAttributes()
   }, [])
 
+  useEffect(() => {
+    const { sub } = notificationSubFactory()
+    const formatter = (data?: any) => (data ? [data] : [])
+
+    const subscriber = sub.subscribe({
+      next: (value: { data: { onNotification: any } }) => {
+        const notification = formatter(value?.data?.onNotification)[0]
+        if (notification?.notification_type === 'COPILOT') {
+          if (notification) {
+            setHasNotifications(true)
+            notification.primaryID = notification.id
+            notification.secondaryID = notification.primaryID
+            notification.notification_type = notification.notification_type
+          }
+          setHasNotifications(true)
+        }
+      },
+      error: (error: any) => console.log('Subscription error:', error),
+    })
+
+    return () => {
+      subscriber.unsubscribe()
+    }
+  }, [])
+
   const toggleChat = () => {
+    setHasNotifications(false)
     setIsOpen(!isOpen)
   }
 
@@ -253,6 +281,7 @@ const ChatBot: React.FC = () => {
               d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
             />
           </svg>
+          {hasNotifications && <div className="absolute top-0 left-10 h-3 w-3 bg-red-500 rounded-full z-10"></div>}
         </button>
       )}
     </div>
