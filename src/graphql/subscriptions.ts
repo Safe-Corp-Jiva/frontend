@@ -62,6 +62,22 @@ export const onNotification = /* GraphQL */ `subscription OnNotification {
   APITypes.OnNotificationSubscriptionVariables,
   APITypes.OnNotificationSubscription
 >;
+export const onNotificationRead = /* GraphQL */ `subscription OnNotificationRead {
+  onNotificationRead {
+    id
+    primaryID
+    secondaryID
+    notification_type
+    read
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnNotificationReadSubscriptionVariables,
+  APITypes.OnNotificationReadSubscription
+>;
 export const onCreateAgent = /* GraphQL */ `subscription OnCreateAgent($filter: ModelSubscriptionAgentFilterInput) {
   onCreateAgent(filter: $filter) {
     id

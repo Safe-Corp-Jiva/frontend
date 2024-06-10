@@ -1,5 +1,11 @@
 import { generateClient } from 'aws-amplify/api'
-import { onChunkByCallId, onContactLensEvent, onNotification, onUpdateTopics } from '@/graphql/subscriptions'
+import {
+  onChunkByCallId,
+  onContactLensEvent,
+  onNotification,
+  onNotificationRead,
+  onUpdateTopics,
+} from '@/graphql/subscriptions'
 import { chunksByCallId, listNotifications, listTopics } from '@/graphql/queries'
 import { CallStatus } from '@/API'
 import {
@@ -106,5 +112,11 @@ export const listUnreadNotifications = async () => ({
         },
       },
     },
+  }),
+})
+
+export const notificationReadSubFactory = () => ({
+  sub: client.graphql({
+    query: onNotificationRead,
   }),
 })

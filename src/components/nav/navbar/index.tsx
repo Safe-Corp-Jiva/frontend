@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Notifications, NotificationModal } from '@/components/alerts/notifications'
 
 import IconWithTool from '../iconwithtool'
-import { notificationSubFactory } from '@/utils/gql'
+import { notificationReadSubFactory, notificationSubFactory } from '@/utils/gql'
 
 const NavBar = () => {
   const [modalOpen, setModalOpen] = React.useState(false)
@@ -28,8 +28,27 @@ const NavBar = () => {
       },
       error: (error: any) => console.log('Subscription error:', error),
     })
+
+    const { sub: sub2 } = notificationReadSubFactory()
+    const formatter2 = (data?: any) => (data ? [data] : [])
+
+    const subscriber2 = sub2.subscribe({
+      next: (value: { data: { onNotificationRead: any } }) => {
+        const notification = formatter2(value?.data?.onNotificationRead)[0]
+        if (notification?.notification_type === 'HUMAN') {
+          if (notification) {
+            setHasNotifications(false)
+            notification.primaryID = notification.id
+            notification.secondaryID = notification.primaryID
+            notification.notification_type = notification.notification_type
+          }
+        }
+      },
+      error: (error: any) => console.log('Subscription error:', error),
+    })
     return () => {
       subscriber.unsubscribe()
+      subscriber2.unsubscribe()
     }
   }, [])
 

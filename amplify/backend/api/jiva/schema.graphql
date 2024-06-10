@@ -110,6 +110,8 @@ type Subscription {
     @aws_subscribe(mutations: ["createContactLensEvent"])
   onNotification: Notification
     @aws_subscribe(mutations: ["createNotification"])
+  onNotificationRead: Notification
+    @aws_subscribe(mutations: ["updateNotification"])
 }
 
 type Topics @model @auth(rules: [{allow: public}]){
