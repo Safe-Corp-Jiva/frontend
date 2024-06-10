@@ -1,11 +1,12 @@
 'use client'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TextBox } from '@/components/chat'
 import { generateClient } from 'aws-amplify/api'
 import { listAgents, listNotifications } from '@/graphql/queries'
 import Image from 'next/image'
 import { updateNotification } from '@/graphql/mutations'
 import { notificationSubFactory } from '@/utils/gql'
+import { fetchUserAttributes } from 'aws-amplify/auth'
 
 function Chat() {
   const [agent, setAgent] = useState<any>(null)
@@ -16,7 +17,8 @@ function Chat() {
       const client = generateClient()
 
       const agentsRes = await client.graphql({ query: listAgents })
-      const agents = agentsRes.data.listAgents.items
+      const user = await fetchUserAttributes()
+      const agents = agentsRes.data.listAgents.items.filter((agent: any) => agent.id !== user['custom:profileId'])
 
       const notificationsRes = await client.graphql({
         query: listNotifications,
@@ -50,7 +52,7 @@ function Chat() {
             prevAgents.map((agent: any) => {
               const agentId = agent.id.split('-')[0]
               if (agentId === newNotification.primaryID) {
-                const isExisting = agent.unreadNotifications.find((n) => n.id === newNotification.id)
+                const isExisting = agent.unreadNotifications.find((n: any) => n.id === newNotification.id)
                 const updatedNotifications = isExisting
                   ? agent.unreadNotifications.map((n: any) =>
                       n.id === newNotification.id ? { ...n, ...newNotification } : n
