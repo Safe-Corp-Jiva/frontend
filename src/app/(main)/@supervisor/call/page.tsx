@@ -4,7 +4,7 @@ import React from 'react'
 import { CircleUserRound, PhoneOff, MicOff, TriangleAlert } from 'lucide-react'
 import RealTimeTranscript from '@/components/transcpt/realtime'
 
-function MockCall() {
+function Call() {
   return (
     <div className="w-full h-full flex p-5 justify-evenly">
       <div className="w-4/12 bg-white rounded-lg flex flex-col justify-evenly items-center">
@@ -37,4 +37,4 @@ function MockCall() {
   )
 }
 
-export default MockCall
+export default Call

@@ -2,9 +2,9 @@
 // ronuma, may 2024
 import { GetObjectCommand, ListObjectsCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
-import { S3 } from '../config'
-import { getRecording, listRecordings } from '../recordings'
-import { getPastCalls } from '../calls'
+import { S3 } from './config'
+import { getRecording, listRecordings } from './recordings'
+import { getPastCalls } from './calls'
 
 export type TranscriptChunk = {
   Content: string
@@ -95,6 +95,8 @@ export const listTranscripts = async () => {
 
       // Convert createdAt (ISO Timestamp) to DD/MM/YYYY
       const date = new Date(createdAt)
+
+      if (!recordingURL && !transcript) continue
 
       transcripts.push({
         recordingURL,

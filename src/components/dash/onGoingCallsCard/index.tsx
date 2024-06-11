@@ -16,7 +16,7 @@ export default function OnGoingCallsCard({ maximize, minimize, isMaximized }: Pr
   const router = useRouter()
 
   const handleCallClick = (id: string) => () => {
-    router.push(`/mockcall/${id}`)
+    router.push(`/call/${id}`)
   }
 
   return (
@@ -62,10 +62,10 @@ export default function OnGoingCallsCard({ maximize, minimize, isMaximized }: Pr
               </div>
               <div
                 className={`flex-1 rounded-full h-8 w-8 flex justify-center items-center ${getResultHelp(
-                  call?.help ?? 0
+                  call?.help ?? false
                 )}`}
               >
-                <span>{call.help === 1 ? 'HELP' : 'No help'}</span>
+                <span>{call.help ? 'HELP' : 'No help'}</span>
               </div>
             </button>
           ))

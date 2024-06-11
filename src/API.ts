@@ -2,27 +2,215 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateAgentInput = {
-  id?: string | null,
+export type ModelCallConnection = {
+  __typename: "ModelCallConnection",
+  items:  Array<Call | null >,
+  nextToken?: string | null,
+};
+
+export type Call = {
+  __typename: "Call",
+  id: string,
+  transcript?: S3Object | null,
+  audio?: S3Object | null,
+  agent?: Agent | null,
+  queue?: Queue | null,
+  metrics: Metric,
+  createdAt: string,
+  caller?: Caller | null,
+  status: CallStatus,
+  chunks?: ModelChunkConnection | null,
+  topic?: Topics | null,
+  help?: boolean | null,
+  result?: CallResult | null,
+  updatedAt: string,
+  topicsCallsId?: string | null,
+  callAgentId?: string | null,
+  callQueueId?: string | null,
+  callMetricsId: string,
+  callCallerId?: string | null,
+};
+
+export type S3Object = {
+  __typename: "S3Object",
+  key?: string | null,
+  bucketId?: string | null,
+};
+
+export type Agent = {
+  __typename: "Agent",
+  id: string,
   username?: string | null,
   lastName?: string | null,
   firstName?: string | null,
   email?: string | null,
+  createdAt: string,
+  updatedAt: string,
 };
 
-export type ModelAgentConditionInput = {
-  username?: ModelStringInput | null,
-  lastName?: ModelStringInput | null,
-  firstName?: ModelStringInput | null,
-  email?: ModelStringInput | null,
-  and?: Array< ModelAgentConditionInput | null > | null,
-  or?: Array< ModelAgentConditionInput | null > | null,
-  not?: ModelAgentConditionInput | null,
+export type Queue = {
+  __typename: "Queue",
+  id: string,
+  name?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type Metric = {
+  __typename: "Metric",
+  id: string,
+  length?: number | null,
+  waittime?: number | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type Caller = {
+  __typename: "Caller",
+  id: string,
+  name?: string | null,
+  email?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export enum CallStatus {
+  STARTED = "STARTED",
+  FINALIZED = "FINALIZED",
+}
+
+
+export type ModelChunkConnection = {
+  __typename: "ModelChunkConnection",
+  items:  Array<Chunk | null >,
+  nextToken?: string | null,
+};
+
+export type Chunk = {
+  __typename: "Chunk",
+  id: string,
+  sentiment?: Sentiment | null,
+  content?: ChunkContent | null,
+  callId: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export enum Sentiment {
+  NEGATIVE = "NEGATIVE",
+  NEUTRAL = "NEUTRAL",
+  POSITIVE = "POSITIVE",
+  UNDEFINED = "UNDEFINED",
+}
+
+
+export type ChunkContent = {
+  __typename: "ChunkContent",
+  role?: TranscriptRole | null,
+  text?: string | null,
+};
+
+export enum TranscriptRole {
+  AGENT = "AGENT",
+  CUSTOMER = "CUSTOMER",
+}
+
+
+export type Topics = {
+  __typename: "Topics",
+  id: string,
+  name: string,
+  description?: string | null,
+  calls?: ModelCallConnection | null,
+  count?: number | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export enum CallResult {
+  UNSATISFIED = "UNSATISFIED",
+  NEUTRAL = "NEUTRAL",
+  SATISFIED = "SATISFIED",
+}
+
+
+export type ModelSubscriptionContactLensEventFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  ruleName?: ModelSubscriptionStringInput | null,
+  actionName?: ModelSubscriptionStringInput | null,
+  instanceArn?: ModelSubscriptionStringInput | null,
+  contactArn?: ModelSubscriptionStringInput | null,
+  agentArn?: ModelSubscriptionStringInput | null,
+  queueArn?: ModelSubscriptionStringInput | null,
+  timestamp?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionContactLensEventFilterInput | null > | null,
+  or?: Array< ModelSubscriptionContactLensEventFilterInput | null > | null,
+};
+
+export type ModelSubscriptionIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  in?: Array< string | null > | null,
+  notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionStringInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  in?: Array< string | null > | null,
+  notIn?: Array< string | null > | null,
+};
+
+export type ContactLensEvent = {
+  __typename: "ContactLensEvent",
+  id: string,
+  ruleName: string,
+  actionName: string,
+  instanceArn: string,
+  contactArn: string,
+  agentArn: string,
+  queueArn: string,
+  timestamp: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelCallFilterInput = {
+  id?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
+  status?: ModelCallStatusInput | null,
+  help?: ModelBooleanInput | null,
+  result?: ModelCallResultInput | null,
   updatedAt?: ModelStringInput | null,
+  and?: Array< ModelCallFilterInput | null > | null,
+  or?: Array< ModelCallFilterInput | null > | null,
+  not?: ModelCallFilterInput | null,
+  topicsCallsId?: ModelIDInput | null,
+  callAgentId?: ModelIDInput | null,
+  callQueueId?: ModelIDInput | null,
+  callMetricsId?: ModelIDInput | null,
+  callCallerId?: ModelIDInput | null,
 };
 
-export type ModelStringInput = {
+export type ModelIDInput = {
   ne?: string | null,
   eq?: string | null,
   le?: string | null,
@@ -62,15 +250,57 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type Agent = {
-  __typename: "Agent",
-  id: string,
+export type ModelStringInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
+export type ModelCallStatusInput = {
+  eq?: CallStatus | null,
+  ne?: CallStatus | null,
+};
+
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type ModelCallResultInput = {
+  eq?: CallResult | null,
+  ne?: CallResult | null,
+};
+
+export type CreateAgentInput = {
+  id?: string | null,
   username?: string | null,
   lastName?: string | null,
   firstName?: string | null,
   email?: string | null,
-  createdAt: string,
-  updatedAt: string,
+};
+
+export type ModelAgentConditionInput = {
+  username?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  firstName?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  and?: Array< ModelAgentConditionInput | null > | null,
+  or?: Array< ModelAgentConditionInput | null > | null,
+  not?: ModelAgentConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateAgentInput = {
@@ -99,14 +329,6 @@ export type ModelQueueConditionInput = {
   updatedAt?: ModelStringInput | null,
 };
 
-export type Queue = {
-  __typename: "Queue",
-  id: string,
-  name?: string | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
 export type UpdateQueueInput = {
   id: string,
   name?: string | null,
@@ -123,24 +345,10 @@ export type CreateChunkInput = {
   callId: string,
 };
 
-export enum Sentiment {
-  NEGATIVE = "NEGATIVE",
-  NEUTRAL = "NEUTRAL",
-  POSITIVE = "POSITIVE",
-  UNDEFINED = "UNDEFINED",
-}
-
-
 export type ChunkContentInput = {
   role?: TranscriptRole | null,
   text?: string | null,
 };
-
-export enum TranscriptRole {
-  AGENT = "AGENT",
-  CUSTOMER = "CUSTOMER",
-}
-
 
 export type ModelChunkConditionInput = {
   sentiment?: ModelSentimentInput | null,
@@ -155,38 +363,6 @@ export type ModelChunkConditionInput = {
 export type ModelSentimentInput = {
   eq?: Sentiment | null,
   ne?: Sentiment | null,
-};
-
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
-};
-
-export type Chunk = {
-  __typename: "Chunk",
-  id: string,
-  sentiment?: Sentiment | null,
-  content?: ChunkContent | null,
-  callId: string,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type ChunkContent = {
-  __typename: "ChunkContent",
-  role?: TranscriptRole | null,
-  text?: string | null,
 };
 
 export type UpdateChunkInput = {
@@ -215,15 +391,6 @@ export type ModelCallerConditionInput = {
   not?: ModelCallerConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-};
-
-export type Caller = {
-  __typename: "Caller",
-  id: string,
-  name?: string | null,
-  email?: string | null,
-  createdAt: string,
-  updatedAt: string,
 };
 
 export type UpdateCallerInput = {
@@ -256,19 +423,6 @@ export type S3ObjectInput = {
   bucketId?: string | null,
 };
 
-export enum CallStatus {
-  STARTED = "STARTED",
-  FINALIZED = "FINALIZED",
-}
-
-
-export enum CallResult {
-  UNSATISFIED = "UNSATISFIED",
-  NEUTRAL = "NEUTRAL",
-  SATISFIED = "SATISFIED",
-}
-
-
 export type ModelCallConditionInput = {
   createdAt?: ModelStringInput | null,
   status?: ModelCallStatusInput | null,
@@ -283,84 +437,6 @@ export type ModelCallConditionInput = {
   callQueueId?: ModelIDInput | null,
   callMetricsId?: ModelIDInput | null,
   callCallerId?: ModelIDInput | null,
-};
-
-export type ModelCallStatusInput = {
-  eq?: CallStatus | null,
-  ne?: CallStatus | null,
-};
-
-export type ModelBooleanInput = {
-  ne?: boolean | null,
-  eq?: boolean | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-};
-
-export type ModelCallResultInput = {
-  eq?: CallResult | null,
-  ne?: CallResult | null,
-};
-
-export type Call = {
-  __typename: "Call",
-  id: string,
-  transcript?: S3Object | null,
-  audio?: S3Object | null,
-  agent?: Agent | null,
-  queue?: Queue | null,
-  metrics: Metric,
-  createdAt: string,
-  caller?: Caller | null,
-  status: CallStatus,
-  chunks?: ModelChunkConnection | null,
-  topic?: Topics | null,
-  help?: boolean | null,
-  result?: CallResult | null,
-  updatedAt: string,
-  topicsCallsId?: string | null,
-  callAgentId?: string | null,
-  callQueueId?: string | null,
-  callMetricsId: string,
-  callCallerId?: string | null,
-};
-
-export type S3Object = {
-  __typename: "S3Object",
-  key?: string | null,
-  bucketId?: string | null,
-};
-
-export type Metric = {
-  __typename: "Metric",
-  id: string,
-  length?: number | null,
-  waittime?: number | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type ModelChunkConnection = {
-  __typename: "ModelChunkConnection",
-  items:  Array<Chunk | null >,
-  nextToken?: string | null,
-};
-
-export type Topics = {
-  __typename: "Topics",
-  id: string,
-  name: string,
-  description?: string | null,
-  calls?: ModelCallConnection | null,
-  count?: number | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type ModelCallConnection = {
-  __typename: "ModelCallConnection",
-  items:  Array<Call | null >,
-  nextToken?: string | null,
 };
 
 export type UpdateCallInput = {
@@ -446,20 +522,6 @@ export type ModelContactLensEventConditionInput = {
   updatedAt?: ModelStringInput | null,
 };
 
-export type ContactLensEvent = {
-  __typename: "ContactLensEvent",
-  id: string,
-  ruleName: string,
-  actionName: string,
-  instanceArn: string,
-  contactArn: string,
-  agentArn: string,
-  queueArn: string,
-  timestamp: string,
-  createdAt: string,
-  updatedAt: string,
-};
-
 export type UpdateContactLensEventInput = {
   id: string,
   ruleName?: string | null,
@@ -472,6 +534,60 @@ export type UpdateContactLensEventInput = {
 };
 
 export type DeleteContactLensEventInput = {
+  id: string,
+};
+
+export type CreateNotificationInput = {
+  id?: string | null,
+  primaryID: string,
+  secondaryID: string,
+  notification_type?: NotificationType | null,
+  read?: boolean | null,
+};
+
+export enum NotificationType {
+  COPILOT = "COPILOT",
+  HUMAN = "HUMAN",
+}
+
+
+export type ModelNotificationConditionInput = {
+  primaryID?: ModelStringInput | null,
+  secondaryID?: ModelStringInput | null,
+  notification_type?: ModelNotificationTypeInput | null,
+  read?: ModelBooleanInput | null,
+  and?: Array< ModelNotificationConditionInput | null > | null,
+  or?: Array< ModelNotificationConditionInput | null > | null,
+  not?: ModelNotificationConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ModelNotificationTypeInput = {
+  eq?: NotificationType | null,
+  ne?: NotificationType | null,
+};
+
+export type Notification = {
+  __typename: "Notification",
+  id: string,
+  primaryID: string,
+  secondaryID: string,
+  notification_type?: NotificationType | null,
+  read?: boolean | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateNotificationInput = {
+  id: string,
+  primaryID?: string | null,
+  secondaryID?: string | null,
+  notification_type?: NotificationType | null,
+  read?: boolean | null,
+};
+
+export type DeleteNotificationInput = {
   id: string,
 };
 
@@ -585,23 +701,6 @@ export type ModelCallerConnection = {
   nextToken?: string | null,
 };
 
-export type ModelCallFilterInput = {
-  id?: ModelIDInput | null,
-  createdAt?: ModelStringInput | null,
-  status?: ModelCallStatusInput | null,
-  help?: ModelBooleanInput | null,
-  result?: ModelCallResultInput | null,
-  updatedAt?: ModelStringInput | null,
-  and?: Array< ModelCallFilterInput | null > | null,
-  or?: Array< ModelCallFilterInput | null > | null,
-  not?: ModelCallFilterInput | null,
-  topicsCallsId?: ModelIDInput | null,
-  callAgentId?: ModelIDInput | null,
-  callQueueId?: ModelIDInput | null,
-  callMetricsId?: ModelIDInput | null,
-  callCallerId?: ModelIDInput | null,
-};
-
 export type ModelMetricFilterInput = {
   id?: ModelIDInput | null,
   length?: ModelFloatInput | null,
@@ -641,6 +740,25 @@ export type ModelContactLensEventConnection = {
   nextToken?: string | null,
 };
 
+export type ModelNotificationFilterInput = {
+  id?: ModelIDInput | null,
+  primaryID?: ModelStringInput | null,
+  secondaryID?: ModelStringInput | null,
+  notification_type?: ModelNotificationTypeInput | null,
+  read?: ModelBooleanInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelNotificationFilterInput | null > | null,
+  or?: Array< ModelNotificationFilterInput | null > | null,
+  not?: ModelNotificationFilterInput | null,
+};
+
+export type ModelNotificationConnection = {
+  __typename: "ModelNotificationConnection",
+  items:  Array<Notification | null >,
+  nextToken?: string | null,
+};
+
 export type ModelTopicsFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -669,36 +787,6 @@ export type ModelSubscriptionAgentFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionAgentFilterInput | null > | null,
   or?: Array< ModelSubscriptionAgentFilterInput | null > | null,
-};
-
-export type ModelSubscriptionIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  in?: Array< string | null > | null,
-  notIn?: Array< string | null > | null,
-};
-
-export type ModelSubscriptionStringInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  in?: Array< string | null > | null,
-  notIn?: Array< string | null > | null,
 };
 
 export type ModelSubscriptionQueueFilterInput = {
@@ -772,19 +860,16 @@ export type ModelSubscriptionFloatInput = {
   notIn?: Array< number | null > | null,
 };
 
-export type ModelSubscriptionContactLensEventFilterInput = {
+export type ModelSubscriptionNotificationFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  ruleName?: ModelSubscriptionStringInput | null,
-  actionName?: ModelSubscriptionStringInput | null,
-  instanceArn?: ModelSubscriptionStringInput | null,
-  contactArn?: ModelSubscriptionStringInput | null,
-  agentArn?: ModelSubscriptionStringInput | null,
-  queueArn?: ModelSubscriptionStringInput | null,
-  timestamp?: ModelSubscriptionStringInput | null,
+  primaryID?: ModelSubscriptionStringInput | null,
+  secondaryID?: ModelSubscriptionStringInput | null,
+  notification_type?: ModelSubscriptionStringInput | null,
+  read?: ModelSubscriptionBooleanInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionContactLensEventFilterInput | null > | null,
-  or?: Array< ModelSubscriptionContactLensEventFilterInput | null > | null,
+  and?: Array< ModelSubscriptionNotificationFilterInput | null > | null,
+  or?: Array< ModelSubscriptionNotificationFilterInput | null > | null,
 };
 
 export type ModelSubscriptionTopicsFilterInput = {
@@ -809,6 +894,217 @@ export type ModelSubscriptionIntInput = {
   between?: Array< number | null > | null,
   in?: Array< number | null > | null,
   notIn?: Array< number | null > | null,
+};
+
+export type CustomListPastCallsQueryVariables = {
+};
+
+export type CustomListPastCallsQuery = {
+  listCalls?:  {
+    __typename: "ModelCallConnection",
+    nextToken?: string | null,
+    items:  Array< {
+      __typename: "Call",
+      id: string,
+      createdAt: string,
+      status: CallStatus,
+      agent?:  {
+        __typename: "Agent",
+        username?: string | null,
+        lastName?: string | null,
+        firstName?: string | null,
+      } | null,
+      result?: CallResult | null,
+      updatedAt: string,
+    } | null >,
+  } | null,
+};
+
+export type CustomOnCreateContactLensEventSubscriptionVariables = {
+  filter?: ModelSubscriptionContactLensEventFilterInput | null,
+};
+
+export type CustomOnCreateContactLensEventSubscription = {
+  onCreateContactLensEvent?:  {
+    __typename: "ContactLensEvent",
+    id: string,
+    ruleName: string,
+    actionName: string,
+    instanceArn: string,
+    contactArn: string,
+    agentArn: string,
+    queueArn: string,
+    timestamp: string,
+    createdAt: string,
+  } | null,
+};
+
+export type CustomOnCreateCallSubscriptionVariables = {
+};
+
+export type CustomOnCreateCallSubscription = {
+  onCreateCall?:  {
+    __typename: "Call",
+    id: string,
+    createdAt: string,
+    status: CallStatus,
+    help?: boolean | null,
+    result?: CallResult | null,
+    updatedAt: string,
+    callCallerId?: string | null,
+    agent?:  {
+      __typename: "Agent",
+      id: string,
+      username?: string | null,
+      lastName?: string | null,
+      firstName?: string | null,
+      email?: string | null,
+    } | null,
+    queue?:  {
+      __typename: "Queue",
+      id: string,
+      name?: string | null,
+    } | null,
+    topic?:  {
+      __typename: "Topics",
+      id: string,
+      name: string,
+      count?: number | null,
+    } | null,
+    metrics:  {
+      __typename: "Metric",
+      id: string,
+      length?: number | null,
+      waittime?: number | null,
+    },
+  } | null,
+};
+
+export type CustomOnUpdateCallSubscriptionVariables = {
+};
+
+export type CustomOnUpdateCallSubscription = {
+  onUpdateCall?:  {
+    __typename: "Call",
+    id: string,
+    createdAt: string,
+    status: CallStatus,
+    help?: boolean | null,
+    result?: CallResult | null,
+    updatedAt: string,
+    callCallerId?: string | null,
+    agent?:  {
+      __typename: "Agent",
+      id: string,
+      username?: string | null,
+      lastName?: string | null,
+      firstName?: string | null,
+      email?: string | null,
+    } | null,
+    queue?:  {
+      __typename: "Queue",
+      id: string,
+      name?: string | null,
+    } | null,
+    topic?:  {
+      __typename: "Topics",
+      id: string,
+      name: string,
+      count?: number | null,
+    } | null,
+    metrics:  {
+      __typename: "Metric",
+      id: string,
+      length?: number | null,
+      waittime?: number | null,
+    },
+  } | null,
+};
+
+export type CustomOnDeleteCallSubscriptionVariables = {
+};
+
+export type CustomOnDeleteCallSubscription = {
+  onDeleteCall?:  {
+    __typename: "Call",
+    id: string,
+    createdAt: string,
+    status: CallStatus,
+    help?: boolean | null,
+    result?: CallResult | null,
+    updatedAt: string,
+    callCallerId?: string | null,
+    agent?:  {
+      __typename: "Agent",
+      id: string,
+      username?: string | null,
+      lastName?: string | null,
+      firstName?: string | null,
+      email?: string | null,
+    } | null,
+    queue?:  {
+      __typename: "Queue",
+      id: string,
+      name?: string | null,
+    } | null,
+    topic?:  {
+      __typename: "Topics",
+      id: string,
+      name: string,
+      count?: number | null,
+    } | null,
+    metrics:  {
+      __typename: "Metric",
+      id: string,
+      length?: number | null,
+      waittime?: number | null,
+    },
+  } | null,
+};
+
+export type CustomListCallsQueryVariables = {
+  filter?: ModelCallFilterInput | null,
+};
+
+export type CustomListCallsQuery = {
+  listCalls?:  {
+    __typename: "ModelCallConnection",
+    items:  Array< {
+      __typename: "Call",
+      id: string,
+      createdAt: string,
+      status: CallStatus,
+      help?: boolean | null,
+      result?: CallResult | null,
+      updatedAt: string,
+      callCallerId?: string | null,
+      agent?:  {
+        __typename: "Agent",
+        id: string,
+        username?: string | null,
+        lastName?: string | null,
+        firstName?: string | null,
+        email?: string | null,
+      } | null,
+      queue?:  {
+        __typename: "Queue",
+        id: string,
+        name?: string | null,
+      } | null,
+      topic?:  {
+        __typename: "Topics",
+        id: string,
+        name: string,
+        count?: number | null,
+      } | null,
+      metrics:  {
+        __typename: "Metric",
+        id: string,
+        length?: number | null,
+        waittime?: number | null,
+      },
+    } | null >,
+  } | null,
 };
 
 export type CreateAgentMutationVariables = {
@@ -1366,6 +1662,60 @@ export type DeleteContactLensEventMutation = {
   } | null,
 };
 
+export type CreateNotificationMutationVariables = {
+  input: CreateNotificationInput,
+  condition?: ModelNotificationConditionInput | null,
+};
+
+export type CreateNotificationMutation = {
+  createNotification?:  {
+    __typename: "Notification",
+    id: string,
+    primaryID: string,
+    secondaryID: string,
+    notification_type?: NotificationType | null,
+    read?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateNotificationMutationVariables = {
+  input: UpdateNotificationInput,
+  condition?: ModelNotificationConditionInput | null,
+};
+
+export type UpdateNotificationMutation = {
+  updateNotification?:  {
+    __typename: "Notification",
+    id: string,
+    primaryID: string,
+    secondaryID: string,
+    notification_type?: NotificationType | null,
+    read?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteNotificationMutationVariables = {
+  input: DeleteNotificationInput,
+  condition?: ModelNotificationConditionInput | null,
+};
+
+export type DeleteNotificationMutation = {
+  deleteNotification?:  {
+    __typename: "Notification",
+    id: string,
+    primaryID: string,
+    secondaryID: string,
+    notification_type?: NotificationType | null,
+    read?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type CreateTopicsMutationVariables = {
   input: CreateTopicsInput,
   condition?: ModelTopicsConditionInput | null,
@@ -1789,6 +2139,46 @@ export type ListContactLensEventsQuery = {
   } | null,
 };
 
+export type GetNotificationQueryVariables = {
+  id: string,
+};
+
+export type GetNotificationQuery = {
+  getNotification?:  {
+    __typename: "Notification",
+    id: string,
+    primaryID: string,
+    secondaryID: string,
+    notification_type?: NotificationType | null,
+    read?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListNotificationsQueryVariables = {
+  filter?: ModelNotificationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListNotificationsQuery = {
+  listNotifications?:  {
+    __typename: "ModelNotificationConnection",
+    items:  Array< {
+      __typename: "Notification",
+      id: string,
+      primaryID: string,
+      secondaryID: string,
+      notification_type?: NotificationType | null,
+      read?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type GetTopicsQueryVariables = {
   id: string,
 };
@@ -1889,6 +2279,38 @@ export type OnContactLensEventSubscription = {
     agentArn: string,
     queueArn: string,
     timestamp: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnNotificationSubscriptionVariables = {
+};
+
+export type OnNotificationSubscription = {
+  onNotification?:  {
+    __typename: "Notification",
+    id: string,
+    primaryID: string,
+    secondaryID: string,
+    notification_type?: NotificationType | null,
+    read?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnNotificationReadSubscriptionVariables = {
+};
+
+export type OnNotificationReadSubscription = {
+  onNotificationRead?:  {
+    __typename: "Notification",
+    id: string,
+    primaryID: string,
+    secondaryID: string,
+    notification_type?: NotificationType | null,
+    read?: boolean | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2423,6 +2845,57 @@ export type OnDeleteContactLensEventSubscription = {
     agentArn: string,
     queueArn: string,
     timestamp: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateNotificationSubscriptionVariables = {
+  filter?: ModelSubscriptionNotificationFilterInput | null,
+};
+
+export type OnCreateNotificationSubscription = {
+  onCreateNotification?:  {
+    __typename: "Notification",
+    id: string,
+    primaryID: string,
+    secondaryID: string,
+    notification_type?: NotificationType | null,
+    read?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateNotificationSubscriptionVariables = {
+  filter?: ModelSubscriptionNotificationFilterInput | null,
+};
+
+export type OnUpdateNotificationSubscription = {
+  onUpdateNotification?:  {
+    __typename: "Notification",
+    id: string,
+    primaryID: string,
+    secondaryID: string,
+    notification_type?: NotificationType | null,
+    read?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteNotificationSubscriptionVariables = {
+  filter?: ModelSubscriptionNotificationFilterInput | null,
+};
+
+export type OnDeleteNotificationSubscription = {
+  onDeleteNotification?:  {
+    __typename: "Notification",
+    id: string,
+    primaryID: string,
+    secondaryID: string,
+    notification_type?: NotificationType | null,
+    read?: boolean | null,
     createdAt: string,
     updatedAt: string,
   } | null,

@@ -4,9 +4,57 @@ import Image from 'next/image'
 import { Notifications, NotificationModal } from '@/components/alerts/notifications'
 
 import IconWithTool from '../iconwithtool'
+import { notificationReadSubFactory, notificationSubFactory } from '@/utils/gql'
 
 const NavBar = () => {
   const [modalOpen, setModalOpen] = React.useState(false)
+  const [hasNotifications, setHasNotifications] = React.useState(false)
+
+  useEffect(() => {
+    const { sub } = notificationSubFactory()
+    const formatter = (data?: any) => (data ? [data] : [])
+
+    const subscriber = sub.subscribe({
+      next: (value: { data: { onNotification: any } }) => {
+        const notification = formatter(value?.data?.onNotification)[0]
+        if (notification?.notification_type === 'HUMAN') {
+          if (notification) {
+            notification.primaryID = notification.id
+            notification.secondaryID = notification.primaryID
+            notification.notification_type = notification.notification_type
+          }
+          setHasNotifications(true)
+        }
+      },
+      error: (error: any) => console.log('Subscription error:', error),
+    })
+
+    const { sub: sub2 } = notificationReadSubFactory()
+    const formatter2 = (data?: any) => (data ? [data] : [])
+
+    const subscriber2 = sub2.subscribe({
+      next: (value: { data: { onNotificationRead: any } }) => {
+        const notification = formatter2(value?.data?.onNotificationRead)[0]
+        if (notification?.notification_type === 'HUMAN') {
+          if (notification) {
+            setHasNotifications(false)
+            notification.primaryID = notification.id
+            notification.secondaryID = notification.primaryID
+            notification.notification_type = notification.notification_type
+          }
+        }
+      },
+      error: (error: any) => console.log('Subscription error:', error),
+    })
+    return () => {
+      subscriber.unsubscribe()
+      subscriber2.unsubscribe()
+    }
+  }, [])
+
+  const handleNotifications = () => {
+    setHasNotifications(false)
+  }
 
   const handleModal = () => {
     setModalOpen(!modalOpen)
@@ -26,10 +74,16 @@ const NavBar = () => {
             <Notifications isOpen={modalOpen} setModal={handleModal} />
           </button>
           <button className="flex items-center justify-center">
-            <IconWithTool icon="Chat" path="/chat" text="Chat" />
+            <IconWithTool
+              hasNotifications={hasNotifications}
+              handleNotifications={handleNotifications}
+              icon="Chat"
+              path="/chat"
+              text="Chat"
+            />
           </button>
           <button className="flex items-center justify-center">
-            <IconWithTool icon="Book" path="/documents" text="Documents" />
+            <IconWithTool icon="Book" path="/documents" text="Documents & Transcripts" />
           </button>
           <button className="flex items-center justify-center">
             <IconWithTool icon="Users" path="/queues" text="Queue Agents" />

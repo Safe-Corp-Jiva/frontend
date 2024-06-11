@@ -28,7 +28,7 @@ import {
 
 import Link from 'next/link'
 
-const IconWithTool = ({ icon, path, text }: any) => {
+const IconWithTool = ({ hasNotifications, handleNotifications, icon, path, text }: any) => {
   const [isOpen, setIsOpen] = useState(false)
   const arrowRef = useRef(null)
 
@@ -80,8 +80,9 @@ const IconWithTool = ({ icon, path, text }: any) => {
         )
       case 'Chat':
         return (
-          <Link href={path}>
+          <Link onClick={handleNotifications} href={path} className="relative">
             <ChatBubbleLeftRightIcon className={`${isActive(path)} `} />
+            {hasNotifications && <div className="absolute top-0 left-2 h-3 w-3 bg-red-500 rounded-full z-10"></div>}
           </Link>
         )
       case 'Book':

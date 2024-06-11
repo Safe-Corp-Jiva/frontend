@@ -20,7 +20,7 @@ interface Queue {
 export default function Page() {
   const [state, setState] = useState<any>(initialData)
 
-  const onDragEnd = (result: DropResult) => {
+  const onDragEnd = async (result: DropResult) => {
     const { destination, source, draggableId } = result
 
     if (!destination) {
@@ -30,9 +30,12 @@ export default function Page() {
     if (destination.droppableId === source.droppableId && destination.index === source.index) {
       return
     }
-
-    const start = state.columns[source.droppableId]
-    const finish = state.columns[destination.droppableId]
+    const start = Object.keys(state.columns)
+      .map((key) => state.columns[key])
+      .find((column) => column.route_id === source.droppableId)
+    const finish = Object.keys(state.columns)
+      .map((key) => state.columns[key])
+      .find((column) => column.route_id === destination.droppableId)
 
     if (!start || !finish) {
       console.error('Start or finish column is undefined')
@@ -57,7 +60,20 @@ export default function Page() {
         },
       }
 
+      const res = await fetch('https://eelvchlistncf6uejbr3orwmje0cijqe.lambda-url.us-east-1.on.aws/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: draggableId,
+          target_route: destination.droppableId,
+        }),
+      }).then((res) => res.json())
+      console.log(res)
+
       setState(newState)
+
       return
     }
 
@@ -104,6 +120,7 @@ export default function Page() {
           queues[key] = {
             id: key,
             title: key,
+            route_id: res[key].rout_id,
             taskIds: Object.keys(res[key].agents).map((agentKey) => res[key].agents[agentKey].id),
           }
         })
@@ -149,10 +166,16 @@ export default function Page() {
         {state?.columnOrder?.map((columnId: string) => {
           const column = state?.columns?.[columnId]
           const tasks = column?.taskIds?.map((taskId: string) => state?.tasks?.[taskId])
-
           return <Column key={column.id} column={column} tasks={tasks} />
         })}
       </div>
+      {state === initialData && (
+        <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-4 rounded-lg shadow-lg">
+            <p className="text-lg animate-pulse">Fetching queues...</p>
+          </div>
+        </div>
+      )}
     </DragDropContext>
   )
 }
