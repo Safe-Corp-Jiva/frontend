@@ -46,7 +46,6 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
 
       ws.current.onmessage = (event) => {
         const message = JSON.parse(event.data)
-        console.log(message)
         setMessages((prev) => [...prev, message])
       }
     }
