@@ -53,7 +53,7 @@ const NavBar = () => {
   }, [])
 
   const handleNotifications = () => {
-    setHasNotifications(!hasNotifications)
+    setHasNotifications(false)
   }
 
   const handleModal = () => {
