@@ -35,7 +35,11 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
           variables: { filter: { status: { eq: 'FINALIZED' } } },
         })
         .then(({ data }) => {
-          setPastCalls(data?.listCalls?.items ?? [])
+          setPastCalls(
+            data?.listCalls?.items.sort(
+              (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            ) ?? []
+          )
         })
     }
 
