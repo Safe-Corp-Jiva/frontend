@@ -1,32 +1,39 @@
 'use client'
-import { SetStateAction, useState } from 'react'
+import { SetStateAction, useState, useEffect } from 'react'
 import { Tab } from '@headlessui/react'
 // import { dataSearch } from '../mockdata'
 import SearchButtons from '../searchbuttons'
 import FlagIcon from '../iconscomponents/flagicon'
 import { useRouter } from 'next/navigation'
-
-import type { Transcript } from '@/api/transcripts'
+import { Transcript } from '@/api/transcripts'
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-interface SearchPlusTabsProps {
-  transcripts: Transcript[]
+const getTrascripts = async () => {
+  const res = await fetch('/transcripts/api', {
+    next: {
+      // revalidate every 15 minutes
+      revalidate: 60 * 15,
+    },
+  })
+  return await res.json()
 }
 
-export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
+export default async function SearchPlusTabs() {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState('')
   const [activeFilter, setActiveFilter] = useState('name')
   const [isFlagFilterActive, setIsFlagFilterActive] = useState(false)
+  const transcripts = await getTrascripts()
+  localStorage.setItem('transcripts', JSON.stringify(transcripts))
 
   const handleSearchChange = (event: { target: { value: SetStateAction<string> } }) => {
     setSearchTerm(event.target.value)
   }
 
-  const filteredTranscripts = transcripts.filter((transcript) => {
+  const filteredTranscripts: Transcript[] = transcripts.filter((transcript: Transcript) => {
     const term = searchTerm.toLowerCase()
     if (isFlagFilterActive) {
       return transcript.flagged && transcript.name.toLowerCase().includes(term)
@@ -102,8 +109,6 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
   }
 
   const ClickToTranscript = (transcript: Transcript) => {
-    // temporal idea ¯\_(ツ)_/¯
-    localStorage.setItem('transcript', JSON.stringify(transcript))
     router.push(`/transcripts/${transcript.id}`)
   }
 
@@ -145,7 +150,7 @@ export default function SearchPlusTabs({ transcripts }: SearchPlusTabsProps) {
           <Tab.List className="w-full h-full overflow-auto px-2">
             <table className="table-auto w-full text-left">
               <tbody className="bg-white">
-                {filteredTranscripts.map((transcript) => (
+                {filteredTranscripts.map((transcript: Transcript) => (
                   <Tab
                     key={transcript.id}
                     as="tr"
