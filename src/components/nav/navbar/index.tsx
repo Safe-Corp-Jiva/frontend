@@ -29,7 +29,7 @@ const NavBar = () => {
             <IconWithTool icon="Chat" path="/chat" text="Chat" />
           </button>
           <button className="flex items-center justify-center">
-            <IconWithTool icon="Book" path="/documents" text="Documents" />
+            <IconWithTool icon="Book" path="/documents" text="Documents & Transcripts" />
           </button>
           <button className="flex items-center justify-center">
             <IconWithTool icon="Users" path="/queues" text="Queue Agents" />
