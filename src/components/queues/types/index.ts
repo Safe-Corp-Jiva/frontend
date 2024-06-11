@@ -7,6 +7,7 @@ export interface Column {
   id: string
   title: string
   taskIds: string[]
+  route_id: string
 }
 
 export interface InitialData {

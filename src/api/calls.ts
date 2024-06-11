@@ -7,6 +7,11 @@ export const getPastCalls = async () => {
   const calls = await AMPLIFY_CLIENT.graphql({
     query: listPastCalls,
     variables: { filter: { status: { eq: CallStatus.FINALIZED } } },
-  }).then(({ data }) => data?.listCalls?.items ?? [])
+  }).then(({ data }) => {
+    const calls = data?.listCalls?.items ?? []
+    return calls.sort((a: any, b: any) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    })
+  })
   return calls
 }
