@@ -116,45 +116,47 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
           <div className="flex flex-col flex-1 p-4 bg-gray-100 overflow-y-auto space-y-2 align-end h-[400px]">
             {isAgent
               ? messages
-                .sort(
-                  (a, b) =>
-                    a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
-                    a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
-                )
-                .map((msg, index) => (
-                  <div
-                    key={index}
-                    className={`flex flex-col max-w-50 max-h-24 ${msg.sender === 'agent' ? 'self-end' : 'self-start'
-                      }`}
-                  >
+                  .sort(
+                    (a, b) =>
+                      a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
+                      a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+                  )
+                  .map((msg, index) => (
                     <div
-                      className={`p-2 rounded ${msg.sender === 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}
+                      key={index}
+                      className={`flex flex-col max-w-50 max-h-24 ${
+                        msg.sender === 'agent' ? 'self-end' : 'self-start'
+                      }`}
                     >
-                      {msg.message}
+                      <div
+                        className={`p-2 rounded ${msg.sender === 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}
+                      >
+                        {msg.message}
+                      </div>
+                      <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
                     </div>
-                    <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
-                  </div>
-                ))
+                  ))
               : messages
-                .sort(
-                  (a, b) =>
-                    a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
-                    a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
-                )
-                .map((msg, index) => (
-                  <div
-                    key={index}
-                    className={`flex flex-col max-w-50 max-h-24 ${msg.sender === 'agent' ? 'self-start' : 'self-end'
-                      }`}
-                  >
+                  .sort(
+                    (a, b) =>
+                      a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
+                      a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+                  )
+                  .map((msg, index) => (
                     <div
-                      className={`p-2 rounded ${msg.sender !== 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}
+                      key={index}
+                      className={`flex flex-col max-w-50 max-h-24 ${
+                        msg.sender === 'agent' ? 'self-start' : 'self-end'
+                      }`}
                     >
-                      {msg.message}
+                      <div
+                        className={`p-2 rounded ${msg.sender !== 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}
+                      >
+                        {msg.message}
+                      </div>
+                      <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
                     </div>
-                    <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
-                  </div>
-                ))}
+                  ))}
             <div ref={messagesEndRef} />
           </div>
           {/* TextBox*/}
