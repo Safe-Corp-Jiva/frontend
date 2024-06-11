@@ -46,6 +46,7 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
 
       ws.current.onmessage = (event) => {
         const message = JSON.parse(event.data)
+        console.log(message)
         setMessages((prev) => [...prev, message])
       }
     }
@@ -77,13 +78,13 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
   }
 
   const parseTimestamp = (timestamp: Timestamp) => {
-    const date = new Date(timestamp.secs_since_epoch * 1000)
+    const date = new Date(timestamp?.secs_since_epoch * 1000)
     return date.toLocaleTimeString()
   }
 
   const sendMessage = () => {
     let message = {
-      chat_id: `${selectedAgent.id}-supervisor`,
+      chat_id: isAgent ? `${agentID}-supervisor` : `${selectedAgent.id}-supervisor`,
       sender: isAgent ? 'agent' : 'supervisor',
       message: input,
     }
@@ -115,48 +116,46 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
           <div className="flex flex-col flex-1 p-4 bg-gray-100 overflow-y-auto space-y-2 align-end h-[400px]">
             {isAgent
               ? messages
-                  .sort(
-                    (a, b) =>
-                      a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
-                      a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
-                  )
-                  .map((msg, index) => (
-                    <div
-                      key={index}
-                      className={`flex flex-col max-w-50 max-h-24 ${
-                        msg.sender === 'agent' ? 'self-end' : 'self-start'
+                .sort(
+                  (a, b) =>
+                    a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
+                    a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+                )
+                .map((msg, index) => (
+                  <div
+                    key={index}
+                    className={`flex flex-col max-w-50 max-h-24 ${msg.sender === 'agent' ? 'self-end' : 'self-start'
                       }`}
+                  >
+                    <div
+                      className={`p-2 rounded ${msg.sender === 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}
                     >
-                      <div
-                        className={`p-2 rounded ${msg.sender === 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}
-                      >
-                        {msg.message}
-                      </div>
-                      <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
+                      {msg.message}
                     </div>
-                  ))
+                    <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
+                  </div>
+                ))
               : messages
-                  .sort(
-                    (a, b) =>
-                      a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
-                      a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
-                  )
-                  .map((msg, index) => (
-                    <div
-                      key={index}
-                      className={`flex flex-col max-w-50 max-h-24 ${
-                        msg.sender === 'agent' ? 'self-start' : 'self-end'
+                .sort(
+                  (a, b) =>
+                    a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
+                    a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+                )
+                .map((msg, index) => (
+                  <div
+                    key={index}
+                    className={`flex flex-col max-w-50 max-h-24 ${msg.sender === 'agent' ? 'self-start' : 'self-end'
                       }`}
+                  >
+                    <div
+                      className={`p-2 rounded ${msg.sender !== 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}
                     >
-                      <div
-                        className={`p-2 rounded ${msg.sender !== 'agent' ? 'bg-blue-200 text-black' : 'bg-gray-200'}`}
-                      >
-                        {msg.message}
-                      </div>
-                      <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
+                      {msg.message}
                     </div>
-                  ))}
-                <div ref={messagesEndRef} />
+                    <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
+                  </div>
+                ))}
+            <div ref={messagesEndRef} />
           </div>
           {/* TextBox*/}
           <div className="mt-auto p-4 border-t border-gray-300 flex justify-between items-center">
