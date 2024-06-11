@@ -109,7 +109,7 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
               }`}
               key={index}
             >
-              <h1 className="flex-1 text-SCJ-primary">@{call.agent.username}</h1>
+              <h1 className="flex-1 text-SCJ-primary">@{call?.agent?.username}</h1>
               <h1 className="flex-1">
                 {formatDateFromString(call.createdAt)
                   .split(',')
