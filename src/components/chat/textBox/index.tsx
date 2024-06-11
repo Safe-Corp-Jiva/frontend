@@ -77,13 +77,13 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
   }
 
   const parseTimestamp = (timestamp: Timestamp) => {
-    const date = new Date(timestamp.secs_since_epoch * 1000)
+    const date = new Date(timestamp?.secs_since_epoch * 1000)
     return date.toLocaleTimeString()
   }
 
   const sendMessage = () => {
     let message = {
-      chat_id: `${selectedAgent.id}-supervisor`,
+      chat_id: isAgent ? `${agentID}-supervisor` : `${selectedAgent.id}-supervisor`,
       sender: isAgent ? 'agent' : 'supervisor',
       message: input,
     }
@@ -156,7 +156,7 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
                       <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
                     </div>
                   ))}
-                <div ref={messagesEndRef} />
+            <div ref={messagesEndRef} />
           </div>
           {/* TextBox*/}
           <div className="mt-auto p-4 border-t border-gray-300 flex justify-between items-center">
