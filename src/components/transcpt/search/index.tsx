@@ -35,12 +35,13 @@ export default async function SearchPlusTabs() {
 
   const filteredTranscripts: Transcript[] = transcripts.filter((transcript: Transcript) => {
     const term = searchTerm.toLowerCase()
+    if (transcript === undefined) return false
     if (isFlagFilterActive) {
-      return transcript.flagged && transcript.name.toLowerCase().includes(term)
+      return transcript.flagged && transcript?.name.toLowerCase().includes(term)
     }
     switch (activeFilter) {
       case 'name':
-        return transcript.name.toLowerCase().includes(term)
+        return transcript?.name.toLowerCase().includes(term)
       case 'date':
         return transcript.date.includes(term)
       case 'id':

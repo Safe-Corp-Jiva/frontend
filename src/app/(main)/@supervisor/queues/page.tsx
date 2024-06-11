@@ -172,7 +172,7 @@ export default function Page() {
       {state === initialData && (
         <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-4 rounded-lg shadow-lg">
-            <p className="text-lg animate-pulse">Fetching queues (lambda is slow)...</p>
+            <p className="text-lg animate-pulse">Fetching queues...</p>
           </div>
         </div>
       )}
