@@ -12,6 +12,8 @@ export { default as ContactLensEventCreateForm } from "./ContactLensEventCreateF
 export { default as ContactLensEventUpdateForm } from "./ContactLensEventUpdateForm";
 export { default as MetricCreateForm } from "./MetricCreateForm";
 export { default as MetricUpdateForm } from "./MetricUpdateForm";
+export { default as NotificationCreateForm } from "./NotificationCreateForm";
+export { default as NotificationUpdateForm } from "./NotificationUpdateForm";
 export { default as QueueCreateForm } from "./QueueCreateForm";
 export { default as QueueUpdateForm } from "./QueueUpdateForm";
 export { default as TopicsCreateForm } from "./TopicsCreateForm";
