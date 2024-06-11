@@ -106,6 +106,7 @@ const ChatBot: React.FC = () => {
     }
   }, [isOpen, profileID])
 
+
   const handleCopilotMessage = (chunk: Message) => {
     if (chunk.output === 'Processing Results\n') return
     setCopilotMessage((prev: Message[]) => {
@@ -158,7 +159,7 @@ const ChatBot: React.FC = () => {
   }
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    messagesEndRef.current?.scrollIntoView({ behavior: 'auto' })
   }, [messages, isOpen])
 
   return (

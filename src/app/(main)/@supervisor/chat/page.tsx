@@ -12,6 +12,8 @@ import { NotificationType } from '@/API'
 function Chat() {
   const [agent, setAgent] = useState<any>(null)
   const [agents, setAgents] = useState<any>([])
+  const [selectedChatId, setSelectedChatId] = useState<string | null>(null)
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,6 +81,8 @@ function Chat() {
     e.preventDefault()
     const agentId = e.currentTarget.getAttribute('data-agent-id')
     const agentToChat = agents.find((agent: any) => agent.id === agentId)
+    setSelectedChatId(agentId)
+
 
     if (agentToChat) {
       setAgent(agentToChat)
@@ -120,8 +124,8 @@ function Chat() {
   }
   return (
     <div
-      className="flex w-11/12 bg-gray-100 rounded-2xl overflow-hidden pt-[1%] px-[2%]"
-      style={{ height: 'calc(100% - 2rem)' }}
+      className="flex p-7 w-full -full bg-gray-100 overflow-hidden"
+      
     >
       <div className="border rounded-xl border-gray-300 w-80 bg-white overflow-y-auto mr-[1%]">
         <div className="overflow-auto">
@@ -131,7 +135,7 @@ function Chat() {
                 key={agent.id}
                 data-agent-id={agent.id}
                 onClick={handleClick}
-                className={`flex items-center p-4 hover:bg-gray-200 cursor-pointer ${agent.unreadNotifications.length > 0 ? 'bg-red-200' : ''}`}
+                className={`flex items-center p-4 hover:bg-gray-200 cursor-pointer ${agent.unreadNotifications.length > 0 ? 'bg-red-200' : ''} ${selectedChatId === agent.id ? 'bg-blue-200' : ''}`}
               >
                 <Image src="/icons/User.svg" alt="User" width={32} height={32} />
                 <p className="ml-3">{agent.username}</p>
