@@ -547,7 +547,8 @@ export type CreateNotificationInput = {
 
 export enum NotificationType {
   COPILOT = "COPILOT",
-  HUMAN = "HUMAN",
+  AGENT = "AGENT",
+  SUPERVISOR = "SUPERVISOR",
 }
 
 
