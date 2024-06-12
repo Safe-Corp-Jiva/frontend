@@ -14,7 +14,6 @@ function Chat() {
   const [agents, setAgents] = useState<any>([])
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null)
 
-
   useEffect(() => {
     const fetchData = async () => {
       const client = generateClient()
@@ -83,7 +82,6 @@ function Chat() {
     const agentToChat = agents.find((agent: any) => agent.id === agentId)
     setSelectedChatId(agentId)
 
-
     if (agentToChat) {
       setAgent(agentToChat)
 
@@ -123,10 +121,7 @@ function Chat() {
     }
   }
   return (
-    <div
-      className="flex p-7 w-full -full bg-gray-100 overflow-hidden"
-      
-    >
+    <div className="flex p-7 w-full -full bg-gray-100 overflow-hidden">
       <div className="border rounded-xl border-gray-300 w-80 bg-white overflow-y-auto mr-[1%]">
         <div className="overflow-auto">
           {agents &&

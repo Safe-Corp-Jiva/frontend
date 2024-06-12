@@ -3,6 +3,7 @@ import React, { use, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import { Message } from '@/components/chat/chatBot'
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid'
+import WebsSocket from 'ws'
 
 type Timestamp = {
   secs_since_epoch: number
@@ -50,6 +51,15 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
       }
     }
 
+    // const pingWebSocket = () => {
+    //   if (ws?.current) {
+    //     console.log('ping')
+    //     ws.current.send('ping')
+    //   }
+    // }
+    //
+    // setInterval(pingWebSocket, 500)
+
     initializeWebSocket()
     setTimeout(() => {
       setIsLoading(false)
@@ -82,6 +92,10 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
   }
 
   const sendMessage = () => {
+    if (input === '') {
+      console.log("Can't send empty message")
+      return
+    }
     let message = {
       chat_id: isAgent ? `${agentID}-supervisor` : `${selectedAgent.id}-supervisor`,
       sender: isAgent ? 'agent' : 'supervisor',
@@ -90,6 +104,7 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
     ws.current?.send(JSON.stringify(message))
     setInput('')
   }
+
   return (
     <div className="flex flex-col justify-between h-full">
       {isLoading ? (
@@ -117,8 +132,8 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
               ? messages
                   .sort(
                     (a, b) =>
-                      a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
-                      a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+                      a.timestamp?.secs_since_epoch - b.timestamp?.secs_since_epoch ||
+                      a.timestamp?.nanos_since_epoch - b.timestamp?.nanos_since_epoch
                   )
                   .map((msg, index) => (
                     <div
@@ -138,8 +153,8 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
               : messages
                   .sort(
                     (a, b) =>
-                      a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
-                      a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+                      a.timestamp?.secs_since_epoch - b.timestamp?.secs_since_epoch ||
+                      a.timestamp?.nanos_since_epoch - b.timestamp?.nanos_since_epoch
                   )
                   .map((msg, index) => (
                     <div
