@@ -6,6 +6,7 @@ import { ConnectClient } from '@aws-sdk/client-connect'
 import { generateClient } from 'aws-amplify/api'
 import { Amplify } from 'aws-amplify'
 import awsconfig from '@/aws-exports'
+import { LambdaClient } from '@aws-sdk/client-lambda'
 Amplify.configure(awsconfig)
 
 const config = {
@@ -20,3 +21,4 @@ const config = {
 export const S3 = new S3Client(config)
 export const CONNECT = new ConnectClient(config)
 export const AMPLIFY_CLIENT = generateClient()
+export const LAMBDA_CLIENT = new LambdaClient(config)
