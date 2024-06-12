@@ -1,23 +1,23 @@
 const initialData = {
-  tasks: { },
+  tasks: {},
   columns: {
-    'Bookings': {
+    Bookings: {
       id: 'Bookings',
-      title: 'Booking',
+      title: 'Bookings',
       taskIds: [],
     },
-    'Cancellations': {
+    Cancellations: {
       id: 'Cancellations',
       title: 'Cancellations',
       taskIds: [],
     },
-    'Information': {
+    Information: {
       id: 'Information',
       title: 'Information',
       taskIds: [],
     },
   },
-  
+
   columnOrder: ['Bookings', 'Cancellations', 'Information'],
 }
 

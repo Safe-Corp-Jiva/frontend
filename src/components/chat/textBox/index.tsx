@@ -1,7 +1,8 @@
 'use client'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { use, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import { Message } from '@/components/chat/chatBot'
+import { PaperAirplaneIcon } from '@heroicons/react/24/solid'
 
 type Timestamp = {
   secs_since_epoch: number
@@ -20,6 +21,8 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
   const ws = useRef<WebSocket | null>(null)
   const [selectedAgent, setSelectedAgent] = useState<any>(agent)
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const messagesEndRef = useRef<HTMLDivElement | null>(null)
+  const hasScrolledToBottomOnce = useRef<boolean>(false)
 
   useEffect(() => {
     const initializeWebSocket = async () => {
@@ -56,18 +59,31 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
     }
   }, [])
 
+  useEffect(() => {
+    if (!isLoading && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'auto' })
+      hasScrolledToBottomOnce.current = true
+    }
+  }, [isLoading])
+
+  useEffect(() => {
+    if (messagesEndRef.current && hasScrolledToBottomOnce.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [messages])
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value)
   }
 
   const parseTimestamp = (timestamp: Timestamp) => {
-    const date = new Date(timestamp.secs_since_epoch * 1000)
+    const date = new Date(timestamp?.secs_since_epoch * 1000)
     return date.toLocaleTimeString()
   }
 
   const sendMessage = () => {
     let message = {
-      chat_id: `${selectedAgent.id}-supervisor`,
+      chat_id: isAgent ? `${agentID}-supervisor` : `${selectedAgent.id}-supervisor`,
       sender: isAgent ? 'agent' : 'supervisor',
       message: input,
     }
@@ -83,7 +99,7 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
       ) : (
         <>
           {/* Encabezado del Chat */}
-          <div className="p-4 border border-12 rounded-l-xl bg-white flex justify-between items-center">
+          <div className="p-4 border-b border-12 rounded-tl-xl rounded-tr-xl bg-white flex justify-between items-center">
             <div>
               <h2 className="text-lg font-semibold">{isAgent ? 'Supervisor' : agent.username}</h2>
             </div>
@@ -122,8 +138,8 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
               : messages
                   .sort(
                     (a, b) =>
-                      a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
-                      a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+                      a.timestamp?.secs_since_epoch - b.timestamp?.secs_since_epoch ||
+                      a.timestamp?.nanos_since_epoch - b.timestamp?.nanos_since_epoch
                   )
                   .map((msg, index) => (
                     <div
@@ -140,6 +156,7 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
                       <span className="self-end mt-1 text-xs text-gray-500">{parseTimestamp(msg.timestamp)}</span>
                     </div>
                   ))}
+            <div ref={messagesEndRef} />
           </div>
           {/* TextBox*/}
           <div className="mt-auto p-4 border-t border-gray-300 flex justify-between items-center">
@@ -158,8 +175,8 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
                 value={input}
                 className="flex-grow p-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <button className="ml-3 flex justify-center items-center text-white bg-blue-200 rounded-full p-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <Image src="/icons/Send.svg" alt="Send" width={24} height={24} />
+              <button className="ml-3 flex justify-center items-center text-white bg-blue-200 rounded-full p-2 hover:bg-SCJ-dark-primary focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <PaperAirplaneIcon className="h-6 w-6" />
               </button>
             </form>
           </div>

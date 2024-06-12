@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { formatDateFromString } from '@/utils/'
 import { customOnUpdateCall, listPastCalls } from '@/graphql/custom'
 import { generateClient } from 'aws-amplify/api'
+import Link from 'next/link'
 
 const client = generateClient()
 
@@ -26,7 +27,6 @@ type PastCall = {
 
 export default function PastCallsCard({ maximize, minimize, isMaximized }: Props) {
   const [pastCalls, setPastCalls] = useState([] as PastCall[])
-
   useEffect(() => {
     if (!pastCalls?.length) {
       client
@@ -35,7 +35,11 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
           variables: { filter: { status: { eq: 'FINALIZED' } } },
         })
         .then(({ data }) => {
-          setPastCalls(data?.listCalls?.items ?? [])
+          setPastCalls(
+            data?.listCalls?.items.sort(
+              (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            ) ?? []
+          )
         })
     }
 
@@ -75,8 +79,12 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
     }
   }
 
+  const transcriptsExist = localStorage.getItem('transcripts')
+
   return (
-    <div className="w-full h-full bg-white rounded-xl flex flex-col p-4">
+    <div
+      className={`w-full ${isMaximized ? 'h-[70vh]' : 'h-full'} bg-white rounded-xl flex flex-col p-4 overflow-auto`}
+    >
       <div className="flex justify-between mb-4">
         <h1 className={`text-gray-400 ${isMaximized ? 'text-2xl' : 'text-xl'}`}>Past Calls</h1>
         {isMaximized ? (
@@ -100,13 +108,12 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
       <div className="h-full overflow-y-auto">
         {pastCalls &&
           pastCalls.map((call, index) => (
-            <div
-              className={`flex flex-row justify-between space-x-8 items-center text-center border-b-2 border-gray-200   ${
-                isMaximized ? 'h-[12.5%]' : 'h-1/4'
-              }`}
+            <Link
+              href={transcriptsExist ? `/transcripts/${call.id}` : '/transcripts'}
+              className={`flex flex-row justify-between space-x-8 items-center text-center border-b-2 border-gray-200 py-4`}
               key={index}
             >
-              <h1 className="flex-1 text-SCJ-primary">@{call.agent.username}</h1>
+              <h1 className="flex-1 text-SCJ-primary">@{call?.agent?.username}</h1>
               <h1 className="flex-1">
                 {formatDateFromString(call.createdAt)
                   .split(',')
@@ -130,7 +137,7 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
               >
                 <span>{call.result ?? 'N/D'}</span>
               </div>
-            </div>
+            </Link>
           ))}
       </div>
     </div>
