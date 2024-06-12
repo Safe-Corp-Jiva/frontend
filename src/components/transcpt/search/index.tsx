@@ -12,7 +12,9 @@ function classNames(...classes: any[]) {
 }
 
 const getTrascripts = async () => {
-  const res = await fetch('/transcripts/api')
+  const res = await fetch('/transcripts/api', {
+    cache: 'no-store',
+  })
   return await res.json()
 }
 
