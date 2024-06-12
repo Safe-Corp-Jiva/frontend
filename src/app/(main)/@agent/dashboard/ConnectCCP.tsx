@@ -1,12 +1,11 @@
 'use client'
-import React, { useEffect } from 'react'
+import ChatBot from '@/components/chat/chatBot'
+import RealTimeTranscript from '@/components/transcpt/realtime'
 import { CCPProvider, useCCP } from '@/providers/CCPProvider'
 import Image from 'next/image'
+import React, { useEffect } from 'react'
 import Wait from '../wait/page'
-import ChatBot from '@/components/chat/chatBot'
 import { HelpButton } from './HelpButton'
-import RealTimeTranscript from '@/components/transcpt/realtime'
-
 
 const ConnectCCP = () => {
   const {
@@ -27,7 +26,7 @@ const ConnectCCP = () => {
     handleUnmute,
     handleChangeState,
     setError,
-    setAskedForHelp
+    setAskedForHelp,
   } = useCCP()
 
   const formatTimestampDifference = (start: number, end: number) => {
@@ -69,7 +68,7 @@ const ConnectCCP = () => {
                 <Image src="/icons/User_d.svg" alt="user" width={110} height={110} />
                 <h1 className="mt-4 font-bold text-xl">Contact</h1>
                 {currentConnection?.contactId && (
-                  <p className="mt-4 text-SCJ-primary/80 text-md"> {currentConnection.contactId?.slice(0, 8)}... </p>
+                  <p className="mt-4 text-SCJ-primary/80 text-md w-1/2 truncate"> {currentConnection.contactId} </p>
                 )}
 
                 <h4 className="font-bold text-sm">
@@ -130,7 +129,7 @@ const ConnectCCP = () => {
           </div>
           <div className="bg-white flex flex-col justify-center items-center rounded-xl font-sans w-2/3 h-5/6 mx-4">
             <h1 className="font-bold text-xl p-4">Live Transcript</h1>
-            <div className="overflow-hidden overflow-y-scroll h-[75%] w-full m-4">
+            <div className="overflow-auto h-[75%] w-full m-4">
               {currentConnection?.contactId && <RealTimeTranscript callId={currentConnection.contactId} />}
             </div>
           </div>
