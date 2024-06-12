@@ -101,11 +101,17 @@ const ChatBot: React.FC = () => {
         handleCopilotMessage(chunk)
       }
     }
+    const pingWebSocket = () => {
+      let ping = JSON.stringify({ action: 'ping' })
+      ws.current?.send(ping)
+    }
+
+    const interval = setInterval(pingWebSocket, 30000)
     return () => {
       ws.current?.close()
+      clearInterval(interval)
     }
   }, [isOpen, profileID])
-
 
   const handleCopilotMessage = (chunk: Message) => {
     if (chunk.output === 'Processing Results\n') return
@@ -113,7 +119,7 @@ const ChatBot: React.FC = () => {
       return [...prev, chunk.output]
     })
 
-    messagesEndRef?.current?.scrollIntoView({ behavior: 'smooth' })
+    messagesEndRef?.current?.scrollIntoView({ behavior: 'auto' })
 
     if (chunk.action === 'end') {
       setCopilotMessage([])
@@ -154,7 +160,7 @@ const ChatBot: React.FC = () => {
   }
 
   const parseTimestamp = (timestamp: Timestamp) => {
-    const date = new Date(timestamp.secs_since_epoch * 1000)
+    const date = new Date(timestamp?.secs_since_epoch * 1000)
     return date.toLocaleTimeString()
   }
 
@@ -202,8 +208,8 @@ const ChatBot: React.FC = () => {
             {messages
               .sort(
                 (a, b) =>
-                  a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
-                  a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+                  a.timestamp?.secs_since_epoch - b.timestamp?.secs_since_epoch ||
+                  a.timestamp?.nanos_since_epoch - b.timestamp?.nanos_since_epoch
               )
               .map((msg, index) => (
                 <div

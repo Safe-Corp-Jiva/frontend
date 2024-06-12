@@ -24,7 +24,7 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const hasScrolledToBottomOnce = useRef<boolean>(false)
 
-  useEffect(() => {
+  useMemo(() => {
     const initializeWebSocket = async () => {
       const WEBSOCKET_ENDPOINT = process.env.NEXT_PUBLIC_WEBSOCKET_ENDPOINT
       if (!WEBSOCKET_ENDPOINT) {
@@ -46,9 +46,21 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
 
       ws.current.onmessage = (event) => {
         const message = JSON.parse(event.data)
+        if (!message.sender) return
         setMessages((prev) => [...prev, message])
       }
     }
+
+    const pingWebSocket = () => {
+      if (ws?.current) {
+        const ping = JSON.stringify({
+          ping: 'pong',
+        })
+        ws.current.send(ping)
+      }
+    }
+
+    const interval = setInterval(pingWebSocket, 30000)
 
     initializeWebSocket()
     setTimeout(() => {
@@ -56,6 +68,7 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
     }, 500)
     return () => {
       ws.current?.close()
+      clearInterval(interval)
     }
   }, [])
 
@@ -82,6 +95,10 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
   }
 
   const sendMessage = () => {
+    if (input === '') {
+      console.log("Can't send empty message")
+      return
+    }
     let message = {
       chat_id: isAgent ? `${agentID}-supervisor` : `${selectedAgent.id}-supervisor`,
       sender: isAgent ? 'agent' : 'supervisor',
@@ -90,6 +107,7 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
     ws.current?.send(JSON.stringify(message))
     setInput('')
   }
+
   return (
     <div className="flex flex-col justify-between h-full">
       {isLoading ? (
@@ -117,8 +135,8 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
               ? messages
                   .sort(
                     (a, b) =>
-                      a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
-                      a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+                      a.timestamp?.secs_since_epoch - b.timestamp?.secs_since_epoch ||
+                      a.timestamp?.nanos_since_epoch - b.timestamp?.nanos_since_epoch
                   )
                   .map((msg, index) => (
                     <div
@@ -138,8 +156,8 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
               : messages
                   .sort(
                     (a, b) =>
-                      a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
-                      a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+                      a.timestamp?.secs_since_epoch - b.timestamp?.secs_since_epoch ||
+                      a.timestamp?.nanos_since_epoch - b.timestamp?.nanos_since_epoch
                   )
                   .map((msg, index) => (
                     <div

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import { Column, initialData } from '@/components/queues'
+import { getQueues, updateQueue } from '@/api/queues'
 
 interface Agents {
   [key: string]: {
@@ -60,18 +61,6 @@ export default function Page() {
         },
       }
 
-      const res = await fetch('https://eelvchlistncf6uejbr3orwmje0cijqe.lambda-url.us-east-1.on.aws/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user_id: draggableId,
-          target_route: destination.droppableId,
-        }),
-      }).then((res) => res.json())
-      console.log(res)
-
       setState(newState)
 
       return
@@ -99,63 +88,38 @@ export default function Page() {
         [newFinish.id]: newFinish,
       },
     }
+
+    try {
+      await updateQueue(draggableId, destination.droppableId)
+    } catch (error) {
+      console.error(error)
+    }
     setState(newState)
   }
 
   useEffect(() => {
-    const getQueues = async () => {
-      const res: any = await fetch('https://fgl72sxlnfrbucwz2uo647cv7y0jaxlr.lambda-url.us-east-1.on.aws/', {
-        method: 'GET',
-        headers: {
-          Accept: '*/*',
-          'Accept-Encoding': 'gzip, deflate, br',
-        },
-      }).then((res) => res.json())
-
-      const queues: any = {}
-
-      Object.keys(res)
-        .filter((key: string) => key == 'Bookings' || key == 'Cancellations' || key == 'Information')
-        .forEach((key: string) => {
-          queues[key] = {
-            id: key,
-            title: key,
-            route_id: res[key].rout_id,
-            taskIds: Object.keys(res[key].agents).map((agentKey) => res[key].agents[agentKey].id),
-          }
-        })
-
-      const tasks: any = Object.keys(res).reduce((acc, key) => {
-        const queue = res[key]
-        const agents = Object.keys(queue.agents).map((agentKey) => queue.agents[agentKey])
-        const agentTasks = agents.map((agent) => {
-          return {
-            id: agent.id,
-            content: agent.username,
-          }
-        })
-        return {
-          ...acc,
-          ...agentTasks.reduce((acc, task) => {
-            return {
-              ...acc,
-              [task.id]: task,
-            }
-          }, {}),
-        }
-      }, {})
-
+    // We check for localStorage to avoid fetching the queues on first render
+    if (localStorage.getItem('queues')) {
       setState((prev: any) => {
         return {
-          columns: queues,
-          tasks: tasks,
-          columnOrder: prev.columnOrder,
+          ...prev,
+          ...JSON.parse(localStorage.getItem('queues') as string),
         }
       })
     }
-
-    getQueues()
-    const interval = setInterval(() => getQueues(), 10000)
+    // fetch queues every 15 seconds and update the state
+    const handleQueueGet = async () => {
+      const myQueues = await getQueues()
+      localStorage.setItem('queues', JSON.stringify(myQueues))
+      setState((prev: any) => {
+        return {
+          ...prev,
+          ...myQueues,
+        }
+      })
+    }
+    handleQueueGet()
+    const interval = setInterval(() => handleQueueGet(), 15000)
 
     return () => clearInterval(interval)
   }, [])

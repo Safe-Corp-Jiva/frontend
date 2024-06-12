@@ -28,7 +28,8 @@ enum CallStatus {
 
 enum NotificationType {
   COPILOT
-  HUMAN
+  AGENT
+  SUPER
 }
 
 type Agent @model @auth(rules: [{allow: public}]) {

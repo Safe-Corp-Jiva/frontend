@@ -52,7 +52,14 @@ export const CCPProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const containerDiv = document?.getElementById('container-div') as HTMLDivElement
         connect.core.initCCP(containerDiv, {
           ccpUrl: 'https://adventure-architects-dev.my.connect.aws/ccp-v2/',
-          loginPopup: false,
+          loginPopup: true,
+          loginOptions: {                 // optional, if provided opens login in new window
+            autoClose: true,              // optional, defaults to `false`
+            height: 600,                  // optional, defaults to 578
+            width: 400,                   // optional, defaults to 433
+            top: 0,                       // optional, defaults to 0
+            left: 0                       // optional, defaults to 0
+          },
           softphone: {
             allowFramedSoftphone: true,
           },
@@ -99,6 +106,19 @@ export const CCPProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             setAskedForHelp(false)
             setError(null)
           })
+          contact.onMissed(() => {
+            console.log('Call missed');
+            console.log(contact)
+            // Llamar a la función para limpiar el contacto
+            contact.clear({
+                success: () => {
+                  console.log('Conctact cleared')
+                },
+                failure: (error) => {
+                  console.error('Error clearing contact', error)
+                },
+              })
+          });
         })
       }
       initCCP()
