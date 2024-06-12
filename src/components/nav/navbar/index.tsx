@@ -5,10 +5,12 @@ import { Notifications, NotificationModal } from '@/components/alerts/notificati
 
 import IconWithTool from '../iconwithtool'
 import { notificationReadSubFactory, notificationSubFactory } from '@/utils/gql'
+import { fetchAuthSession, fetchUserAttributes } from 'aws-amplify/auth'
 
 const NavBar = () => {
   const [modalOpen, setModalOpen] = React.useState(false)
   const [hasNotifications, setHasNotifications] = React.useState(false)
+  const [group, setGroup] = React.useState('')
 
   useEffect(() => {
     const { sub } = notificationSubFactory()
@@ -17,13 +19,25 @@ const NavBar = () => {
     const subscriber = sub.subscribe({
       next: (value: { data: { onNotification: any } }) => {
         const notification = formatter(value?.data?.onNotification)[0]
-        if (notification?.notification_type === 'HUMAN') {
-          if (notification) {
-            notification.primaryID = notification.id
-            notification.secondaryID = notification.primaryID
-            notification.notification_type = notification.notification_type
-          }
-          setHasNotifications(true)
+        switch (group) {
+          case 'Supervisor':
+            if (notification?.notification_type === 'SUPERVISOR') {
+              if (notification) {
+                notification.primaryID = notification.id
+                notification.secondaryID = notification.primaryID
+                notification.notification_type = notification.notification_type
+              }
+              setHasNotifications(true)
+            }
+          case 'Agent':
+            if (notification?.notification_type === 'AGENT') {
+              if (notification) {
+                notification.primaryID = notification.id
+                notification.secondaryID = notification.primaryID
+                notification.notification_type = notification.notification_type
+              }
+              setHasNotifications(true)
+            }
         }
       },
       error: (error: any) => console.log('Subscription error:', error),
@@ -35,22 +49,41 @@ const NavBar = () => {
     const subscriber2 = sub2.subscribe({
       next: (value: { data: { onNotificationRead: any } }) => {
         const notification = formatter2(value?.data?.onNotificationRead)[0]
-        if (notification?.notification_type === 'HUMAN') {
-          if (notification) {
-            setHasNotifications(false)
-            notification.primaryID = notification.id
-            notification.secondaryID = notification.primaryID
-            notification.notification_type = notification.notification_type
-          }
+        switch (group) {
+          case 'Supervisor':
+            if (notification?.notification_type === 'SUPERVISOR') {
+              if (notification) {
+                notification.primaryID = notification.id
+                notification.secondaryID = notification.primaryID
+                notification.notification_type = notification.notification_type
+              }
+              setHasNotifications(false)
+            }
+          case 'Agent':
+            if (notification?.notification_type === 'AGENT') {
+              if (notification) {
+                notification.primaryID = notification.id
+                notification.secondaryID = notification.primaryID
+                notification.notification_type = notification.notification_type
+              }
+              setHasNotifications(false)
+            }
         }
       },
       error: (error: any) => console.log('Subscription error:', error),
     })
+
+    fetchAuthSession().then((data: any) => {
+      setGroup(data.tokens.idToken.payload['cognito:groups'][0])
+    })
+
     return () => {
       subscriber.unsubscribe()
       subscriber2.unsubscribe()
     }
   }, [])
+
+  console.log('group', group)
 
   const handleNotifications = () => {
     setHasNotifications(false)

@@ -3,7 +3,6 @@ import React, { use, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import { Message } from '@/components/chat/chatBot'
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid'
-import WebsSocket from 'ws'
 
 type Timestamp = {
   secs_since_epoch: number
@@ -25,7 +24,7 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const hasScrolledToBottomOnce = useRef<boolean>(false)
 
-  useEffect(() => {
+  useMemo(() => {
     const initializeWebSocket = async () => {
       const WEBSOCKET_ENDPOINT = process.env.NEXT_PUBLIC_WEBSOCKET_ENDPOINT
       if (!WEBSOCKET_ENDPOINT) {
@@ -33,9 +32,9 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
         return
       }
       if (isAgent) {
-        ws.current = new WebSocket(`wss://${WEBSOCKET_ENDPOINT}?agentID=${agentID}&secondaryID=supervisor`)
+        ws.current = new WebSocket(`ws://${WEBSOCKET_ENDPOINT}?agentID=${agentID}&secondaryID=supervisor`)
       } else {
-        ws.current = new WebSocket(`wss://${WEBSOCKET_ENDPOINT}?agentID=${selectedAgent.id}&secondaryID=supervisor`)
+        ws.current = new WebSocket(`ws://${WEBSOCKET_ENDPOINT}?agentID=${selectedAgent.id}&secondaryID=supervisor`)
       }
       if (ws.current === null) {
         return
@@ -47,18 +46,21 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
 
       ws.current.onmessage = (event) => {
         const message = JSON.parse(event.data)
+        if (!message.sender) return
         setMessages((prev) => [...prev, message])
       }
     }
 
-    // const pingWebSocket = () => {
-    //   if (ws?.current) {
-    //     console.log('ping')
-    //     ws.current.send('ping')
-    //   }
-    // }
-    //
-    // setInterval(pingWebSocket, 500)
+    const pingWebSocket = () => {
+      if (ws?.current) {
+        const ping = JSON.stringify({
+          ping: 'pong',
+        })
+        ws.current.send(ping)
+      }
+    }
+
+    const interval = setInterval(pingWebSocket, 30000)
 
     initializeWebSocket()
     setTimeout(() => {
@@ -66,6 +68,7 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
     }, 500)
     return () => {
       ws.current?.close()
+      clearInterval(interval)
     }
   }, [])
 

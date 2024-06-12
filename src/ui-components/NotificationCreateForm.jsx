@@ -229,9 +229,14 @@ export default function NotificationCreateForm(props) {
           {...getOverrideProps(overrides, "notification_typeoption0")}
         ></option>
         <option
-          children="Human"
-          value="HUMAN"
+          children="Agent"
+          value="AGENT"
           {...getOverrideProps(overrides, "notification_typeoption1")}
+        ></option>
+        <option
+          children="Supervisor"
+          value="SUPERVISOR"
+          {...getOverrideProps(overrides, "notification_typeoption2")}
         ></option>
       </SelectField>
       <SwitchField

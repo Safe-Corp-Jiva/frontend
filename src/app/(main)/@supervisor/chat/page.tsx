@@ -22,16 +22,19 @@ function Chat() {
       const user = await fetchUserAttributes()
       const agents = agentsRes.data.listAgents.items.filter((agent: any) => agent.id !== user['custom:profileId'])
 
+      let notifications
+
       const notificationsRes = await client.graphql({
         query: listNotifications,
         variables: {
           filter: {
-            notification_type: { eq: NotificationType.HUMAN },
+            notification_type: { eq: NotificationType.AGENT },
             read: { eq: false },
           },
         },
       })
-      const notifications = notificationsRes.data.listNotifications.items
+      notifications = notificationsRes.data.listNotifications.items
+      console.log('notifications', notifications)
 
       const processedAgents = agents.map((agent) => ({
         ...agent,
@@ -49,7 +52,7 @@ function Chat() {
     const subscriber = sub.subscribe({
       next: (value) => {
         const newNotification = formatter(value?.data?.onNotification)[0]
-        if (newNotification && newNotification.notification_type === 'HUMAN') {
+        if (newNotification && newNotification.notification_type === 'AGENT') {
           setAgents((prevAgents: any) =>
             prevAgents.map((agent: any) => {
               const agentId = agent.id.split('-')[0]
