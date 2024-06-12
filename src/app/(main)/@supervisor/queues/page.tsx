@@ -107,7 +107,7 @@ export default function Page() {
         }
       })
     }
-    // fetch queues every 15 seconds and update the state
+    // fetch queues every 10 seconds and update the state
     const handleQueueGet = async () => {
       const myQueues = await getQueues()
       localStorage.setItem('queues', JSON.stringify(myQueues))
@@ -119,7 +119,7 @@ export default function Page() {
       })
     }
     handleQueueGet()
-    const interval = setInterval(() => handleQueueGet(), 15000)
+    const interval = setInterval(() => handleQueueGet(), 10000)
 
     return () => clearInterval(interval)
   }, [])

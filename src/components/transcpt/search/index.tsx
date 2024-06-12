@@ -12,12 +12,7 @@ function classNames(...classes: any[]) {
 }
 
 const getTrascripts = async () => {
-  const res = await fetch('/transcripts/api', {
-    next: {
-      // revalidate every 15 s
-      revalidate: 15,
-    },
-  })
+  const res = await fetch('/transcripts/api')
   return await res.json()
 }
 
