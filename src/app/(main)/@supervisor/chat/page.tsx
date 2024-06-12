@@ -34,7 +34,6 @@ function Chat() {
         },
       })
       notifications = notificationsRes.data.listNotifications.items
-      console.log('notifications', notifications)
 
       const processedAgents = agents.map((agent) => ({
         ...agent,
