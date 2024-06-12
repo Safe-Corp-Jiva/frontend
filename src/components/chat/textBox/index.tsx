@@ -138,8 +138,8 @@ const TextBox: React.FC<TextBoxProps> = ({ isAgent = false, agent = {}, agentID 
               : messages
                   .sort(
                     (a, b) =>
-                      a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
-                      a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+                      a.timestamp?.secs_since_epoch - b.timestamp?.secs_since_epoch ||
+                      a.timestamp?.nanos_since_epoch - b.timestamp?.nanos_since_epoch
                   )
                   .map((msg, index) => (
                     <div

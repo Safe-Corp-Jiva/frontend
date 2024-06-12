@@ -82,7 +82,9 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
   const transcriptsExist = localStorage.getItem('transcripts')
 
   return (
-    <div className="w-full h-full bg-white rounded-xl flex flex-col p-4">
+    <div
+      className={`w-full ${isMaximized ? 'h-[70vh]' : 'h-full'} bg-white rounded-xl flex flex-col p-4 overflow-auto`}
+    >
       <div className="flex justify-between mb-4">
         <h1 className={`text-gray-400 ${isMaximized ? 'text-2xl' : 'text-xl'}`}>Past Calls</h1>
         {isMaximized ? (
@@ -108,9 +110,7 @@ export default function PastCallsCard({ maximize, minimize, isMaximized }: Props
           pastCalls.map((call, index) => (
             <Link
               href={transcriptsExist ? `/transcripts/${call.id}` : '/transcripts'}
-              className={`flex flex-row justify-between space-x-8 items-center text-center border-b-2 border-gray-200   ${
-                isMaximized ? 'h-[12.5%]' : 'h-1/4'
-              }`}
+              className={`flex flex-row justify-between space-x-8 items-center text-center border-b-2 border-gray-200 py-4`}
               key={index}
             >
               <h1 className="flex-1 text-SCJ-primary">@{call?.agent?.username}</h1>

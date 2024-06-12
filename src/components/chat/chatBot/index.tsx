@@ -106,7 +106,6 @@ const ChatBot: React.FC = () => {
     }
   }, [isOpen, profileID])
 
-
   const handleCopilotMessage = (chunk: Message) => {
     if (chunk.output === 'Processing Results\n') return
     setCopilotMessage((prev: Message[]) => {
@@ -154,7 +153,7 @@ const ChatBot: React.FC = () => {
   }
 
   const parseTimestamp = (timestamp: Timestamp) => {
-    const date = new Date(timestamp.secs_since_epoch * 1000)
+    const date = new Date(timestamp?.secs_since_epoch * 1000)
     return date.toLocaleTimeString()
   }
 
@@ -202,8 +201,8 @@ const ChatBot: React.FC = () => {
             {messages
               .sort(
                 (a, b) =>
-                  a.timestamp.secs_since_epoch - b.timestamp.secs_since_epoch ||
-                  a.timestamp.nanos_since_epoch - b.timestamp.nanos_since_epoch
+                  a.timestamp?.secs_since_epoch - b.timestamp?.secs_since_epoch ||
+                  a.timestamp?.nanos_since_epoch - b.timestamp?.nanos_since_epoch
               )
               .map((msg, index) => (
                 <div
