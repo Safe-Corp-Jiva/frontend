@@ -99,6 +99,19 @@ export const CCPProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             setAskedForHelp(false)
             setError(null)
           })
+          contact.onMissed(() => {
+            console.log('Call missed');
+            console.log(contact)
+            // Llamar a la función para limpiar el contacto
+            contact.clear({
+                success: () => {
+                  console.log('Conctact cleared')
+                },
+                failure: (error) => {
+                  console.error('Error clearing contact', error)
+                },
+              })
+          });
         })
       }
       initCCP()

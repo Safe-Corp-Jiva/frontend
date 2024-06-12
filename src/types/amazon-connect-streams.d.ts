@@ -25,6 +25,7 @@ declare namespace connect {
     onIncoming(callback: () => void): void
     onConnecting(callback: () => void): void
     onAccepted(callback: () => void): void
+    onMissed(callback: () => void): void
     accept(callbacks: { success: () => void; failure: (error: any) => void }): void
     clear(callbacks: { success: () => void; failure: (error: any) => void }): void
     getAgentConnection(): any
