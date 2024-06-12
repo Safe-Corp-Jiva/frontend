@@ -5,7 +5,7 @@ import { Notifications, NotificationModal } from '@/components/alerts/notificati
 
 import IconWithTool from '../iconwithtool'
 import { notificationReadSubFactory, notificationSubFactory } from '@/utils/gql'
-import { fetchAuthSession, fetchUserAttributes } from 'aws-amplify/auth'
+import { fetchAuthSession } from 'aws-amplify/auth'
 
 const NavBar = () => {
   const [modalOpen, setModalOpen] = React.useState(false)
@@ -13,31 +13,23 @@ const NavBar = () => {
   const [group, setGroup] = React.useState('')
 
   useEffect(() => {
+    fetchAuthSession().then((data: any) => {
+      setGroup(data.tokens.idToken.payload['cognito:groups'][0])
+    })
+
     const { sub } = notificationSubFactory()
     const formatter = (data?: any) => (data ? [data] : [])
 
     const subscriber = sub.subscribe({
       next: (value: { data: { onNotification: any } }) => {
         const notification = formatter(value?.data?.onNotification)[0]
-        switch (group) {
-          case 'Supervisor':
-            if (notification?.notification_type === 'SUPERVISOR') {
-              if (notification) {
-                notification.primaryID = notification.id
-                notification.secondaryID = notification.primaryID
-                notification.notification_type = notification.notification_type
-              }
-              setHasNotifications(true)
-            }
-          case 'Agent':
-            if (notification?.notification_type === 'AGENT') {
-              if (notification) {
-                notification.primaryID = notification.id
-                notification.secondaryID = notification.primaryID
-                notification.notification_type = notification.notification_type
-              }
-              setHasNotifications(true)
-            }
+        if (notification?.notification_type === 'AGENT') {
+          if (notification) {
+            notification.primaryID = notification.id
+            notification.secondaryID = notification.primaryID
+            notification.notification_type = notification.notification_type
+          }
+          setHasNotifications(true)
         }
       },
       error: (error: any) => console.log('Subscription error:', error),
@@ -49,41 +41,25 @@ const NavBar = () => {
     const subscriber2 = sub2.subscribe({
       next: (value: { data: { onNotificationRead: any } }) => {
         const notification = formatter2(value?.data?.onNotificationRead)[0]
-        switch (group) {
-          case 'Supervisor':
-            if (notification?.notification_type === 'SUPERVISOR') {
-              if (notification) {
-                notification.primaryID = notification.id
-                notification.secondaryID = notification.primaryID
-                notification.notification_type = notification.notification_type
-              }
-              setHasNotifications(false)
-            }
-          case 'Agent':
-            if (notification?.notification_type === 'AGENT') {
-              if (notification) {
-                notification.primaryID = notification.id
-                notification.secondaryID = notification.primaryID
-                notification.notification_type = notification.notification_type
-              }
-              setHasNotifications(false)
-            }
+        if (notification?.notification_type === 'SUPERVISOR') {
+          if (notification) {
+            notification.primaryID = notification.id
+            notification.secondaryID = notification.primaryID
+            notification.notification_type = notification.notification_type
+          }
+          setHasNotifications(false)
         }
       },
       error: (error: any) => console.log('Subscription error:', error),
-    })
-
-    fetchAuthSession().then((data: any) => {
-      setGroup(data.tokens.idToken.payload['cognito:groups'][0])
     })
 
     return () => {
       subscriber.unsubscribe()
       subscriber2.unsubscribe()
     }
-  }, [])
+  }, [group])
 
-  console.log('group', group)
+  console.log(hasNotifications)
 
   const handleNotifications = () => {
     setHasNotifications(false)
