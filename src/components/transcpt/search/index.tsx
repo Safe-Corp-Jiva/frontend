@@ -14,8 +14,8 @@ function classNames(...classes: any[]) {
 const getTrascripts = async () => {
   const res = await fetch('/transcripts/api', {
     next: {
-      // revalidate every 15 minutes
-      revalidate: 60 * 15,
+      // revalidate every 15 s
+      revalidate: 15,
     },
   })
   return await res.json()
