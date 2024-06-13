@@ -23,6 +23,7 @@ export type Transcript = {
   lastName: string
   agent: string
   flagged: boolean
+  result: string // Actually an enum
 }
 
 export const getTranscript = async ({ fileKey }: { fileKey: string }) => {
@@ -91,7 +92,7 @@ export const listTranscripts = async () => {
     const transcripts: Transcript[] = []
     for (const key in data) {
       const { recordingURL, transcript, callData } = data[key]
-      const { id, createdAt, agent, flagged } = callData
+      const { id, createdAt, agent, flagged, result } = callData
 
       // Convert createdAt (ISO Timestamp) to DD/MM/YYYY
       const date = new Date(createdAt)
@@ -107,6 +108,7 @@ export const listTranscripts = async () => {
         name: agent?.firstName,
         lastName: agent?.lastName,
         agent: agent?.username,
+        result,
       })
     }
 

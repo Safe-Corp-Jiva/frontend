@@ -18,6 +18,19 @@ const getTrascripts = async () => {
   return await res.json()
 }
 
+export function getResultStatus(result: string) {
+  switch (result) {
+    case 'SATISFIED':
+      return 'bg-green-400/40 text-green-600 border border-green-600 border-2 font-light rounded-lg px-4'
+    case 'UNSATISFIED':
+      return 'bg-red-400/40 text-red-600 border border-red-600 border-2 font-light rounded-lg px-4'
+    case 'NEUTRAL':
+      return 'bg-yellow-400/40 text-yellow-600 border border-yellow-600 border-2 font-light rounded-lg px-4'
+    default:
+      return 'bg-gray-400/40 text-gray-600 border border-gray-600 border-2 font-light rounded-lg px-4'
+  }
+}
+
 export default async function SearchPlusTabs() {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState('')
@@ -188,9 +201,7 @@ export default async function SearchPlusTabs() {
                       <span className="font-bold text-3xl">{transcript.name + ' ' + transcript.lastName}</span>
                       <span className="text-lg text-black/40">{transcript.date}</span>
                     </div>
-                    {/* <div className=" flex flex-col space-y-2 items-end">
-                      <span className="font-medium text-2Ixl">{transcript.date}</span>
-                    </div> */}
+                    <div className={getResultStatus(transcript.result)}>{transcript.result}</div>
                   </div>
                   {/* Render de los chunks */}
                   <div className="rounded-b-xl size-full px-10 py-5 overflow-auto">

@@ -5,28 +5,10 @@ import React from 'react'
 import FlagIcon from '../iconscomponents/flagicon'
 import AudioPlayer from 'react-h5-audio-player'
 import './audio.css'
-
+import { getResultStatus } from '../search'
 import type { Transcript } from '@/api/transcripts'
 
 export default function SlugPage({ id }: { id: string }) {
-  const sentimentColorText = (sentiment: number) => {
-    switch (sentiment) {
-      case 1:
-        return (
-          <div className="bg-green-300 text-green-800 py-2 px-8 flex content-center rounded-2xl text-xs">Satisfied</div>
-        )
-      case 2:
-        return (
-          <div className="bg-yellow-300 text-yellow-800 py-2 px-9 flex content-center rounded-2xl text-xs">Neutral</div>
-        )
-      case 3:
-        return (
-          <div className="bg-red-400 text-red-800 py-2 px-6 flex content-center rounded-2xl text-xs">Unsatisfied</div>
-        )
-      default:
-        return 'bg-gray-300 text-black'
-    }
-  }
   const flagColor = (flagged: boolean) => {
     return flagged ? 'text-red-400 stroke-red-200 ' : 'stroke-black/25 text-transparent'
   }
@@ -39,7 +21,7 @@ export default function SlugPage({ id }: { id: string }) {
 
   return (
     <div className="w-full h-full bg-white rounded-xl flex flex-col p-5">
-      <div className="w-full flex justify-start gap-20 border-b-2 border-black/20 pb-2">
+      <div className="w-full flex justify-evenly gap-20 border-b-2 border-black/20 pb-2">
         <div className="flex flex-col">
           <span className="text-2xl font-bold">{transcript?.agent}</span>
           <span className="text-black/50">{transcript?.date}</span>
@@ -52,10 +34,10 @@ export default function SlugPage({ id }: { id: string }) {
           <span className="text-2xl">Duration</span>
           <span className="text-black/50">{transcript.duration}</span>
         </div> */}
-        {/* <div className="flex flex-col text-end">
-          <span className="text-2xl font-bold">{transcript.id}</span> */}
-        {/* {sentimentColorText(transcript.sentiment)} */}
-        {/* </div> */}
+        <div className="flex flex-col gap-2 text-center">
+          <span className="text-2xl">Result</span>
+          <span className={getResultStatus(transcript?.result || '')}>{transcript?.result}</span>
+        </div>
       </div>
       {/* Render de los chunks */}
       <div className="rounded-b-xl size-full px-10 py-5 overflow-auto">
