@@ -31,9 +31,11 @@ export default function SlugPage({ id }: { id: string }) {
     return flagged ? 'text-red-400 stroke-red-200 ' : 'stroke-black/25 text-transparent'
   }
 
-  const transcript = (JSON.parse(localStorage.getItem('transcripts') || '{}') as Transcript[]).find(
-    (item) => item.id === id
-  ) as Transcript
+  const transcript = localStorage.getItem('transcripts')
+    ? ((JSON.parse(localStorage.getItem('transcripts') || '{}') as Transcript[]).find(
+        (item) => item.id === id
+      ) as Transcript)
+    : null
 
   return (
     <div className="w-full h-full bg-white rounded-xl flex flex-col p-5">
